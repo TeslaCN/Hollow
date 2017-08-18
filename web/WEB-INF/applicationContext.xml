@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="currentDate" class="java.util.Date" scope="prototype" lazy-init="true"/>
+
+    <bean id="message" class="ltd.scau.entity.Message" scope="prototype">
+        <property name="date" ref="currentDate"/>
+    </bean>
+
+    <bean id="publishAction" class="ltd.scau.struts2.PublishAction" scope="prototype" lazy-init="true">
+        <property name="messageDao" ref="messageDao"/>
+        <property name="userDao" ref="userDao"/>
+        <property name="message" ref="message"/>
+    </bean>
+
+    <bean id="messageList" class="ltd.scau.utils.MessageList" init-method="updateMessageList">
+        <property name="messageDao" ref="messageDao"/>
+    </bean>
+
+    <bean id="messageListener" class="ltd.scau.utils.listener.MessageListener">
+        <property name="messageList" ref="messageList"/>
+    </bean>
+
+    <bean id="listMessageAction" class="ltd.scau.struts2.json.ListMessagesAction" scope="prototype">
+        <property name="messageList" ref="messageList"/>
+    </bean>
+
+    <bean id="signUpAction" class="ltd.scau.struts2.SignUpAction" scope="prototype">
+        <property name="user.date" ref="currentDate"/>
+        <property name="userDao" ref="userDao"/>
+    </bean>
+
+    <bean id="signInAction" class="ltd.scau.struts2.SignInAction" scope="prototype">
+        <property name="userDao" ref="userDao"/>
+    </bean>
+
+    <bean id="detailAction" class="ltd.scau.struts2.DetailAction" scope="prototype">
+        <property name="messageDao" ref="messageDao"/>
+    </bean>
+
+
+</beans>

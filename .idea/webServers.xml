@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="3fa00ff0-254b-4d7f-81df-433cb8823d3c" name="Server aliyun" url="http://39.108.117.163">
+        <fileTransfer host="39.108.117.163" port="22" rootFolder="/home/tesla/apache-tomcat-8.5.16/webapps" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
