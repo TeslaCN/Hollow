@@ -1,5 +1,5 @@
 package ltd.scau.entity.type;
 
-public enum  MessageStatus {
-    INVISIBLE, VISIBLE
+public enum MessageStatus {
+    ONYMOUS, ANONYMOUS
 }

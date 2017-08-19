@@ -9,6 +9,8 @@
 <%@taglib prefix="s" uri="/struts-tags" %>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
     <title><s:text name="homepage"/></title>
     <script src="https://cdn.bootcss.com/vue/2.4.2/vue.js"></script>
     <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
@@ -20,44 +22,63 @@
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
 </head>
+<body style="background-color: rgba(168,168,168,0.30); margin-bottom: 100px">
 <%@include file="header.jsp" %>
-<body>
 <div class="container">
     <div align="center">
-        <s:form action="/publish">
-            <s:textarea name="message.content"/>
+        <s:form action="/publish" cssClass="form-group">
+            <s:textarea name="message.content" cssClass="form-control"/>
             <s:submit cssClass="btn btn-default"/>
         </s:form>
     </div>
 
-    <button onclick="load()">Click me</button>
-
     <div id="message-list">
         <div id="msg">
-            <div v-for="message in messages">
-                {{message.content}}
+            <div class="row" v-for="message in messages"
+                 style="margin: 15px;padding: 15px; background-color: rgba(255,255,255,0.50)">
+                <div>
+                    <span>{{message.user.nickname}}</span>
+                </div>
+                <div style="margin: 10px;">
+                    <span>{{message.content}}</span>
+                </div>
+                <div style="float: right">
+                    <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
+                    <span>{{message.comments.length}} &nbsp;</span>
+                    <span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>
+                    <span>{{message.favors.length}}</span>
+                </div>
             </div>
         </div>
 
-        <div id="show">
-        </div>
     </div>
 </div>
 
 <script>
     var pageSize = 10, pageNo = 1;
-    var msgData;
     var vm = new Vue({
         el: '#msg',
         data: {
-            messages: msgData
+            messages: []
         }
     });
+    var loading = false;
+
     function load() {
-        $.get('json/list-messages', {pageNo: pageNo++, pageSize: pageSize}, function (data, status) {
-            msgData += data['messages']
+        loading = true;
+        $.get('json/list-messages', {pageNo: pageNo++, pageSize: pageSize}, function (data, available) {
+            vm.messages = vm.messages.concat(data['messages']);
         }, 'json')
+        setTimeout(function () {
+            loading = false;
+        }, 1000);
     }
+
+    $(window).scroll(function () {
+        if (loading === false && $(document).scrollTop() - 50 >= $(document).height() - $(window).height()) {
+            load();
+        }
+    })
 </script>
 </body>
 <%@include file="footer.jsp" %>

@@ -32,7 +32,7 @@ public class User implements Serializable {
     @Enumerated(value = EnumType.ORDINAL)
     private GenderType gender;
 
-    @OneToMany(targetEntity = Message.class, mappedBy = "user", fetch = FetchType.EAGER)
+    @OneToMany(targetEntity = Message.class, mappedBy = "user")
     private List<Message> messages;
 
     @ManyToMany(targetEntity = Message.class, fetch = FetchType.EAGER)

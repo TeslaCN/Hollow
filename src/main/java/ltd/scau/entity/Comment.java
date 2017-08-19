@@ -1,6 +1,6 @@
 package ltd.scau.entity;
 
-import ltd.scau.entity.type.MessageStatus;
+import ltd.scau.entity.type.MessageAvailable;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -26,7 +26,7 @@ public class Comment {
     private Message message;
 
     @Column(name = "status")
-    private MessageStatus status;
+    private MessageAvailable status;
 
     @Column(name = "time")
     private Long time;
@@ -85,11 +85,11 @@ public class Comment {
         this.user = user;
     }
 
-    public MessageStatus getStatus() {
+    public MessageAvailable getStatus() {
         return status;
     }
 
-    public void setStatus(MessageStatus status) {
+    public void setStatus(MessageAvailable status) {
         this.status = status;
     }
 

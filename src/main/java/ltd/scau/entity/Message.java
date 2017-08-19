@@ -1,11 +1,12 @@
 package ltd.scau.entity;
 
+import ltd.scau.entity.type.MessageAvailable;
 import ltd.scau.entity.type.MessageStatus;
-import org.hibernate.annotations.TypeDef;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.*;
 
@@ -32,16 +33,24 @@ public class Message implements Serializable {
     @Lob
     private String content;
 
-    @ManyToMany(targetEntity = Comment.class, fetch = FetchType.EAGER)
-    @JoinTable
+    @OneToMany(targetEntity = Comment.class, fetch = FetchType.EAGER)
     private List<Comment> comments;
+
+    @ManyToMany(targetEntity = User.class, fetch = FetchType.EAGER)
+    @JoinTable(name = "favors", joinColumns = @JoinColumn(name = "msg_id", referencedColumnName = "msg_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"))
+    private Set<User> favors;
 
     @Column(name = "image")
     @Lob
     @Basic(fetch = FetchType.LAZY)
     private byte[] image;
 
-    @Column(name = "msg_status", columnDefinition = "INT default 1")
+    @Column(name = "msg_available", columnDefinition = "INT default 1")
+    @Enumerated(value = EnumType.ORDINAL)
+    private MessageAvailable available;
+
+    @Column(name = "msg_status", columnDefinition = "INT default 0")
     @Enumerated(value = EnumType.ORDINAL)
     private MessageStatus status;
 
@@ -93,7 +102,7 @@ public class Message implements Serializable {
                 ", date=" + date +
                 ", time=" + time +
                 ", content='" + content + '\'' +
-                ", status=" + status +
+                ", available=" + available +
                 '}';
     }
 
@@ -126,6 +135,22 @@ public class Message implements Serializable {
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    public MessageAvailable getAvailable() {
+        return available;
+    }
+
+    public void setAvailable(MessageAvailable available) {
+        this.available = available;
+    }
+
+    public Set<User> getFavors() {
+        return favors;
+    }
+
+    public void setFavors(Set<User> favors) {
+        this.favors = favors;
     }
 
     public MessageStatus getStatus() {
