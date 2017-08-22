@@ -7,7 +7,6 @@ import com.opensymphony.xwork2.conversion.annotations.TypeConversion;
 import com.opensymphony.xwork2.validator.annotations.*;
 import ltd.scau.entity.User;
 import ltd.scau.entity.dao.UserDao;
-import org.apache.http.HttpResponse;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.interceptor.ServletResponseAware;

@@ -10,7 +10,6 @@ import ltd.scau.event.MessageEvent;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.ApplicationEvent;
 
 public class PublishAction extends ActionSupport implements ApplicationContextAware {
 
