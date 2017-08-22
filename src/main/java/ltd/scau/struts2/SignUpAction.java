@@ -1,12 +1,22 @@
 package ltd.scau.struts2;
 
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
+import com.opensymphony.xwork2.conversion.annotations.Conversion;
+import com.opensymphony.xwork2.conversion.annotations.TypeConversion;
+import com.opensymphony.xwork2.validator.annotations.*;
 import ltd.scau.entity.User;
 import ltd.scau.entity.dao.UserDao;
+import org.apache.http.HttpResponse;
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.interceptor.ServletResponseAware;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 
-public class SignUpAction extends ActionSupport {
+@Conversion(conversions = {@TypeConversion(key = "user.gender", converter = "ltd.scau.utils.converter.GenderConverter")})
+public class SignUpAction extends ActionSupport implements ServletResponseAware {
 
     private UserDao userDao;
 
@@ -38,16 +48,44 @@ public class SignUpAction extends ActionSupport {
         this.date = date;
     }
 
+    @Validations(
+            emails = {
+                    @EmailValidator(type = ValidatorType.SIMPLE, fieldName = "user.account", key = "user.account.invalid")
+            },
+            stringLengthFields = {
+                    @StringLengthFieldValidator(type = ValidatorType.SIMPLE, fieldName = "user.password", trim = false, minLength = "8", maxLength = "255", key = "user.password.length"),
+                    @StringLengthFieldValidator(type = ValidatorType.SIMPLE, fieldName = "user.nickname", minLength = "1", maxLength = "32", key = "user.nickname.length")
+            },
+            requiredStrings = {
+                    @RequiredStringValidator(type = ValidatorType.SIMPLE, fieldName = "user.account", key = "user.account.required"),
+                    @RequiredStringValidator(type = ValidatorType.SIMPLE, fieldName = "user.password", key = "user.password.required"),
+                    @RequiredStringValidator(type = ValidatorType.SIMPLE, fieldName = "user.nickname", key = "user.nickname.required")
+            }
+    )
     @Override
+    @Action(results = {@Result(location = "sign-in.jsp"), @Result(name = "input", location = "sign-up.jsp")})
     public String execute() throws Exception {
+        ActionContext ctx = ActionContext.getContext();
+        if (ctx.getSession().get("user") != null) {
+            response.sendRedirect("homepage");
+            return NONE;
+        }
         if (user == null || user.getAccount() == null || user.getPassword() == null) {
             return INPUT;
         }
         if (userDao.findUserByAccount(user.getAccount()) != null) {
-            addActionError(getText("user.exist"));
             return INPUT;
         }
+        user.setDate(getDate());
+        user.setTime(System.currentTimeMillis());
         userDao.save(user);
         return SUCCESS;
+    }
+
+    private HttpServletResponse response;
+
+    @Override
+    public void setServletResponse(HttpServletResponse httpServletResponse) {
+        response = httpServletResponse;
     }
 }

@@ -8,7 +8,7 @@
 http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
         <property name="driverClass" value="com.mysql.jdbc.Driver"/>
-        <property name="jdbcUrl" value="jdbc:mysql://localhost/hollow"/>
+        <property name="jdbcUrl" value="jdbc:mysql://localhost/hollow?characterEncoding=UTF-8&amp;useUnicode=true&amp;autoReconnect=true"/>
         <property name="user" value="maven"/>
         <property name="password" value="sudo reboot"/>
         <property name="maxPoolSize" value="20"/>

@@ -21,6 +21,10 @@
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
+    <style>
+        .redirect {
+        }
+    </style>
 </head>
 <body style="background-color: rgba(168,168,168,0.30); margin-bottom: 100px">
 <%@include file="header.jsp" %>
@@ -39,14 +43,14 @@
                 <div>
                     <span>{{message.user.nickname}}</span>
                 </div>
-                <div style="margin: 10px;">
+                <div class="redirect" style="margin: 10px;" :id="message.id">
                     <span>{{message.content}}</span>
                 </div>
                 <div style="float: right">
                     <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
-                    <span>{{message.comments.length}} &nbsp;</span>
+                    <span>{{message.comments != null ? message.comments.length : 0}} &nbsp;</span>
                     <span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>
-                    <span>{{message.favors.length}}</span>
+                    <span>{{message.favors != null ? message.favors.length : 0}}</span>
                 </div>
             </div>
         </div>
@@ -70,9 +74,23 @@
             vm.messages = vm.messages.concat(data['messages']);
         }, 'json')
         setTimeout(function () {
+            generateUrl();
             loading = false;
         }, 1000);
     }
+
+    function generateUrl() {
+        $('.redirect').on('tap', function () {
+            var id = $(this).attr('id');
+            window.location = 'detail?id=' + id;
+        });
+        $('.redirect').click(function () {
+            var id = $(this).attr('id');
+            window.location = 'detail?id=' + id;
+        });
+    }
+
+    load();
 
     $(window).scroll(function () {
         if (loading === false && $(document).scrollTop() - 50 >= $(document).height() - $(window).height()) {

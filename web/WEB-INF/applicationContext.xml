@@ -27,12 +27,12 @@
         <property name="messageList" ref="messageList"/>
     </bean>
 
-    <bean id="signUpAction" class="ltd.scau.struts2.SignUpAction" scope="prototype">
-        <property name="user.date" ref="currentDate"/>
+    <bean id="registerAction" class="ltd.scau.struts2.SignUpAction" scope="prototype">
+        <property name="date" ref="currentDate"/>
         <property name="userDao" ref="userDao"/>
     </bean>
 
-    <bean id="signInAction" class="ltd.scau.struts2.SignInAction" scope="prototype">
+    <bean id="loginAction" class="ltd.scau.struts2.SignInAction" scope="prototype">
         <property name="userDao" ref="userDao"/>
     </bean>
 

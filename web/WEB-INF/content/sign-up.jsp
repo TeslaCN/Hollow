@@ -10,7 +10,8 @@
 <%@taglib prefix="s" uri="/struts-tags" %>
 <html>
 <head>
-    <title><s:text name="signUp"/></title>
+    <title><s:text name="signUpPage"/></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <script src="https://cdn.bootcss.com/vue/2.4.2/vue.js"></script>
     <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -26,7 +27,7 @@
     <div class="row">
     </div>
     <div class="row" style="padding: 30px">
-        <form action="sign-up">
+        <form action="sign-up" onsubmit="return validate();">
             <div class="form-group">
                 <label for="inputEmail"><s:text name="user.account"/></label>
                 <input name="user.account" type="email" class="form-control" id="inputEmail" placeholder="Email">
@@ -47,14 +48,50 @@
                 </label>
             </div>
             <div class="form-group">
-                <label for="inputGender"><s:text name="user.gender"/></label>
-                <s:radio id="inputGender" list="{'MALE', 'FEMALE'}" name="user.gender"/>
+                <label><s:text name="user.gender"/></label><br>
+                <%--<s:radio id="inputGender" list="{'MALE', 'FEMALE'}" name="user.gender"/>--%>
+                <input type="radio" name="user.gender" value="MALE" id="inputGenderMALE">
+                <label for="inputGenderMALE"><s:text name="gender.male"/></label><br>
+                <input type="radio" name="user.gender" value="FEMALE" id="inputGenderFEMALE">
+                <label for="inputGenderFEMALE"><s:text name="gender.female"/></label>
             </div>
             <div class="form-group">
                 <label for="inputRemark"><s:text name="user.remark"/></label>
                 <s:textarea id="inputRemark" name="user.remark" cssClass="form-control"/>
             </div>
-            <button type="submit" class="btn btn-default">Submit</button>
+            <button type="submit" class="btn btn-default"><s:text name="signUp"/></button>
+            <script>
+                function validate() {
+                    var email = document.getElementById('inputEmail').value;
+                    if (email == null) {
+                        alert('<s:text name="user.account.required"/>');
+                        return false;
+                    }
+                    if (!email.match('^([^@\\.]+\\.)*[^@\\.]+@([\\w|\\d]+\\.)+[\\w|\\d|-]*[^\\.]$')) {
+                        alert('<s:text name="user.account.invalid"/>');
+                        return false;
+                    }
+                    var password = document.getElementById('inputPassword').value;
+                    if (password == null) {
+                        alert("<s:text name="user.password.required"/>");
+                        return false;
+                    }
+                    if (password.length < 8 || password.length > 255) {
+                        alert("<s:text name="user.password.length"/>");
+                        return false;
+                    }
+                    var nickname = document.getElementById('inputNickname').value;
+                    if (nickname == null) {
+                        alert("<s:text name="user.nickname.required"/>");
+                        return false;
+                    }
+                    if (nickname.length < 1 || nickname.length > 32) {
+                        alert("<s:text name="user.nickname.length"/>");
+                        return false;
+                    }
+                    return true;
+                }
+            </script>
         </form>
     </div>
 </div>

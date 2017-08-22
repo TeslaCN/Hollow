@@ -10,6 +10,7 @@
 <html>
 <head>
     <title><s:text name="signInPage"/></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <script src="https://cdn.bootcss.com/vue/2.4.2/vue.js"></script>
     <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -27,7 +28,7 @@
     </div>
     <div class="row">
         <div>
-            <form action="sign-in">
+            <form action="sign-in" method="post">
                 <div class="form-group">
                     <label for="exampleInputEmail1">Email address</label>
                     <input type="email" name="account" class="form-control" id="exampleInputEmail1" placeholder="Email">

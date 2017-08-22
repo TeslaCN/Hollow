@@ -28,6 +28,7 @@ public class PublishAction extends ActionSupport implements ApplicationContextAw
         User user = (User) ctx.getSession().get("user");
         if (user == null) user = userDao.get(User.class, 1L);
         message.setUser(user);
+        message.setTime(System.currentTimeMillis());
         messageDao.save(message);
         System.out.println(message);
         applicationContext.publishEvent(new MessageEvent(message));

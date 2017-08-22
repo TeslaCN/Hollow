@@ -5,8 +5,10 @@ import ltd.scau.entity.Message;
 import ltd.scau.utils.MessageList;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.interceptor.ServletResponseAware;
 import org.apache.struts2.json.annotations.JSON;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @ParentPackage(value = "json-default")
@@ -14,7 +16,7 @@ import java.util.List;
 //        "excludeNullProperties", "true",
         "includeProperties", "messages\\[\\d+\\]\\.(id|content|date|time|comments|favors),messages\\[\\d+\\]\\.user\\.(id|nickname|gender)",
 })
-public class ListMessagesAction extends ActionSupport{
+public class ListMessagesAction extends ActionSupport implements ServletResponseAware {
 
     private MessageList messageList;
 
@@ -26,6 +28,7 @@ public class ListMessagesAction extends ActionSupport{
 
     @Override
     public String execute() throws Exception {
+        response.addHeader("Access-Control-Allow-Origin", "*");
         setMessages(messageList.getMessages(pageNo, pageSize));
         return SUCCESS;
     }
@@ -61,5 +64,12 @@ public class ListMessagesAction extends ActionSupport{
 
     public void setMessageList(MessageList messageList) {
         this.messageList = messageList;
+    }
+
+    private HttpServletResponse response;
+
+    @Override
+    public void setServletResponse(HttpServletResponse httpServletResponse) {
+        this.response = httpServletResponse;
     }
 }
