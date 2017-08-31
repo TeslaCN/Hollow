@@ -21,6 +21,7 @@
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
+    <script src="utils.js"></script>
 </head>
 <body>
 <div class="container">
@@ -67,7 +68,7 @@
                         alert('<s:text name="user.account.required"/>');
                         return false;
                     }
-                    if (!email.match('^([^@\\.]+\\.)*[^@\\.]+@([\\w|\\d]+\\.)+[\\w|\\d|-]*[^\\.]$')) {
+                    if (!validEmail(email)) {
                         alert('<s:text name="user.account.invalid"/>');
                         return false;
                     }

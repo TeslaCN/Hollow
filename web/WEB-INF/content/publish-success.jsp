@@ -16,7 +16,7 @@ Published!
 <script>
     setTimeout(function () {
         window.location = 'homepage';
-    }, 2000);
+    }, 1000);
 </script>
 </body>
 </html>

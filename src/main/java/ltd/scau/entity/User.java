@@ -50,8 +50,7 @@ public class User implements Serializable {
     private String remark;
 
     @Column(name = "user_icon")
-    @Lob
-    private byte[] icon;
+    private String icon;
 
     @Column(name = "stu_id")
     private String stuId;
@@ -109,14 +108,6 @@ public class User implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark;
-    }
-
-    public byte[] getIcon() {
-        return icon;
-    }
-
-    public void setIcon(byte[] icon) {
-        this.icon = icon;
     }
 
     @Override
@@ -204,5 +195,13 @@ public class User implements Serializable {
 
     public void setFavors(Set<Message> favors) {
         this.favors = favors;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 }

@@ -9,9 +9,15 @@
 <html>
 <head>
     <title>Title</title>
+    <script>
+        setTimeout(function () {
+            window.location = 'homepage';
+        });
+    </script>
 </head>
 <body>
-Welcome! ${sessionScope.user.nickname}<br/>
-sign-in-success.jsp
+<div>
+    Welcome! ${sessionScope.user.nickname}<br/>
+</div>
 </body>
 </html>

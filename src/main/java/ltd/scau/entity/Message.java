@@ -41,10 +41,8 @@ public class Message implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"))
     private Set<User> favors;
 
-    @Column(name = "image")
-    @Lob
-    @Basic(fetch = FetchType.LAZY)
-    private byte[] image;
+    @Column(name = "image_path")
+    private String imagePath;
 
     @Column(name = "msg_available", columnDefinition = "INT default 1")
     @Enumerated(value = EnumType.ORDINAL)
@@ -86,12 +84,12 @@ public class Message implements Serializable {
         this.content = content;
     }
 
-    public byte[] getImage() {
-        return image;
+    public String getImagePath() {
+        return imagePath;
     }
 
-    public void setImage(byte[] image) {
-        this.image = image;
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 
     @Override
