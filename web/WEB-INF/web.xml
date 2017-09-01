@@ -30,6 +30,18 @@
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
+    <context-param>
+        <param-name>bucketName</param-name>
+        <param-value>tesla-cn</param-value>
+    </context-param>
+    <context-param>
+        <param-name>oss</param-name>
+        <param-value>http://tesla-cn.oss-cn-shenzhen.aliyuncs.com/</param-value>
+    </context-param>
+    <context-param>
+        <param-name>ossThumbnail</param-name>
+        <param-value>?x-oss-process=style/thumbnail</param-value>
+    </context-param>
 
 
 </web-app>

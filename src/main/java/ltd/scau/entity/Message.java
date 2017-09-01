@@ -12,7 +12,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "messages")
-public class Message implements Serializable {
+public class Message implements Serializable, Comparable<Message> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,17 +26,17 @@ public class Message implements Serializable {
     @Column(name = "msg_date")
     private Date date;
 
-    @Column(name = "msg_time")
+    @Column(name = "msg_time", nullable = false)
     private Long time;
 
-    @Column(name = "msg_content")
+    @Column(name = "msg_content", nullable = false)
     @Lob
     private String content;
 
-    @OneToMany(targetEntity = Comment.class, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, targetEntity = Comment.class, fetch = FetchType.EAGER, mappedBy = "message")
     private List<Comment> comments;
 
-    @ManyToMany(targetEntity = User.class, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, targetEntity = User.class, fetch = FetchType.EAGER)
     @JoinTable(name = "favors", joinColumns = @JoinColumn(name = "msg_id", referencedColumnName = "msg_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"))
     private Set<User> favors;
@@ -157,5 +157,10 @@ public class Message implements Serializable {
 
     public void setStatus(MessageStatus status) {
         this.status = status;
+    }
+
+    @Override
+    public int compareTo(Message o) {
+        return (int) (getTime() - o.getTime());
     }
 }

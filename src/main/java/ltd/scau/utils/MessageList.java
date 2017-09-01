@@ -41,6 +41,7 @@ public class MessageList {
 
     public void updateMessageList() {
         List<Message> m = getMessageDao().findAll(Message.class);
+        Collections.sort(m);
         Collections.reverse(m);
         setMessages(m);
     }

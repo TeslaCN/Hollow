@@ -32,10 +32,10 @@ public class User implements Serializable {
     @Enumerated(value = EnumType.ORDINAL)
     private GenderType gender;
 
-    @OneToMany(targetEntity = Message.class, mappedBy = "user")
+    @OneToMany(cascade = CascadeType.ALL, targetEntity = Message.class, mappedBy = "user")
     private List<Message> messages;
 
-    @ManyToMany(targetEntity = Message.class, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, targetEntity = Message.class, fetch = FetchType.EAGER)
     @JoinTable(name = "favors", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "msg_id", referencedColumnName = "msg_id"))
     private Set<Message> favors;
@@ -43,7 +43,7 @@ public class User implements Serializable {
     @Column(name = "sign_up_date")
     private Date date;
 
-    @Column(name = "sign_up_time")
+    @Column(name = "sign_up_time", nullable = false)
     private Long time;
 
     @Column(name = "user_remark")

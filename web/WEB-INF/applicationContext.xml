@@ -39,11 +39,12 @@
 
     <bean id="detailAction" class="ltd.scau.struts2.DetailAction" scope="request">
         <property name="messageDao" ref="messageDao"/>
+        <property name="commentDao" ref="commentDao"/>
+        <property name="date" ref="currentDate"/>
     </bean>
 
     <bean id="userProfileAction" class="ltd.scau.struts2.UserProfileAction" scope="request">
         <property name="userDao" ref="userDao"/>
     </bean>
-
 
 </beans>

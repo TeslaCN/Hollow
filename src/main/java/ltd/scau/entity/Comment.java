@@ -3,11 +3,12 @@ package ltd.scau.entity;
 import ltd.scau.entity.type.MessageAvailable;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @Table(name = "comments")
-public class Comment {
+public class Comment implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,6 +19,7 @@ public class Comment {
     @Lob
     private String content;
 
+    @ManyToOne(targetEntity = User.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
     private User user;
 
@@ -28,7 +30,7 @@ public class Comment {
     @Column(name = "status")
     private MessageAvailable status;
 
-    @Column(name = "time")
+    @Column(name = "time", nullable = false)
     private Long time;
 
     @Column(name = "date")

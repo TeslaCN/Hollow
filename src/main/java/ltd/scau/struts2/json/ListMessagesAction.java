@@ -14,7 +14,11 @@ import java.util.List;
 @ParentPackage(value = "json-default")
 @Result(type = "json", params = {
 //        "excludeNullProperties", "true",
-        "includeProperties", "messages\\[\\d+\\]\\.(id|content|date|time|comments|favors|imagePath),messages\\[\\d+\\]\\.user\\.(id|nickname|gender)",
+        "includeProperties",
+        "messages\\[\\d+\\]\\.(id|content|date|time|comments|favors|imagePath)," +
+                "messages\\[\\d+\\]\\.user\\.(id|nickname|gender)," +
+                "messages\\[\\d+\\]\\.comments\\[\\d+\\]\\.(id|content|time)," +
+                "messages\\[\\d+\\]\\.comments\\[\\d+\\]\\.user\\.(id|gender|nickname)",
 })
 public class ListMessagesAction extends ActionSupport implements ServletResponseAware {
 

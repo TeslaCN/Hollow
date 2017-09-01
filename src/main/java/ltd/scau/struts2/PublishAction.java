@@ -56,8 +56,9 @@ public class PublishAction extends ActionSupport implements ApplicationContextAw
 
         if (getImage() != null) {
             String[] filename = getImageFileName().split("\\.");
-            String img = savePath + millis + "." + filename[filename.length - 1];
-            try(FileInputStream in = new FileInputStream(getImage());) {
+            // filename: 'currentMillis + user_id.(png|jpg|gif)'
+            String img = savePath + millis + "_" + user.getId() + "." + filename[filename.length - 1];
+            try (FileInputStream in = new FileInputStream(getImage());) {
                 getOssClient().putObject(getBucketName(), img, in);
                 message.setImagePath(img);
             }

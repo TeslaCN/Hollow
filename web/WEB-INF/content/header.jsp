@@ -9,7 +9,6 @@
 <html>
 <head>
     <title>header</title>
-    <script src="utils.js"></script>
 </head>
 <body>
 <nav class="navbar navbar-default">
