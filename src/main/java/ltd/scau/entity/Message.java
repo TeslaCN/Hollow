@@ -29,7 +29,7 @@ public class Message implements Serializable, Comparable<Message> {
     @Column(name = "msg_time", nullable = false)
     private Long time;
 
-    @Column(name = "msg_content", nullable = false)
+    @Column(name = "msg_content")
     @Lob
     private String content;
 

@@ -5,6 +5,7 @@ import ltd.scau.entity.User;
 import ltd.scau.entity.dao.UserDao;
 
 import java.util.List;
+import java.util.UUID;
 
 public class UserDaoHibernate5 extends BaseDaoHibernate5<User> implements UserDao {
 
@@ -18,4 +19,13 @@ public class UserDaoHibernate5 extends BaseDaoHibernate5<User> implements UserDa
         return null;
     }
 
+    @Override
+    public User findUserByUUID(String uuid) {
+        if (uuid == null) return null;
+        User user = new User();
+        user.setUuid(uuid);
+        List<User> users = getHibernateTemplate().findByExample(user);
+        if (users != null && users.size() == 1) return users.get(0);
+        return null;
+    }
 }

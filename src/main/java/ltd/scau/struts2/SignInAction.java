@@ -4,19 +4,20 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import ltd.scau.entity.User;
 import ltd.scau.entity.dao.UserDao;
+import ltd.scau.entity.type.UserLevel;
+import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.interceptor.ServletResponseAware;
 
 import javax.servlet.http.HttpServletResponse;
 
-public class SignInAction extends ActionSupport implements ServletResponseAware {
+@ParentPackage("hollow-default")
+public class SignInAction extends ActionSupport {
 
     private UserDao userDao;
 
     private String account;
 
     private String password;
-
-    private HttpServletResponse response;
 
     public UserDao getUserDao() {
         return userDao;
@@ -46,8 +47,7 @@ public class SignInAction extends ActionSupport implements ServletResponseAware 
     public String execute() throws Exception {
         ActionContext ctx = ActionContext.getContext();
         if (ctx.getSession().get("user") != null) {
-            response.sendRedirect("homepage");
-            return NONE;
+            return "homepage";
         }
         if (getAccount() == null || getPassword() == null) {
             return LOGIN;
@@ -62,10 +62,5 @@ public class SignInAction extends ActionSupport implements ServletResponseAware 
         }
         ctx.getSession().put("user", user);
         return SUCCESS;
-    }
-
-    @Override
-    public void setServletResponse(HttpServletResponse httpServletResponse) {
-        this.response = httpServletResponse;
     }
 }

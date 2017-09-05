@@ -28,7 +28,7 @@
     <div class="row">
     </div>
     <div class="row" style="padding: 30px">
-        <form action="sign-up" onsubmit="return validate();">
+        <form action="sign-up" onsubmit="return validate();" method="post">
             <div class="form-group">
                 <label for="inputEmail"><s:text name="user.account"/></label>
                 <input name="user.account" type="email" class="form-control" id="inputEmail" placeholder="Email">

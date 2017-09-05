@@ -24,57 +24,14 @@
     <script>
         <%@include file="/utils.js"%>
     </script>
+    <style>
+        .pure {
+            text-decoration: none;
+            color: #000;
+        }
+    </style>
 </head>
-<nav class="navbar navbar-default navbar-fixed-top">
-    <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                    data-target="#bs-example-navbar-collapse-2" aria-expanded="false">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-        </div>
-
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
-            <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
-                <li><a href="#">Link</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                       aria-expanded="false">Dropdown <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">One more separated link</a></li>
-                    </ul>
-                </li>
-            </ul>
-
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">Link</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                       aria-expanded="false">Dropdown <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
-</nav>
+<%@include file="header.jsp" %>
 <body style="background-color: rgba(168,168,168,0.30);">
 
 <div class="container" style="margin-top: 100px; margin-bottom: 100px;">
@@ -150,6 +107,17 @@
         </script>
     </div>
 </div>
+<div style="overflow: hidden;position: fixed;right: 10px;bottom: 100px;z-index: 10;">
+    <div style="overflow: hidden;">
+        <div style="padding-top:20px;padding-right:50px;">
+            <a href="javascript:history.back(-1);" class="pure"><span class="glyphicon glyphicon-home"></span><s:text name="homepage"/></a>
+        </div>
+        <div style="padding-top:20px;padding-right:50px;padding-bottom:50px">
+            <a href="#" style="float: right;" class="pure">回到顶部</a>
+        </div>
+    </div>
+</div>
+
 
 </body>
 <nav class="navbar navbar-default navbar-fixed-bottom">

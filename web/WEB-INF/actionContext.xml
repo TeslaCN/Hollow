@@ -47,4 +47,11 @@
         <property name="userDao" ref="userDao"/>
     </bean>
 
+    <bean id="sendValidateAction" class="ltd.scau.struts2.SendValidateAction" scope="request" lazy-init="true">
+        <property name="htmlEmail" ref="htmlEmail"/>
+    </bean>
+
+
+
+
 </beans>

@@ -20,9 +20,38 @@
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
 </head>
+<%@include file="header.jsp" %>
 <body>
 <div class="container">
-
+    <div id="icon" class="row">
+    </div>
+    <div id="info" class="row">
+        <div>
+        </div>
+        <div>
+            <table class="table table-hover">
+                <tr>
+                    <td><s:text name="user.nickname"/></td>
+                    <td>${requestScope.user.nickname}</td>
+                </tr>
+                <tr>
+                    <td><s:text name="user.gender"/></td>
+                    <td>${requestScope.user.gender}</td>
+                </tr>
+                <tr>
+                    <td><s:text name="user.account"/></td>
+                    <td>${requestScope.user.account}</td>
+                </tr>
+                <tr>
+                    <td><s:text name="signUpTime"/></td>
+                    <td id="signUpTime"></td>
+                </tr>
+            </table>
+            <script>
+                document.getElementById('signUpTime').innerHTML = new Date(${requestScope.user.time}).toLocaleString();
+            </script>
+        </div>
+    </div>
 </div>
 </body>
 </html>

@@ -2,11 +2,14 @@ package ltd.scau.struts2;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
+import ltd.scau.aspect.annotations.Ordinary;
 import ltd.scau.entity.User;
 import ltd.scau.entity.dao.UserDao;
 import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 
+@ParentPackage("hollow-default")
 public class UserProfileAction extends ActionSupport{
 
     private UserDao userDao;
@@ -14,13 +17,10 @@ public class UserProfileAction extends ActionSupport{
     private User user;
 
     @Override
-    @Action(results = {@Result(name = "login", location = "sign-in.jsp")})
+    @Ordinary
     public String execute() throws Exception {
         ActionContext ctx = ActionContext.getContext();
         setUser((User) ctx.getSession().get("user"));
-        if (getUser() == null) {
-            return LOGIN;
-        }
         return SUCCESS;
     }
 

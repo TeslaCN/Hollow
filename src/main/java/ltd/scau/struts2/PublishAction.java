@@ -3,6 +3,7 @@ package ltd.scau.struts2;
 import com.aliyun.oss.OSSClient;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
+import ltd.scau.aspect.annotations.Ordinary;
 import ltd.scau.entity.Message;
 import ltd.scau.entity.User;
 import ltd.scau.entity.dao.MessageDao;
@@ -10,6 +11,7 @@ import ltd.scau.entity.dao.UserDao;
 import ltd.scau.event.MessageEvent;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -19,6 +21,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
+@ParentPackage("hollow-default")
 public class PublishAction extends ActionSupport implements ApplicationContextAware {
 
     private ApplicationContext applicationContext;
@@ -42,12 +45,12 @@ public class PublishAction extends ActionSupport implements ApplicationContextAw
     private String bucketName;
 
     @Override
-    @Action(results = {@Result(name = "login", location = "sign-in.jsp")}, params = {"savePath", "images/", "bucketName", "tesla-cn"})
+    @Action(params = {"savePath", "images/", "bucketName", "tesla-cn"})
+    @Ordinary
     public String execute() throws Exception {
         ActionContext ctx = ActionContext.getContext();
         User user = (User) ctx.getSession().get("user");
         if (user == null) {
-            //user = userDao.get(User.class, 1L);
             return LOGIN;
         }
         long millis = System.currentTimeMillis();

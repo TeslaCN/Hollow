@@ -15,7 +15,7 @@ public class Comment implements Serializable {
     @Column(name = "comment_id")
     private Long id;
 
-    @Column(name = "content", nullable = false)
+    @Column(name = "content")
     @Lob
     private String content;
 

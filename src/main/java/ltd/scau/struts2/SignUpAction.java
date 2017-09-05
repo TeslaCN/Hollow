@@ -7,14 +7,18 @@ import com.opensymphony.xwork2.conversion.annotations.TypeConversion;
 import com.opensymphony.xwork2.validator.annotations.*;
 import ltd.scau.entity.User;
 import ltd.scau.entity.dao.UserDao;
+import ltd.scau.entity.type.UserLevel;
 import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.interceptor.ServletResponseAware;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
+import java.util.UUID;
 
-@Conversion(conversions = {@TypeConversion(key = "user.gender", converter = "ltd.scau.utils.converter.GenderConverter")})
+@ParentPackage("hollow-default")
+@Conversion(conversions = {@TypeConversion(key = "user.gender", converter = "ltd.scau.struts2.converter.GenderConverter")})
 public class SignUpAction extends ActionSupport implements ServletResponseAware {
 
     private UserDao userDao;
@@ -62,12 +66,11 @@ public class SignUpAction extends ActionSupport implements ServletResponseAware 
             }
     )
     @Override
-    @Action(results = {@Result(location = "sign-in.jsp"), @Result(name = "input", location = "sign-up.jsp")})
+    @Action(results = {@Result(name = "input", location = "sign-up.jsp")})
     public String execute() throws Exception {
         ActionContext ctx = ActionContext.getContext();
         if (ctx.getSession().get("user") != null) {
-            response.sendRedirect("homepage");
-            return NONE;
+            return "homepage";
         }
         if (user == null || user.getAccount() == null || user.getPassword() == null) {
             return INPUT;
@@ -77,8 +80,10 @@ public class SignUpAction extends ActionSupport implements ServletResponseAware 
         }
         user.setDate(getDate());
         user.setTime(System.currentTimeMillis());
+        user.setLevel(UserLevel.NOTVALIDATE);
+        user.setUuid(UUID.randomUUID().toString());
         userDao.save(user);
-        return SUCCESS;
+        return LOGIN;
     }
 
     private HttpServletResponse response;

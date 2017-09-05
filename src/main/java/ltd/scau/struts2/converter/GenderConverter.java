@@ -1,4 +1,4 @@
-package ltd.scau.utils.converter;
+package ltd.scau.struts2.converter;
 
 import ltd.scau.entity.type.GenderType;
 import org.apache.struts2.util.StrutsTypeConverter;

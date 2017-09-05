@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.persistence.*;
 
@@ -61,6 +62,9 @@ public class User implements Serializable {
     @Enumerated(value = EnumType.ORDINAL)
     @Column(name = "user_level", columnDefinition = "INT default 0")
     private UserLevel level;
+
+    @Column(nullable = false)
+    private String uuid;
 
     public Long getId() {
         return id;
@@ -138,21 +142,6 @@ public class User implements Serializable {
         return time;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", account='" + account + '\'' +
-                ", password='" + password + '\'' +
-                ", nickname='" + nickname + '\'' +
-                ", gender=" + gender +
-                ", date=" + date +
-                ", time=" + time +
-                ", remark='" + remark + '\'' +
-                ", level=" + level +
-                '}';
-    }
-
     public GenderType getGender() {
         return gender;
     }
@@ -203,5 +192,32 @@ public class User implements Serializable {
 
     public void setIcon(String icon) {
         this.icon = icon;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", account='" + account + '\'' +
+                ", password='" + password + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", gender=" + gender +
+                ", date=" + date +
+                ", time=" + time +
+                ", remark='" + remark + '\'' +
+                ", icon='" + icon + '\'' +
+                ", stuId='" + stuId + '\'' +
+                ", stuPassword='" + stuPassword + '\'' +
+                ", level=" + level +
+                ", uuid=" + uuid +
+                '}';
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 }

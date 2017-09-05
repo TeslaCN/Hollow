@@ -2,6 +2,7 @@ package ltd.scau.struts2;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
+import ltd.scau.aspect.annotations.Ordinary;
 import ltd.scau.entity.Comment;
 import ltd.scau.entity.Message;
 import ltd.scau.entity.User;
@@ -9,6 +10,7 @@ import ltd.scau.entity.dao.CommentDao;
 import ltd.scau.entity.dao.MessageDao;
 import ltd.scau.event.MessageEvent;
 import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.interceptor.ServletResponseAware;
 import org.springframework.beans.BeansException;
@@ -18,6 +20,7 @@ import org.springframework.context.ApplicationContextAware;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 
+@ParentPackage("hollow-default")
 public class DetailAction extends ActionSupport implements ServletResponseAware, ApplicationContextAware {
 
     private MessageDao messageDao;
@@ -41,13 +44,11 @@ public class DetailAction extends ActionSupport implements ServletResponseAware,
 
     private Comment comment;
 
-    @Action(value = "comment", results = {@Result(name = "login", location = "sign-in.jsp")})
+    @Action(value = "comment")
+    @Ordinary
     public String comment() throws Exception {
         ActionContext ctx = ActionContext.getContext();
         User user = (User) ctx.getSession().get("user");
-        if (user == null) {
-            return LOGIN;
-        }
         getComment().setUser(user);
         getComment().setTime(System.currentTimeMillis());
         getComment().setDate(getDate());
@@ -64,9 +65,9 @@ public class DetailAction extends ActionSupport implements ServletResponseAware,
     public String like() throws Exception {
         ActionContext ctx = ActionContext.getContext();
         User user = (User) ctx.getSession().get("user");
-        if (user == null) {
-            return LOGIN;
-        }
+//        if (user == null) {
+//            return LOGIN;
+//        }
         Message msg = getMessageDao().get(Message.class, getId());
         msg.getFavors().add(user);
         getMessageDao().update(msg);

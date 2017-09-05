@@ -7,9 +7,9 @@ function timestampToHuman(time) {
     var result = (current - time) / 1000;
     if (result < 60) return '<s:text name="justNow"/>';
     result /= 60;
-    if (result < 60) return Math.floor(result) + '<s:text name="minute"/>';
+    if (result < 60) return Math.floor(result) + '<s:text name="minute.before"/>';
     result /= 60;
-    if (result < 24) return Math.floor(result) + '<s:text name="hour"/>';
+    if (result < 24) return Math.floor(result) + '<s:text name="hour.before"/>';
     result /= 24;
-    return Math.floor(result) + '<s:text name="day"/>';
+    return Math.floor(result) + '<s:text name="day.before"/>';
 }

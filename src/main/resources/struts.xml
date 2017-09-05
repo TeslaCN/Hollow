@@ -8,4 +8,12 @@
     <constant name="struts.devMode" value="true"/>
     <constant name="struts.custom.i18n.resources" value="resource"/>
     <!--<constant name="struts.ui.theme" value="xhtml"/>-->
+
+    <package name="hollow-default" extends="struts-default">
+        <global-results>
+            <result name="validate" type="redirect">validate-user</result>
+            <result name="login" type="redirect">homepage</result>
+            <result name="homepage" type="redirect">homepage</result>
+        </global-results>
+    </package>
 </struts>
