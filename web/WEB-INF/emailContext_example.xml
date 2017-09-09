@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="authenticator" class="org.apache.commons.mail.DefaultAuthenticator">
+        <constructor-arg type="java.lang.String" value="你的邮箱"/>
+        <constructor-arg type="java.lang.String" value="邮箱授权码之类的东西"/>
+    </bean>
+
+    <bean id="htmlEmail" class="org.apache.commons.mail.HtmlEmail" scope="request" lazy-init="true">
+        <property name="authenticator" ref="authenticator"/>
+        <!--各邮箱的服务器地址端口之类的都有所差异，具体信息在相关邮箱的帮助内应该可以查询到-->
+        <property name="hostName" value="smtp.qq.com"/>
+        <property name="from" value="xxx@qq.com"/>
+        <property name="SSLOnConnect" value="true"/>
+        <property name="sslSmtpPort" value="465"/>
+        <property name="charset" value="UTF-8"/>
+    </bean>
+
+</beans>

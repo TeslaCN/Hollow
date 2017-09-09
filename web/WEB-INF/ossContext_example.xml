@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--如果用 阿里云OSS 此处配置只需修改参数就可以了，若用其他OSS可能需要有较大改动-->
+    <!--不管咋样，看看相关文档吧-->
+    <bean id="ossClient" class="com.aliyun.oss.OSSClient">
+        <constructor-arg index="0" type="java.lang.String" value="oss-cn-shenzhen.aliyuncs.com"/>
+        <constructor-arg index="1" type="java.lang.String" value="阿里云accessId"/>
+        <constructor-arg index="2" type="java.lang.String" value="阿里云accessKey"/>
+    </bean>
+</beans>
