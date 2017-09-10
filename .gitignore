@@ -1,5 +1,5 @@
 
-web/WEB-INF/ossContext.xml
+web/WEB-INF/storageContext.xml
 
 
 web/WEB-INF/emailContext.xml

@@ -57,7 +57,8 @@
                     <s:param value="#session.user.nickname"/>
                     <s:param value="#session.user.account"/>
                 </s:text>
-                <a id="sendEmail" href="javascript:void(0);" onclick="send();"><s:text name="clickme.send.validate"/></a>
+                <a id="sendEmail" href="javascript:void(0);" onclick="send();"><s:text
+                        name="clickme.send.validate"/></a>
                 <p id="result"></p>
                 <script>
                     function send() {
@@ -73,12 +74,12 @@
         </s:elseif>
         <s:else>
             <form action="publish" class="form-group" method="post" enctype="multipart/form-data"
-                    <%--<s:if test="#session.user == null"> onsubmit="return notSignIn();"</s:if>--%>
-            onsubmit="return submitting();">
+                <%--<s:if test="#session.user == null"> onsubmit="return notSignIn();"</s:if>--%>
+                  onsubmit="submitting();">
             <textarea placeholder="<s:text name="homepage.textarea"/>" name="message.content" class="form-control"
                       style="max-height: 300px;"></textarea>
                 <input name="image" accept="imagePath/jpeg,imagePath/png,imagePath/gif" type="file"
-                       <%--class="btn btn-default"--%>
+                    <%--class="btn btn-default"--%>
                        style="border: none;"/>
                 <p>暂时不支持超过2MB的图片</p>
                 <input id="btn_submit" type="submit" class="btn btn-default" style="border: none;"/>
@@ -89,10 +90,6 @@
                     $('#btn_submit').css('display', 'none');
                     $('#result').append('<span><s:text name="uploading"/></span>');
                     return true;
-                }
-                function notSignIn() {
-                    alert('<s:text name="signIn.required"/>');
-                    return false;
                 }
             </script>
         </s:else>
@@ -113,7 +110,7 @@
                         <span>{{message.content}}</span>
                         <br>
                         <img class="img-responsive center-block" v-if="message.imagePath != null"
-                             :src="'<s:property value="#application.oss"/>' + message.imagePath + '<s:property value="#application.ossThumbnail"/>'"/>
+                             :src="'<s:property value="#application.pathPrefix"/>' + '${pageContext.request.contextPath.equals("/") ? "/" : pageContext.request.contextPath.concat("/")}' + message.imagePath + '<s:property value="#application.ossThumbnail"/>'"/>
                     </div>
                 </a>
                 <div style="float: right">

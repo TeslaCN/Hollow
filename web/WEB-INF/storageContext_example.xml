@@ -3,11 +3,20 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <!--如果用 阿里云OSS 此处配置只需修改参数就可以了，若用其他OSS可能需要有较大改动-->
+    <!--如果用 阿里云OSS 此处配置只需修改参数就可以了，若用其他OSS可能需要有较大改动（需要自己实现接口）-->
     <!--不管咋样，看看相关文档吧-->
     <bean id="ossClient" class="com.aliyun.oss.OSSClient">
         <constructor-arg index="0" type="java.lang.String" value="oss-cn-shenzhen.aliyuncs.com"/>
         <constructor-arg index="1" type="java.lang.String" value="阿里云accessId"/>
         <constructor-arg index="2" type="java.lang.String" value="阿里云accessKey"/>
     </bean>
+
+    <bean id="storageClient" class="ltd.scau.utils.storage.impl.AliyunOssClient">
+        <property name="ossClient" ref="ossClient"/>
+    </bean>
+
+    <!--如果没有阿里云或者其他OSS，可以改为本地存储，并将以上 id 为 storageClient 的 bean 实现类改为此 bean 的实现类-->
+    <!--<bean id="storageClient" class="ltd.scau.utils.storage.impl.LocalStorageClient">-->
+    <!--</bean>-->
+
 </beans>

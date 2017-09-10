@@ -47,9 +47,9 @@
         </div>
         <s:if test="#request.message.imagePath != null">
             <div>
-                <a href="<s:property value="#application.oss"/>${requestScope.message.imagePath}"
+                <a href="<s:property value="#application.pathPrefix"/>${pageContext.request.contextPath.equals("/") ? "/" : pageContext.request.contextPath.concat("/")}${requestScope.message.imagePath}"
                    target="_blank">
-                    <img src="<s:property value="#application.oss"/>${requestScope.message.imagePath}<s:property value="#application.ossThumbnail"/>"
+                    <img src="<s:property value="#application.pathPrefix"/>${pageContext.request.contextPath.equals("/") ? "/" : pageContext.request.contextPath.concat("/")}${requestScope.message.imagePath}<s:property value="#application.ossThumbnail"/>"
                          class="img-responsive center-block">
                 </a>
             </div>

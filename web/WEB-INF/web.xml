@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+<web-app xmlns:="http://xmlns.jcp.org/xml/ns/javaee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
@@ -26,7 +26,7 @@
             /WEB-INF/applicationContext.xml,
             /WEB-INF/actionContext.xml,
             /WEB-INF/daoContext.xml,
-            /WEB-INF/ossContext.xml,
+            /WEB-INF/storageContext.xml,
             /WEB-INF/aspectContext.xml,
             /WEB-INF/emailContext.xml
         </param-value>
@@ -41,12 +41,15 @@
         <param-name>bucketName</param-name>
         <param-value>tesla-cn</param-value>
     </context-param>
+
+    <!--若使用本地存储请将以下两条 context-param 去掉-->
     <context-param>
-        <param-name>oss</param-name>
-        <param-value>http://tesla-cn.oss-cn-shenzhen.aliyuncs.com/</param-value>
+        <param-name>pathPrefix</param-name>
+        <param-value>http://tesla-cn.oss-cn-shenzhen.aliyuncs.com</param-value>
     </context-param>
     <context-param>
         <param-name>ossThumbnail</param-name>
         <param-value>?x-oss-process=style/thumbnail</param-value>
     </context-param>
+    <!--若使用本地存储请将以上两条 context-param 去掉-->
 </web-app>

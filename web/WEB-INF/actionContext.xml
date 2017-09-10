@@ -13,7 +13,7 @@
         <property name="messageDao" ref="messageDao"/>
         <property name="userDao" ref="userDao"/>
         <property name="message" ref="message"/>
-        <property name="ossClient" ref="ossClient"/>
+        <property name="storageClient" ref="storageClient"/>
     </bean>
 
     <bean id="messageList" class="ltd.scau.utils.MessageList" init-method="updateMessageList">

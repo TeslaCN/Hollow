@@ -8,6 +8,8 @@
         <constructor-arg type="java.lang.String" value="邮箱授权码之类的东西"/>
     </bean>
 
+    <!--去邮箱设置启动 SMTP 或者其他协议-->
+
     <bean id="htmlEmail" class="org.apache.commons.mail.HtmlEmail" scope="request" lazy-init="true">
         <property name="authenticator" ref="authenticator"/>
         <!--各邮箱的服务器地址端口之类的都有所差异，具体信息在相关邮箱的帮助内应该可以查询到-->

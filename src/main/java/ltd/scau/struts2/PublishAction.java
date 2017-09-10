@@ -9,6 +9,7 @@ import ltd.scau.entity.User;
 import ltd.scau.entity.dao.MessageDao;
 import ltd.scau.entity.dao.UserDao;
 import ltd.scau.event.MessageEvent;
+import ltd.scau.utils.storage.StorageClient;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.ParentPackage;
@@ -40,7 +41,7 @@ public class PublishAction extends ActionSupport implements ApplicationContextAw
 
     private String savePath;
 
-    private OSSClient ossClient;
+    private StorageClient storageClient;
 
     private String bucketName;
 
@@ -62,7 +63,9 @@ public class PublishAction extends ActionSupport implements ApplicationContextAw
             // filename: 'currentMillis + user_id.(png|jpg|gif)'
             String img = savePath + millis + "_" + user.getId() + "." + filename[filename.length - 1];
             try (FileInputStream in = new FileInputStream(getImage());) {
-                getOssClient().putObject(getBucketName(), img, in);
+                if (!getStorageClient().put(in, img, getBucketName())) {
+                    return ERROR;
+                }
                 message.setImagePath(img);
             }
         }
@@ -134,19 +137,19 @@ public class PublishAction extends ActionSupport implements ApplicationContextAw
         this.savePath = savePath;
     }
 
-    public OSSClient getOssClient() {
-        return ossClient;
-    }
-
-    public void setOssClient(OSSClient ossClient) {
-        this.ossClient = ossClient;
-    }
-
     public String getBucketName() {
         return bucketName;
     }
 
     public void setBucketName(String bucketName) {
         this.bucketName = bucketName;
+    }
+
+    public StorageClient getStorageClient() {
+        return storageClient;
+    }
+
+    public void setStorageClient(StorageClient storageClient) {
+        this.storageClient = storageClient;
     }
 }
