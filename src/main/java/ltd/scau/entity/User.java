@@ -59,6 +59,9 @@ public class User implements Serializable {
     @Column(name = "stu_password")
     private String stuPassword;
 
+    @Column(name = "user_name")
+    private String name;
+
     @Enumerated(value = EnumType.ORDINAL)
     @Column(name = "user_level", columnDefinition = "INT default 0")
     private UserLevel level;
@@ -208,9 +211,18 @@ public class User implements Serializable {
                 ", icon='" + icon + '\'' +
                 ", stuId='" + stuId + '\'' +
                 ", stuPassword='" + stuPassword + '\'' +
+                ", name='" + name + '\'' +
                 ", level=" + level +
-                ", uuid=" + uuid +
+                ", uuid='" + uuid + '\'' +
                 '}';
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getUuid() {

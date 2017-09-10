@@ -1,6 +1,7 @@
 package ltd.scau.base.dao.impl.base.dao;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 
 public interface BaseDao<T> {
@@ -28,4 +29,6 @@ public interface BaseDao<T> {
     List<T> findAllByPage(Class<T> entityClass, int pageNo, int pageSize);
 
     long count(Class<T> entityClass);
+
+    void saveOrUpdateAll(Collection<?> c);
 }

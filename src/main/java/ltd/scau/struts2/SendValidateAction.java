@@ -9,6 +9,9 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
+/**
+ * 此 Action 发送验证邮件 到 用户的注册邮箱
+ */
 @ParentPackage("hollow-default")
 public class SendValidateAction extends ActionSupport implements ApplicationContextAware {
 
@@ -20,8 +23,8 @@ public class SendValidateAction extends ActionSupport implements ApplicationCont
         User user = (User) ctx.getSession().get("user");
         if (user == null) return LOGIN;
         getHtmlEmail().addTo(user.getAccount(), user.getNickname());
-        String text = getText("email.validate.description", new String[]{user.getNickname()});
-        String html = String.format("<p>%s</p><br><br><a href=\"http://scau.ltd:8080/validate-user?uuid=%s\">%s</a>", text, user.getUuid().toString(), getText("email.validate.clickme"));
+        String text = getText("validate.description", new String[]{user.getNickname(), user.getAccount()});
+        String html = String.format("<p>%s</p><br><br><a href=\"http://scau.ltd:8080/validate-user?uuid=%s\">%s</a>", text, user.getUuid().toString(), getText("validate.clickme"));
         String subject = String.format("scau.ltd %s", getText("user.validate"));
         getHtmlEmail().setSubject(subject);
         getHtmlEmail().setHtmlMsg(html);

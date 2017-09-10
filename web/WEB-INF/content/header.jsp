@@ -31,27 +31,27 @@
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
-                <li><a href="#">Link</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                       aria-expanded="false">Dropdown <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">One more separated link</a></li>
-                    </ul>
-                </li>
-            </ul>
+            <%--<ul class="nav navbar-nav">--%>
+                <%--<li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>--%>
+                <%--<li><a href="#">Link</a></li>--%>
+                <%--<li class="dropdown">--%>
+                    <%--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"--%>
+                       <%--aria-expanded="false">Dropdown <span class="caret"></span></a>--%>
+                    <%--<ul class="dropdown-menu">--%>
+                        <%--<li><a href="#">Action</a></li>--%>
+                        <%--<li><a href="#">Another action</a></li>--%>
+                        <%--<li><a href="#">Something else here</a></li>--%>
+                        <%--<li role="separator" class="divider"></li>--%>
+                        <%--<li><a href="#">Separated link</a></li>--%>
+                        <%--<li role="separator" class="divider"></li>--%>
+                        <%--<li><a href="#">One more separated link</a></li>--%>
+                    <%--</ul>--%>
+                <%--</li>--%>
+            <%--</ul>--%>
 
             <ul class="nav navbar-nav navbar-right">
                 <s:if test="#session.user == null">
-                    <form class="navbar-form navbar-right" action="sign-in" onsubmit="return validate();" method="post">
+                    <s:form cssClass="navbar-form navbar-right" action="/sign-in" onsubmit="return validate();" method="post">
                         <div class="form-group">
                             <input id="inputAccount" name="account" type="text" class="form-control"
                                    placeholder="<s:text name="user.account"/>">
@@ -83,7 +83,7 @@
                                 return true;
                             }
                         </script>
-                    </form>
+                    </s:form>
                     <li><a href="sign-up"><s:text name="signUp"/></a></li>
                 </s:if>
                 <s:if test="#session.user != null">
@@ -91,11 +91,11 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                            aria-expanded="false">${sessionScope.get("user").nickname}<span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="user-profile"><s:text name="user.profile"/></a></li>
-                            <li><a href="#">Another action</a></li>
+                            <li><s:a value="/user-profile"><s:text name="user.profile"/></s:a></li>
+                            <li><s:a value="/jwc/student"><s:text name="student.validate"/></s:a></li>
                             <li><a href="#">Something else here</a></li>
                             <li role="separator" class="divider"></li>
-                            <li><a href="sign-out"><s:text name="signOut"/></a></li>
+                            <li><s:a value="/sign-out"><s:text name="signOut"/></s:a></li>
                         </ul>
                     </li>
                 </s:if>

@@ -23,7 +23,12 @@
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
-            /WEB-INF/actionContext.xml,/WEB-INF/daoContext.xml,/WEB-INF/ossContext.xml,/WEB-INF/aspectContext.xml,/WEB-INF/emailContext.xml
+            /WEB-INF/applicationContext.xml,
+            /WEB-INF/actionContext.xml,
+            /WEB-INF/daoContext.xml,
+            /WEB-INF/ossContext.xml,
+            /WEB-INF/aspectContext.xml,
+            /WEB-INF/emailContext.xml
         </param-value>
     </context-param>
     <listener>
@@ -44,6 +49,4 @@
         <param-name>ossThumbnail</param-name>
         <param-value>?x-oss-process=style/thumbnail</param-value>
     </context-param>
-
-
 </web-app>

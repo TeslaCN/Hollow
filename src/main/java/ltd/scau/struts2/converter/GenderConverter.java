@@ -5,6 +5,10 @@ import org.apache.struts2.util.StrutsTypeConverter;
 
 import java.util.Map;
 
+/**
+ * Struts2 自定义类型转换器
+ * Enum 类型的 GenderType 与String 相互转换
+ */
 public class GenderConverter extends StrutsTypeConverter {
 
     @Override

@@ -31,30 +31,51 @@
         <form action="sign-up" onsubmit="return validate();" method="post">
             <div class="form-group">
                 <label for="inputEmail"><s:text name="user.account"/></label>
-                <input name="user.account" type="email" class="form-control" id="inputEmail" placeholder="Email">
+                <input name="user.account" type="email" class="form-control" id="inputEmail" placeholder="Email"
+                       required>
             </div>
             <div class="form-group">
                 <label for="inputPassword"><s:text name="user.password"/></label>
                 <input name="user.password" type="password" class="form-control" id="inputPassword"
-                       placeholder="Password">
+                       placeholder="Password" required>
+            </div>
+            <div id="confirmGroup" class="form-group">
+                <label for="confirmPassword"><s:text name="user.password.confirm"/></label>
+                <input type="password" class="form-control" id="confirmPassword" placeholder="Password"
+                       oninput="passwordValidate();" required>
+                <script>
+                    function passwordValidate() {
+                        var input1 = document.getElementById('inputPassword').value;
+                        var input2 = document.getElementById('confirmPassword').value;
+                        if (input1 != input2) {
+                            $('#confirmGroup').removeClass('has-error');
+                            $('#confirmGroup').addClass('has-error');
+                        } else {
+                            $('#confirmGroup').removeClass('has-error');
+                            $('#confirmGroup').addClass('has-success');
+                        }
+                    }
+                </script>
             </div>
             <div class="form-group">
                 <label for="inputNickname"><s:text name="user.nickname"/></label>
-                <input name="user.nickname" type="text" id="inputNickname" placeholder="Nickname" class="form-control">
+                <input name="user.nickname" type="text" id="inputNickname" placeholder="Nickname" class="form-control" required>
                 <p class="help-block">Example block-level help text here.</p>
             </div>
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox"> Check me out
-                </label>
-            </div>
+            <%--<div class="checkbox">--%>
+            <%--<label>--%>
+            <%--<input type="checkbox"> Check me out--%>
+            <%--</label>--%>
+            <%--</div>--%>
             <div class="form-group">
                 <label><s:text name="user.gender"/></label><br>
                 <%--<s:radio id="inputGender" list="{'MALE', 'FEMALE'}" name="user.gender"/>--%>
                 <input type="radio" name="user.gender" value="MALE" id="inputGenderMALE">
                 <label for="inputGenderMALE"><s:text name="gender.male"/></label><br>
                 <input type="radio" name="user.gender" value="FEMALE" id="inputGenderFEMALE">
-                <label for="inputGenderFEMALE"><s:text name="gender.female"/></label>
+                <label for="inputGenderFEMALE"><s:text name="gender.female"/></label><br>
+                <input type="radio" name="user.gender" value="UNKNOWN" id="inputGenderUNKNOWN" checked>
+                <label for="inputGenderUNKNOWN"><s:text name="gender.unknown"/></label>
             </div>
             <div class="form-group">
                 <label for="inputRemark"><s:text name="user.remark"/></label>
@@ -79,6 +100,10 @@
                     }
                     if (password.length < 8 || password.length > 255) {
                         alert("<s:text name="user.password.length"/>");
+                        return false;
+                    }
+                    if (password != document.getElementById('confirmPassword').value) {
+                        alert('<s:text name="user.password.different"/>')
                         return false;
                     }
                     var nickname = document.getElementById('inputNickname').value;

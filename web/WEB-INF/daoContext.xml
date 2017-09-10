@@ -24,6 +24,8 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
                 <value>ltd.scau.entity.Message</value>
                 <value>ltd.scau.entity.User</value>
                 <value>ltd.scau.entity.Comment</value>
+                <value>ltd.scau.entity.Grade</value>
+                <value>ltd.scau.entity.Exam</value>
             </list>
         </property>
         <property name="hibernateProperties">
@@ -47,6 +49,8 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <bean id="messageDao" class="ltd.scau.entity.dao.impl.MessageDaoHibernate5" parent="daoTemplate"/>
     <bean id="commentDao" class="ltd.scau.entity.dao.impl.CommentDaoHibernate5" parent="daoTemplate"/>
     <bean id="userDao" class="ltd.scau.entity.dao.impl.UserDaoHibernate5" parent="daoTemplate"/>
+    <bean id="gradeDao" class="ltd.scau.entity.dao.impl.GradeDaoHibernate5" parent="daoTemplate"/>
+    <bean id="examDao" class="ltd.scau.entity.dao.impl.ExamDaoHibernate5" parent="daoTemplate"/>
 
     <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory"/>

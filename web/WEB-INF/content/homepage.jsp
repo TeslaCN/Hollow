@@ -9,9 +9,9 @@
 <%@taglib prefix="s" uri="/struts-tags" %>
 <html>
 <head>
+    <title><s:text name="homepage"/></title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
-    <title><s:text name="homepage"/></title>
     <script src="https://cdn.bootcss.com/vue/2.4.2/vue.js"></script>
     <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -26,11 +26,7 @@
         <%@include file="/utils.js"%>
     </script>
     <style>
-        .detail {
-        }
-
-        .favor {
-        }
+        <%@include file="/default.css"%>
     </style>
 </head>
 <body style="background-color: rgba(168,168,168,0.30); margin-bottom: 100px">
@@ -50,27 +46,50 @@
                         <input type="password" name="password" class="form-control" id="exampleInputPassword1"
                                placeholder="Password">
                     </div>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox"> Check me out
-                        </label>
-                    </div>
                     <button type="submit" class="btn btn-default"><s:text name="signIn"/></button>
                     <a href="sign-up"><s:text name="signUp"/></a>
                 </form>
             </div>
         </s:if>
+        <s:elseif test="#session.user.level.toString() == 'NOTVALIDATE'">
+            <div align="center">
+                <s:text name="validate.description">
+                    <s:param value="#session.user.nickname"/>
+                    <s:param value="#session.user.account"/>
+                </s:text>
+                <a id="sendEmail" href="javascript:void(0);" onclick="send();"><s:text name="clickme.send.validate"/></a>
+                <p id="result"></p>
+                <script>
+                    function send() {
+                        $('#sendEmail').css('display', 'none');
+                        $('#result').text('<s:text name="validate.email.sending"/>');
+                        $.get('send-validate', function (data) {
+                            $('#result').text('<s:text name="validate.email.sent"/>');
+                            $('#result').css('color', '#0F0');
+                        })
+                    }
+                </script>
+            </div>
+        </s:elseif>
         <s:else>
             <form action="publish" class="form-group" method="post" enctype="multipart/form-data"
-                    <s:if test="#session.user == null"> onsubmit="return notSignIn();"</s:if>>
+                    <%--<s:if test="#session.user == null"> onsubmit="return notSignIn();"</s:if>--%>
+            onsubmit="return submitting();">
             <textarea placeholder="<s:text name="homepage.textarea"/>" name="message.content" class="form-control"
                       style="max-height: 300px;"></textarea>
                 <input name="image" accept="imagePath/jpeg,imagePath/png,imagePath/gif" type="file"
-                       class="btn btn-default"
+                       <%--class="btn btn-default"--%>
                        style="border: none;"/>
-                <input type="submit" class="btn btn-default" style="border: none;"/>
+                <p>暂时不支持超过2MB的图片</p>
+                <input id="btn_submit" type="submit" class="btn btn-default" style="border: none;"/>
+                <div id="result"></div>
             </form>
             <script>
+                function submitting() {
+                    $('#btn_submit').css('display', 'none');
+                    $('#result').append('<span><s:text name="uploading"/></span>');
+                    return true;
+                }
                 function notSignIn() {
                     alert('<s:text name="signIn.required"/>');
                     return false;
@@ -85,7 +104,7 @@
                  style="margin: 15px;padding: 15px; background-color: rgba(255,255,255,0.80)">
                 <div>
                     <span>{{message.user.nickname}}</span>
-                    <span>{{message.user.gender}}</span>
+                    <span>{{gender(message.user.gender)}}</span>
                     <br>
                     <span>{{humanTime(message.time)}}</span>
                 </div>
@@ -107,6 +126,18 @@
         </div>
         <p align="center">下拉加载更多</p>
     </div>
+
+    <%--悬浮--%>
+    <div style="overflow: hidden;position: fixed;right: 10px;bottom: 70px;z-index: 10;">
+        <div style="overflow: hidden;">
+            <div style="padding-top:20px;padding-right:50px;padding-bottom:30px">
+                <a href="#" style="float: right;">
+                    <button class="pure">回到顶部</button>
+                </a>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <script>
@@ -117,7 +148,8 @@
             messages: []
         },
         methods: {
-            humanTime: timestampToHuman
+            humanTime: timestampToHuman,
+            gender: genderi18n
         }
     });
     var loading = false;
@@ -157,5 +189,5 @@
     })
 </script>
 </body>
-<%@include file="footer.jsp" %>
+<%--<%@include file="footer.jsp" %>--%>
 </html>

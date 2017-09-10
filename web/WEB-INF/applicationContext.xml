@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="basicBrowser" class="ltd.scau.utils.crawler.impl.BasicBrowser" scope="session">
+        <property name="headersProperties">
+            <props>
+                <prop key="User-Agent">Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:50.0) Gecko/20100101
+                    Firefox/50.0
+                </prop>
+                <prop key="Connection">keep-alive</prop>
+                <prop key="Accept-Encoding">gzip, deflate</prop>
+                <prop key="Accept-Language">zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3</prop>
+                <prop key="Content-Type">application/x-www-form-urlencoded</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="studentLoader" class="ltd.scau.utils.jwc.StudentLoader" scope="request" lazy-init="true">
+        <property name="gradeDao" ref="gradeDao"/>
+        <property name="examDao" ref="examDao"/>
+        <property name="browser" ref="basicBrowser"/>
+        <property name="hosts">
+            <array value-type="java.lang.String">
+                <value>202.116.160.166</value>
+                <value>202.116.160.170</value>
+            </array>
+        </property>
+    </bean>
+</beans>

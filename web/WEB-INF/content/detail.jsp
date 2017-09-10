@@ -25,10 +25,7 @@
         <%@include file="/utils.js"%>
     </script>
     <style>
-        .pure {
-            text-decoration: none;
-            color: #000;
-        }
+        <%@include file="/default.css"%>
     </style>
 </head>
 <%@include file="header.jsp" %>
@@ -40,6 +37,10 @@
     <div id="content" class="row" style="margin: 15px; padding: 15px; background-color: #fff;">
         <div id="user">
             ${requestScope.message.user.nickname}
+            <span id="gender"></span>
+            <script>
+                document.getElementById('gender').innerHTML = genderi18n('${requestScope.message.user.gender}');
+            </script>
         </div>
         <div id="message" style="margin: 10px;">
             ${requestScope.message.content}
@@ -60,7 +61,7 @@
                  style="margin: 15px;padding: 15px; background-color: rgba(255,255,255,0.80)">
                 <div>
                     <span>{{comment.user.nickname}}</span>
-                    <span>{{comment.user.gender}}</span>
+                    <span>{{gender(comment.user.gender)}}</span>
                     <br>
                     <span>{{humanTime(comment.time)}}</span>
                 </div>
@@ -78,7 +79,8 @@
                     comments: []
                 },
                 methods: {
-                    humanTime: timestampToHuman
+                    humanTime: timestampToHuman,
+                    gender: genderi18n
                 }
             });
             var loading = false;
@@ -110,10 +112,14 @@
 <div style="overflow: hidden;position: fixed;right: 10px;bottom: 100px;z-index: 10;">
     <div style="overflow: hidden;">
         <div style="padding-top:20px;padding-right:50px;">
-            <a href="javascript:history.back(-1);" class="pure"><span class="glyphicon glyphicon-home"></span><s:text name="homepage"/></a>
+            <a href="javascript:history.back(-1);">
+                <button class="pure"><span class="glyphicon glyphicon-home"></span><s:text name="homepage"/></button>
+            </a>
         </div>
         <div style="padding-top:20px;padding-right:50px;padding-bottom:50px">
-            <a href="#" style="float: right;" class="pure">回到顶部</a>
+            <a href="#" style="float: right;">
+                <button class="pure">回到顶部</button>
+            </a>
         </div>
     </div>
 </div>

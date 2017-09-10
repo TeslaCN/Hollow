@@ -19,8 +19,8 @@
     <script>
         function send() {
             $('#sendEmail').css('display', 'none');
+            $('#result').text('邮件已发送');
             $.get('send-validate', function(data) {
-                $('#p').html(data);
             })
         }
     </script>

@@ -1,9 +1,11 @@
 package ltd.scau.base.dao.impl;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 
 import ltd.scau.base.dao.impl.base.dao.BaseDao;
+import ltd.scau.entity.Grade;
 import org.hibernate.query.Query;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 
@@ -75,6 +77,13 @@ public class BaseDaoHibernate5<T> implements BaseDao<T> {
             query.setParameter(i, params[i]);
         }
         return query.setFirstResult((pageNo - 1) * pageSize).setMaxResults(pageSize).list();
+    }
+
+    @Override
+    public void saveOrUpdateAll(Collection<?> collections) {
+        for (Object g : collections) {
+            getHibernateTemplate().saveOrUpdate(g);
+        }
     }
 
     public HibernateTemplate getHibernateTemplate() {

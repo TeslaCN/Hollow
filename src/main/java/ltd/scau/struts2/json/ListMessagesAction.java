@@ -11,6 +11,10 @@ import org.apache.struts2.json.annotations.JSON;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
+/**
+ * 这个 Action 返回 JSON 格式的数据，主要用于 homepage 的列表渲染
+ * includeProperties 用正则表达式匹配JSON内所需要的数据
+ */
 @ParentPackage(value = "json-default")
 @Result(type = "json", params = {
 //        "excludeNullProperties", "true",

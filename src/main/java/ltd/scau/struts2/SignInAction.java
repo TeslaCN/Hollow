@@ -6,9 +6,6 @@ import ltd.scau.entity.User;
 import ltd.scau.entity.dao.UserDao;
 import ltd.scau.entity.type.UserLevel;
 import org.apache.struts2.convention.annotation.ParentPackage;
-import org.apache.struts2.interceptor.ServletResponseAware;
-
-import javax.servlet.http.HttpServletResponse;
 
 @ParentPackage("hollow-default")
 public class SignInAction extends ActionSupport {
@@ -57,10 +54,13 @@ public class SignInAction extends ActionSupport {
             addActionError(getText("user.notExist"));
             return LOGIN;
         } else if (!user.getPassword().equals(getPassword())) {
-            addActionError(getText("user.passwordError"));
+            addActionError(getText("user.password.error"));
             return LOGIN;
         }
         ctx.getSession().put("user", user);
+        if (user.getLevel().equals(UserLevel.NOTVALIDATE)) {
+            return "validate";
+        }
         return SUCCESS;
     }
 }

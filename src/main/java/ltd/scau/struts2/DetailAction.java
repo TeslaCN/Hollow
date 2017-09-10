@@ -11,7 +11,6 @@ import ltd.scau.entity.dao.MessageDao;
 import ltd.scau.event.MessageEvent;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.ParentPackage;
-import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.interceptor.ServletResponseAware;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -62,12 +61,10 @@ public class DetailAction extends ActionSupport implements ServletResponseAware,
     }
 
     @Action(value = "like")
+    @Ordinary
     public String like() throws Exception {
         ActionContext ctx = ActionContext.getContext();
         User user = (User) ctx.getSession().get("user");
-//        if (user == null) {
-//            return LOGIN;
-//        }
         Message msg = getMessageDao().get(Message.class, getId());
         msg.getFavors().add(user);
         getMessageDao().update(msg);

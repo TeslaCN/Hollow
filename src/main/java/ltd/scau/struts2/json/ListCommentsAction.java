@@ -9,6 +9,10 @@ import org.apache.struts2.convention.annotation.Result;
 
 import java.util.List;
 
+/**
+ * 这个Action返回JSON格式的数据，主要用于 detail 页面的评论列表渲染
+ * includeProperties 用正则表达式匹配JSON内所需要的数据
+ */
 @ParentPackage("json-default")
 @Result(type = "json", params = {"includeProperties",
         "comments\\[\\d+\\]\\.(id|content|time)," +

@@ -51,7 +51,14 @@
         <property name="htmlEmail" ref="htmlEmail"/>
     </bean>
 
+    <bean id="loadStudentAction" class="ltd.scau.struts2.jwc.LoadStudentAction" scope="request">
+        <property name="studentLoader" ref="studentLoader"/>
+    </bean>
 
+    <bean id="bindStudentAction" class="ltd.scau.struts2.jwc.BindStudentAction" scope="request">
+        <property name="userDao" ref="userDao"/>
+        <property name="studentLoader" ref="studentLoader"/>
+    </bean>
 
 
 </beans>

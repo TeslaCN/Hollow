@@ -19,6 +19,18 @@
             </plugin>
         </plugins>
     </build>
+
+    <developers>
+        <developer>
+            <name>Weijie Wu</name>
+            <email>wuweijie@stu.scau.edu.cn</email>
+            <organization>SCAU</organization>
+            <roles>
+                <role>Java Developer</role>
+            </roles>
+        </developer>
+    </developers>
+
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.apache.struts/struts2-core -->
         <dependency>
@@ -159,6 +171,20 @@
             <artifactId>commons-email</artifactId>
             <version>1.5</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.jsoup/jsoup -->
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.10.3</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.googlecode.javaewah/JavaEWAH -->
+        <dependency>
+            <groupId>com.googlecode.javaewah</groupId>
+            <artifactId>JavaEWAH</artifactId>
+            <version>1.1.6</version>
+        </dependency>
+
+
 
 
     </dependencies>

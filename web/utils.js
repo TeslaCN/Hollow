@@ -13,3 +13,14 @@ function timestampToHuman(time) {
     result /= 24;
     return Math.floor(result) + '<s:text name="day.before"/>';
 }
+
+function genderi18n(gender) {
+    switch (gender) {
+        case 'MALE':
+            return '<s:text name="gender.male"/>';
+        case 'FEMALE':
+            return '<s:text name="gender.female"/>';
+        default:
+            return '<s:text name="gender.unknown"/>';
+    }
+}
