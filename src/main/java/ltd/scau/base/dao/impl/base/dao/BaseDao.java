@@ -31,4 +31,6 @@ public interface BaseDao<T> {
     long count(Class<T> entityClass);
 
     void saveOrUpdateAll(Collection<?> c);
+
+    T merge(T entity);
 }

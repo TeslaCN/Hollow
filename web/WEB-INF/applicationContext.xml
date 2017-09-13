@@ -28,4 +28,9 @@
             </array>
         </property>
     </bean>
+
+    <bean id="dataLoader" class="ltd.scau.utils.pe.DataLoader" scope="request">
+        <property name="browser" ref="basicBrowser"/>
+        <property name="studentDao" ref="studentDao"/>
+    </bean>
 </beans>

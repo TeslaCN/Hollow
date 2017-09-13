@@ -120,6 +120,7 @@ public class BasicBrowser implements Browser {
         this.cookieStore = cookieStore;
     }
 
+    @Override
     public Properties getHeadersProperties() {
         return headersProperties;
     }

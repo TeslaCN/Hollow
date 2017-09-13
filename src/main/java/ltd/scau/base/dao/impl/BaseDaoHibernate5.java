@@ -93,4 +93,9 @@ public class BaseDaoHibernate5<T> implements BaseDao<T> {
     public void setHibernateTemplate(HibernateTemplate hibernateTemplate) {
         this.hibernateTemplate = hibernateTemplate;
     }
+
+    @Override
+    public T merge(T entity) {
+        return getHibernateTemplate().merge(entity);
+    }
 }

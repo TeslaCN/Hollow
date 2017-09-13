@@ -60,5 +60,8 @@
         <property name="studentLoader" ref="studentLoader"/>
     </bean>
 
+    <bean id="sportAction" class="ltd.scau.struts2.jwc.SportAction" scope="request">
+        <property name="dataLoader" ref="dataLoader"/>
+    </bean>
 
 </beans>
