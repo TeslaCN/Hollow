@@ -98,4 +98,9 @@ public class BaseDaoHibernate5<T> implements BaseDao<T> {
     public T merge(T entity) {
         return getHibernateTemplate().merge(entity);
     }
+
+    @Override
+    public List<T> findByExample(T entity) {
+        return getHibernateTemplate().findByExample(entity);
+    }
 }

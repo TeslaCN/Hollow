@@ -33,4 +33,6 @@ public interface BaseDao<T> {
     void saveOrUpdateAll(Collection<?> c);
 
     T merge(T entity);
+
+    List<T> findByExample(T entity);
 }

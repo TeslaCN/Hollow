@@ -93,16 +93,25 @@ public class Record implements Serializable {
 
         Record record = (Record) o;
 
-        if (!id.equals(record.id)) return false;
-        if (!student.equals(record.student)) return false;
-        return examId.equals(record.examId);
+        if (Double.compare(record.totalScore, totalScore) != 0) return false;
+        if (student != null ? !student.equals(record.student) : record.student != null) return false;
+        if (items != null ? !items.equals(record.items) : record.items != null) return false;
+        if (examId != null ? !examId.equals(record.examId) : record.examId != null) return false;
+        if (text != null ? !text.equals(record.text) : record.text != null) return false;
+        return message != null ? message.equals(record.message) : record.message == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + student.hashCode();
-        result = 31 * result + examId.hashCode();
+        int result;
+        long temp;
+        result = student != null ? student.hashCode() : 0;
+        result = 31 * result + (items != null ? items.hashCode() : 0);
+        temp = Double.doubleToLongBits(totalScore);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + (examId != null ? examId.hashCode() : 0);
+        result = 31 * result + (text != null ? text.hashCode() : 0);
+        result = 31 * result + (message != null ? message.hashCode() : 0);
         return result;
     }
 

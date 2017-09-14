@@ -27,7 +27,7 @@ public class Student {
     @Column(name = "barcode_url")
     private String barcodeUrl;
 
-    @ManyToOne(targetEntity = Clazz.class, cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = Clazz.class)
     @JoinColumn(name = "class_id", referencedColumnName = "class_id")
     private Clazz clazz;
 

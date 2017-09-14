@@ -32,5 +32,7 @@
     <bean id="dataLoader" class="ltd.scau.utils.pe.DataLoader" scope="request">
         <property name="browser" ref="basicBrowser"/>
         <property name="studentDao" ref="studentDao"/>
+        <property name="recordDao" ref="recordDao"/>
+        <property name="clazzDao" ref="clazzDao"/>
     </bean>
 </beans>

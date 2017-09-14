@@ -13,7 +13,7 @@ public class SportAction extends ActionSupport {
 
     @Override
     public String execute() throws Exception {
-        getDataLoader().parseJson(getDataLoader().getJson(getPage(), getExamId()));
+        getDataLoader().parseJson(getDataLoader().getJson(getPage(), getExamId()), getExamId());
         return NONE;
     }
 

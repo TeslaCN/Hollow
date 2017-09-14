@@ -128,17 +128,31 @@ public class Item implements Serializable {
 
         Item item = (Item) o;
 
-        if (id != item.id) return false;
         if (itemId != item.itemId) return false;
+        if (updateTime != item.updateTime) return false;
+        if (Double.compare(item.bestScore, bestScore) != 0) return false;
+        if (Double.compare(item.value, value) != 0) return false;
         if (examId != item.examId) return false;
-        return stuId.equals(item.stuId);
+        if (name != null ? !name.equals(item.name) : item.name != null) return false;
+        if (unit != null ? !unit.equals(item.unit) : item.unit != null) return false;
+        if (scoreGrade != null ? !scoreGrade.equals(item.scoreGrade) : item.scoreGrade != null) return false;
+        return stuId != null ? stuId.equals(item.stuId) : item.stuId == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + itemId;
-        result = 31 * result + stuId.hashCode();
+        int result;
+        long temp;
+        result = itemId;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (unit != null ? unit.hashCode() : 0);
+        result = 31 * result + (int) (updateTime ^ (updateTime >>> 32));
+        temp = Double.doubleToLongBits(bestScore);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(value);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + (scoreGrade != null ? scoreGrade.hashCode() : 0);
+        result = 31 * result + (stuId != null ? stuId.hashCode() : 0);
         result = 31 * result + examId;
         return result;
     }
