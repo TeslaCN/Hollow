@@ -3,7 +3,7 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="basicBrowser" class="ltd.scau.utils.crawler.impl.BasicBrowser" scope="session">
+    <bean id="basicBrowser" class="ltd.scau.utils.crawler.impl.BasicBrowser" scope="prototype">
         <property name="headersProperties">
             <props>
                 <prop key="User-Agent">Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:50.0) Gecko/20100101
@@ -24,15 +24,33 @@
         <property name="hosts">
             <array value-type="java.lang.String">
                 <value>202.116.160.166</value>
+                <value>202.116.163.61</value>
+                <value>202.116.163.69</value>
+                <value>202.116.163.93</value>
+                <value>202.116.163.97</value>
+                <value>202.116.163.116</value>
                 <value>202.116.160.170</value>
             </array>
         </property>
     </bean>
 
-    <bean id="dataLoader" class="ltd.scau.utils.pe.DataLoader" scope="request">
+    <bean id="dataLoader" class="ltd.scau.utils.pe.DataLoader" scope="prototype">
         <property name="browser" ref="basicBrowser"/>
         <property name="studentDao" ref="studentDao"/>
         <property name="recordDao" ref="recordDao"/>
         <property name="clazzDao" ref="clazzDao"/>
+    </bean>
+
+    <bean id="traverser" class="ltd.scau.utils.pe.Traverser" scope="request">
+        <property name="dataLoader" ref="dataLoader"/>
+        <property name="pages">
+            <map>
+                <entry key="1" value="3716"/>
+                <entry key="8" value="2766"/>
+                <entry key="9" value="903"/>
+                <entry key="10" value="1832"/>
+                <entry key="11" value="903"/>
+            </map>
+        </property>
     </bean>
 </beans>

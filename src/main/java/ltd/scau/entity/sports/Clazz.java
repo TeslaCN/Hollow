@@ -1,38 +1,44 @@
 package ltd.scau.entity.sports;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.google.gson.annotations.SerializedName;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "classes")
 public class Clazz {
 
-    @Column(name = "class_id", unique = true, nullable = false)
     @Id
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SerializedName("generate_id")
+    @Column(name = "generate_id")
+    private Integer id;
+
+    @Column(name = "class_id")
+    @SerializedName("id")
+    private int classId;
 
     private int grade;
 
+    @Column(length = 30)
     private String num;
 
-    @Column(name = "class_name")
+    @Column(name = "class_name", length = 30)
     private String name;
 
-    @Column(name = "class_admin")
+    @Column(name = "class_admin", length = 30)
     private String classAdmin;
 
     @Column(name = "college_code")
     private int collegeCode;
 
 
-    public int getId() {
-        return id;
+    public int getClassId() {
+        return classId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setClassId(int classId) {
+        this.classId = classId;
     }
 
     public int getGrade() {
@@ -79,6 +85,7 @@ public class Clazz {
     public String toString() {
         return "Clazz{" +
                 "id=" + id +
+                ", classId=" + classId +
                 ", grade=" + grade +
                 ", num='" + num + '\'' +
                 ", name='" + name + '\'' +
@@ -93,7 +100,7 @@ public class Clazz {
 
         Clazz clazz = (Clazz) o;
 
-        if (id != clazz.id) return false;
+        if (classId != clazz.classId) return false;
         if (grade != clazz.grade) return false;
         if (collegeCode != clazz.collegeCode) return false;
         if (num != null ? !num.equals(clazz.num) : clazz.num != null) return false;
@@ -103,12 +110,20 @@ public class Clazz {
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = classId;
         result = 31 * result + grade;
         result = 31 * result + (num != null ? num.hashCode() : 0);
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (classAdmin != null ? classAdmin.hashCode() : 0);
         result = 31 * result + collegeCode;
         return result;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

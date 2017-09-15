@@ -14,8 +14,10 @@ public class Item implements Serializable {
     @Column(name = "item_id")
     private int itemId;
 
+    @Column(length = 20)
     private String name;
 
+    @Column(length = 20)
     private String unit;
 
     @Column(name = "update_time")
@@ -27,13 +29,13 @@ public class Item implements Serializable {
     @Column(name = "value")
     private double value;
 
-    @Column(name = "score_grade")
+    @Column(name = "score_grade", length = 10)
     private String scoreGrade;
 
-    @Column(name = "stu_id")
+    @Column(name = "stu_id", length = 20)
     private String stuId;
 
-    @ManyToOne(targetEntity = Record.class)
+    @ManyToOne(targetEntity = Record.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "record_id", referencedColumnName = "record_id")
     private Record record;
 

@@ -20,6 +20,13 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
+
+    <listener>
+        <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+    </listener>
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
@@ -31,12 +38,6 @@
             /WEB-INF/emailContext.xml
         </param-value>
     </context-param>
-    <listener>
-        <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
-    </listener>
-    <listener>
-        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-    </listener>
     <context-param>
         <param-name>bucketName</param-name>
         <param-value>tesla-cn</param-value>

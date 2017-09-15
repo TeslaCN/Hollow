@@ -62,6 +62,7 @@
 
     <bean id="sportAction" class="ltd.scau.struts2.jwc.SportAction" scope="request">
         <property name="dataLoader" ref="dataLoader"/>
+        <property name="traverser" ref="traverser"/>
     </bean>
 
 </beans>

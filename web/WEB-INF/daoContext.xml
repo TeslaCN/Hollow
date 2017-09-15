@@ -11,10 +11,10 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <property name="jdbcUrl" value="jdbc:mysql://localhost/hollow?characterEncoding=UTF-8&amp;useUnicode=true&amp;autoReconnect=true&amp;useSSL=false"/>
         <property name="user" value="maven"/>
         <property name="password" value="sudo reboot"/>
-        <property name="maxPoolSize" value="50"/>
+        <property name="maxPoolSize" value="100"/>
         <property name="minPoolSize" value="2"/>
         <property name="initialPoolSize" value="2"/>
-        <property name="maxIdleTime" value="30"/>
+        <property name="maxIdleTime" value="10"/>
     </bean>
 
     <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">

@@ -9,7 +9,14 @@ import ltd.scau.entity.Grade;
 import org.hibernate.query.Query;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceUnit;
+import javax.persistence.criteria.CriteriaQuery;
+
 public class BaseDaoHibernate5<T> implements BaseDao<T> {
+
+    @PersistenceUnit
+    private EntityManagerFactory entityManagerFactory;
 
     private HibernateTemplate hibernateTemplate;
 
@@ -99,8 +106,11 @@ public class BaseDaoHibernate5<T> implements BaseDao<T> {
         return getHibernateTemplate().merge(entity);
     }
 
-    @Override
-    public List<T> findByExample(T entity) {
-        return getHibernateTemplate().findByExample(entity);
+    public EntityManagerFactory getEntityManagerFactory() {
+        return entityManagerFactory;
+    }
+
+    public void setEntityManagerFactory(EntityManagerFactory entityManagerFactory) {
+        this.entityManagerFactory = entityManagerFactory;
     }
 }

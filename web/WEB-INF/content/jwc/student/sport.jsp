@@ -28,9 +28,18 @@
     <input id="page" name="page" value="390">
     <input id="examId" name="examId" value="1">
     <button onclick="post();">POST</button>
+    <button onclick="traverse();">Traverse</button>
 
     <div id="result"></div>
     <script>
+        function traverse() {
+            $('#result').append('<p>Starting traverse...</p>');
+            $('button').css('display', 'none');
+            $.get('${pageContext.request.contextPath}/jwc/traverse', function (data) {
+                $('#result').append('<p>Started!</p>');
+                $('#result').append(data);
+            });
+        }
         function post() {
             $('#result').append('<p>Loading...</p>');
             var page = document.getElementById('page').value;

@@ -13,11 +13,11 @@ public class Record implements Serializable {
     @Column(name = "record_id")
     private Integer id;
 
-    @ManyToOne(targetEntity = Student.class)
+    @ManyToOne(targetEntity = Student.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "stu_id", referencedColumnName = "stu_id")
     private Student student;
 
-    @OneToMany(targetEntity = Item.class, cascade = CascadeType.ALL, mappedBy = "record")
+    @OneToMany(targetEntity = Item.class, cascade = CascadeType.ALL, mappedBy = "record", fetch = FetchType.EAGER)
     private List<Item> items;
 
     @Column(name = "total_score")

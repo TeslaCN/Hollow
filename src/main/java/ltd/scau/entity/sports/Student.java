@@ -12,11 +12,11 @@ public class Student {
     @Column(unique = true, nullable = false)
     private int id;
 
-    @Column(name = "stu_id", nullable = false)
+    @Column(name = "stu_id", length = 20, nullable = false)
     @Id
     private String stuId;
 
-    @Column(name = "stu_name")
+    @Column(name = "stu_name", length = 20)
     private String stuName;
 
     @Enumerated(value = EnumType.ORDINAL)
@@ -27,11 +27,11 @@ public class Student {
     @Column(name = "barcode_url")
     private String barcodeUrl;
 
-    @ManyToOne(targetEntity = Clazz.class)
-    @JoinColumn(name = "class_id", referencedColumnName = "class_id")
+    @ManyToOne(targetEntity = Clazz.class, fetch = FetchType.EAGER)
+    @JoinColumn(name = "class_id", referencedColumnName = "generate_id")
     private Clazz clazz;
 
-    @OneToMany(targetEntity = Record.class, cascade = CascadeType.ALL, mappedBy = "student")
+    @OneToMany(targetEntity = Record.class, cascade = CascadeType.ALL, mappedBy = "student", fetch = FetchType.EAGER)
     private List<Record> records;
 
     @Override

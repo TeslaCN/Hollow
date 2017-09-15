@@ -2,6 +2,9 @@ package ltd.scau.struts2.jwc;
 
 import com.opensymphony.xwork2.ActionSupport;
 import ltd.scau.utils.pe.DataLoader;
+import ltd.scau.utils.pe.Traverser;
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.ParentPackage;
 
 public class SportAction extends ActionSupport {
 
@@ -11,9 +14,17 @@ public class SportAction extends ActionSupport {
 
     private DataLoader dataLoader;
 
+    private Traverser traverser;
+
     @Override
     public String execute() throws Exception {
         getDataLoader().parseJson(getDataLoader().getJson(getPage(), getExamId()), getExamId());
+        return NONE;
+    }
+
+    @Action(value = "traverse")
+    public String traverse() throws Exception {
+        getTraverser().execute();
         return NONE;
     }
 
@@ -41,4 +52,11 @@ public class SportAction extends ActionSupport {
         this.dataLoader = dataLoader;
     }
 
+    public Traverser getTraverser() {
+        return traverser;
+    }
+
+    public void setTraverser(Traverser traverser) {
+        this.traverser = traverser;
+    }
 }
