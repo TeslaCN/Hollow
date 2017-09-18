@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="s" uri="/struts-tags" %>
 <html>
 <head>
     <title>header</title>
@@ -93,7 +94,7 @@
                         <ul class="dropdown-menu">
                             <li><s:a value="/user-profile"><s:text name="user.profile"/></s:a></li>
                             <li><s:a value="/jwc/student"><s:text name="student.validate"/></s:a></li>
-                            <li><a href="#">Something else here</a></li>
+                            <li><s:a value="/jwc/student/sport">体测排名</s:a></li>
                             <li role="separator" class="divider"></li>
                             <li><s:a value="/sign-out"><s:text name="signOut"/></s:a></li>
                         </ul>

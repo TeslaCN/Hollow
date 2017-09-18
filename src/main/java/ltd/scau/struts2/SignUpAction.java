@@ -18,8 +18,8 @@ import java.util.Date;
 import java.util.UUID;
 
 @ParentPackage("hollow-default")
-@Conversion(conversions = {@TypeConversion(key = "user.gender", converter = "ltd.scau.struts2.converter.GenderConverter")})
-public class SignUpAction extends ActionSupport implements ServletResponseAware {
+@Conversion(conversions = {@TypeConversion(key = "user.gender", converter = "ltd.scau.struts2.converter.GenderTypeConverter")})
+public class SignUpAction extends ActionSupport {
 
     private UserDao userDao;
 
@@ -84,12 +84,5 @@ public class SignUpAction extends ActionSupport implements ServletResponseAware 
         user.setUuid(UUID.randomUUID().toString());
         userDao.save(user);
         return LOGIN;
-    }
-
-    private HttpServletResponse response;
-
-    @Override
-    public void setServletResponse(HttpServletResponse httpServletResponse) {
-        response = httpServletResponse;
     }
 }

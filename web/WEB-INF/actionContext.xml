@@ -65,4 +65,8 @@
         <property name="traverser" ref="traverser"/>
     </bean>
 
+    <bean id="rankAction" class="ltd.scau.struts2.json.jwc.sport.RankAction" scope="request">
+        <property name="itemDao" ref="itemDao"/>
+    </bean>
+
 </beans>

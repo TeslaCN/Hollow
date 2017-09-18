@@ -11,15 +11,15 @@
 
     <package name="hollow-default" extends="struts-default">
         <global-results>
-            <result name="validate" type="redirect">/homepage</result>
-            <result name="login" type="redirect">/homepage</result>
-            <result name="homepage" type="redirect">/homepage</result>
+            <result name="validate" type="redirect">/</result>
+            <result name="login" type="redirect">/</result>
+            <result name="homepage" type="redirect">/</result>
         </global-results>
     </package>
 
     <package name="hollow-json" extends="json-default">
         <global-results>
-            <result name="login" type="redirect">/homepage</result>
+            <result name="login" type="redirect">/</result>
         </global-results>
     </package>
 </struts>

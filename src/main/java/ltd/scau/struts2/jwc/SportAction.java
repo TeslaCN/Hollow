@@ -1,6 +1,7 @@
 package ltd.scau.struts2.jwc;
 
 import com.opensymphony.xwork2.ActionSupport;
+import ltd.scau.aspect.annotations.Administrator;
 import ltd.scau.utils.pe.DataLoader;
 import ltd.scau.utils.pe.Traverser;
 import org.apache.struts2.convention.annotation.Action;
@@ -23,6 +24,7 @@ public class SportAction extends ActionSupport {
     }
 
     @Action(value = "traverse")
+    @Administrator
     public String traverse() throws Exception {
         getTraverser().execute();
         return NONE;

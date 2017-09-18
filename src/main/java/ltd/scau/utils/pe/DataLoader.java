@@ -60,7 +60,7 @@ public class DataLoader {
             page = gson.fromJson(json, Page.class);
         } catch (IllegalStateException|JsonSyntaxException e) {
             Log log = LogFactory.getLog(DataLoader.class);
-            log.error(String.format("JSON: %s", json));
+//            log.error(String.format("JSON: %s", json));
             throw e;
         }
         if (!page.getMessage().equals("success")) return false;

@@ -46,4 +46,22 @@ public class AuthorityCheck {
         }
         return jp.proceed();
     }
+
+    /**
+     *
+     * @param jp
+     * @return
+     * @throws Throwable
+     */
+    @Around(value = "execution(@ltd.scau.aspect.annotations.Administrator * *())")
+    public Object administratorRequired(ProceedingJoinPoint jp) throws Throwable {
+        ActionContext ctx = ActionContext.getContext();
+        User user = (User) ctx.getSession().get("user");
+        System.out.println("admin: " + user);
+        if (user == null) return Action.LOGIN;
+        else if (user.getLevel() == null || !user.getLevel().equals(UserLevel.ADMINISTRATOR)) {
+            return Action.NONE;
+        }
+        return jp.proceed();
+    }
 }

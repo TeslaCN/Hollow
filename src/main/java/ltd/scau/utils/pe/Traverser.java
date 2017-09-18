@@ -34,7 +34,7 @@ public class Traverser implements ApplicationContextAware {
         log.info("Queue initialized!");
         log.info("Starting traverser...");
         int processorsCount = Runtime.getRuntime().availableProcessors();
-        for (int i = 0; i < 32; i++) {
+        for (int i = 0; i < 64; i++) {
             executorService.execute(new Thread(new Loader(this.context)));
         }
         log.info("Traverser Started!");
@@ -57,35 +57,32 @@ public class Traverser implements ApplicationContextAware {
             dataLoader = (DataLoader) this.context.getBean("dataLoader");
             Log log = LogFactory.getLog(Traverser.class);
             for (; ; ) {
+                if (queue.isEmpty()) {
+                    log.info(">>>> Queue Empty");
+                    break;
+                }
+                String param = null;
+                String[] params = null;
+                boolean result = false;
                 try {
-                    if (queue.isEmpty()) break;
-                    String param = queue.poll(30, TimeUnit.SECONDS);
-                    String[] params = param.split("-");
-                    boolean result = false;
-                    int errorTimes = 0;
-                    int errorLimit = 3;
-                    for (; ; ) {
-                        try {
-                            result = dataLoader.execute(params[0], params[1]);
-                            if (result) {
-                                break;
-                            } else {
-                                if (++errorTimes >= errorLimit) {
-                                    break;
-                                }
-                            }
-                        } catch (IllegalStateException|JsonSyntaxException e) {
-                            if (++errorTimes >= errorLimit) {
-                                e.printStackTrace();
-                                break;
-                            }
-                        }
+                    param = queue.poll(30, TimeUnit.SECONDS);
+                    params = param.split("-");
+                    result = dataLoader.execute(params[0], params[1]);
+                    if (!result) {
+                        queue.put(param);
+                        log.info(String.format("==> Append: {page: %s, examId: %s, remain: %d}", params[0], params[1], queue.size()));
+                    } else {
+                        log.info(String.format("Succeed: {page: %s, examId: %s, result: %s, remain: %d}", params[0], params[1], result, queue.size()));
                     }
-                    log.info(String.format("(page, examId, result) = (%s, %s, %s)", params[0], params[1], result));
-                    if (!result) queue.put(param);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
-                    break;
+                } catch (Exception e) {
+                    try {
+                        queue.put(param);
+                        log.info(String.format("==> Append: {page: %s, examId: %s, remain: %d}", params[0], params[1], queue.size()));
+                    } catch (InterruptedException ex) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }
