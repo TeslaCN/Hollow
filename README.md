@@ -12,7 +12,9 @@
 或
 <a href="http://39.108.117.163:8080">39.108.117.163:8080</a><br>
 或
-<a href="http://scau.ltd:8080">scau.ltd:8080</a>
+<a href="http://scau.ltd:8080">scau.ltd:8080</a><br>
+或
+<a href="http://scau.ltd:2017">scau.ltd:2017</a>
 <br>
 (域名没备案没法用80访问😂😂😂)
 <br><br>
@@ -24,6 +26,11 @@ Spring的配置文件有两个example文件，因为其中配置内容涉及私�
 daoContext.xml 为数据库相关配置<br>
 storageContext.xml 提供了example文件，根据文件内注释可以配置应用文件存储方式<br>
 emailContext.xml 提供了example文件，此处配置本应用发送邮件的邮箱。<br>
+<hr>
+
+在腾讯WeTest上试了一下20~200人并发访问首页<br>
+结果好像不太乐观😂😂<br>
+不过也正常毕竟服务器乞丐版配置能有几十个并发访问貌似已经不错了😂😂<br>
 <hr>
 
 <br>用上了jsp页面以及各种Struts标签以后，貌似没有Struts基础的前端写手要参与开发会遇到一定困难<br>
