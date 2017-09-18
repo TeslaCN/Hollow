@@ -27,6 +27,25 @@
 <%@include file="/WEB-INF/content/header.jsp" %>
 <body>
 <div class="container">
+    <div class="alert alert-danger alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                aria-hidden="true">&times;</span></button>
+        <strong>🌚警告🌚</strong>
+        <span>由于<strong>学校<u>&nbsp;官方&nbsp;</u>体育成绩查询系统<u>😂本身漏洞可能较多😂</u></strong>
+            ，体能数据所对应的分数可能会不稳定（尤其是总分），此处数据仅供参考</span>
+    </div>
+    <div class="alert alert-info alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                aria-hidden="true">&times;</span></button>
+        <strong>提醒：</strong><span>年级排名为全校同级排名，如果数值相同，名次也相同</span>
+    </div>
+    <s:if test="#session.user.level.toString() != 'STUDENT'">
+        <div class="alert alert-warning alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
+            <strong>提示：</strong>本账号尚未绑定学生账号<s:a value="/jwc/bind-student">点我进行学生认证</s:a>
+        </div>
+    </s:if>
     <div id="tables" class="row">
         <div v-for="record in records">
             <div>
@@ -40,7 +59,7 @@
                 <th>分数</th>
                 <th>等级</th>
                 <th>录入时间</th>
-                <th>排名</th>
+                <th>年级排名</th>
                 </thead>
                 <tr v-for="item in record.items" :id="record.examId + '_' + item.itemId">
                     <td>{{item.name}}</td>

@@ -1,8 +1,10 @@
 package ltd.scau.struts2.json.jwc.sport;
 
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.conversion.annotations.Conversion;
 import com.opensymphony.xwork2.conversion.annotations.TypeConversion;
+import ltd.scau.entity.User;
 import ltd.scau.entity.dao.sports.ItemDao;
 import ltd.scau.entity.type.OrderType;
 import org.apache.struts2.convention.annotation.ParentPackage;
@@ -29,7 +31,10 @@ public class RankAction extends ActionSupport {
 
     @Override
     public String execute() throws Exception {
-        setRank(getItemDao().rank(getExamId(), getItemId(), getValue(), getOrderType()));
+        ActionContext ctx = ActionContext.getContext();
+        User user = (User) ctx.getSession().get("user");
+        String grade = user.getStuId().substring(0, 4);
+        setRank(getItemDao().rank(getExamId(), getItemId(), grade, getValue(), getOrderType()));
         return SUCCESS;
     }
 

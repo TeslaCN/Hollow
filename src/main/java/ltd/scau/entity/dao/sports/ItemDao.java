@@ -15,6 +15,6 @@ public interface ItemDao extends BaseDao<Item> {
      * @param order
      * @return
      */
-    int rank(int examId, int itemId, double value, OrderType order);
+    int rank(int examId, int itemId, String grade, double value, OrderType order);
 
 }

@@ -21,10 +21,10 @@ public class ItemDaoHibernate5 extends BaseDaoHibernate5<Item> implements ItemDa
     private DataSource dataSource;
 
     @Override
-    public int rank(int examId, int itemId, double value, OrderType order) {
+    public int rank(int examId, int itemId, String grade, double value, OrderType order) {
         int result = -1;
         try (Connection connection = getDataSource().getConnection();) {
-            String sql = "select count(*) from items where exam_id=? and item_id=? and value%s?";
+            String sql = "select count(*) from items where exam_id=? and item_id=? and stu_id regexp ? and value%s?";
             switch (order) {
                 case ASCEND:
                     sql = String.format(sql, "<");
@@ -36,7 +36,8 @@ public class ItemDaoHibernate5 extends BaseDaoHibernate5<Item> implements ItemDa
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
                 preparedStatement.setInt(1, examId);
                 preparedStatement.setInt(2, itemId);
-                preparedStatement.setDouble(3, value);
+                preparedStatement.setString(3, "^" + grade);
+                preparedStatement.setDouble(4, value);
                 try (ResultSet resultSet = preparedStatement.executeQuery();) {
                     result = -1;
                     if (resultSet.next()) result = resultSet.getInt(1);
