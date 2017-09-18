@@ -10,42 +10,51 @@ import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class ItemDaoHibernate5 extends BaseDaoHibernate5<Item> implements ItemDao {
 
+    private DataSource dataSource;
+
     @Override
     public int rank(int examId, int itemId, double value, OrderType order) {
-        EntityManager entityManager = null;
-        try {
-            entityManager = getEntityManagerFactory().createEntityManager();
-            CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-            CriteriaQuery<Item> criteriaQuery = builder.createQuery(Item.class);
-            Root<Item> root = criteriaQuery.from(Item.class);
-            criteriaQuery.select(root);
+        int result = -1;
+        try (Connection connection = getDataSource().getConnection();) {
+            String sql = "select count(*) from items where exam_id=? and item_id=? and value%s?";
             switch (order) {
                 case ASCEND:
-                    criteriaQuery.where(
-                            builder.and(
-                                    builder.lt(root.get(Item_.value), value),
-                                    builder.equal(root.get(Item_.examId), examId),
-                                    builder.equal(root.get(Item_.itemId), itemId)
-                            )
-                    );
+                    sql = String.format(sql, "<");
                     break;
                 case DESCEND:
-                    criteriaQuery.where(
-                            builder.and(
-                                    builder.gt(root.get(Item_.value), value),
-                                    builder.equal(root.get(Item_.examId), examId),
-                                    builder.equal(root.get(Item_.itemId), itemId)
-                            )
-                    );
+                    sql = String.format(sql, ">");
                     break;
             }
-            return entityManager.createQuery(criteriaQuery).getResultList().size();
-        } finally {
-            entityManager.close();
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
+                preparedStatement.setInt(1, examId);
+                preparedStatement.setInt(2, itemId);
+                preparedStatement.setDouble(3, value);
+                try (ResultSet resultSet = preparedStatement.executeQuery();) {
+                    result = -1;
+                    if (resultSet.next()) result = resultSet.getInt(1);
+                    return result;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+        return result;
+    }
+
+    public DataSource getDataSource() {
+        return dataSource;
+    }
+
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 
 }

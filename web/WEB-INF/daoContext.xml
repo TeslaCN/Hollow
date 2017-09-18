@@ -39,6 +39,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
                 <prop key="hibernate.hbm2ddl.auto">update</prop>
                 <!--<prop key="hibernate.format_sql">true</prop>-->
                 <!--<prop key="hibernate.show_sql">true</prop>-->
+                <!--<prop key="hibernate.cache.use_second_level_cache">true</prop>-->
             </props>
         </property>
     </bean>
@@ -58,7 +59,9 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <bean id="examDao" class="ltd.scau.entity.dao.impl.ExamDaoHibernate5" parent="daoTemplate"/>
     <bean id="studentDao" class="ltd.scau.entity.dao.sports.impl.StudentDaoHibernate5" parent="daoTemplate"/>
     <bean id="recordDao" class="ltd.scau.entity.dao.sports.impl.RecordDaoHibernate5" parent="daoTemplate"/>
-    <bean id="itemDao" class="ltd.scau.entity.dao.sports.impl.ItemDaoHibernate5" parent="daoTemplate"/>
+    <bean id="itemDao" class="ltd.scau.entity.dao.sports.impl.ItemDaoHibernate5" parent="daoTemplate">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
     <bean id="clazzDao" class="ltd.scau.entity.dao.sports.impl.ClazzDaoHibernate5" parent="daoTemplate"/>
 
     <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
