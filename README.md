@@ -8,15 +8,9 @@
 <br>
 <hr>
 应用已经部署<br>到
-<a href="http://39.108.117.163">39.108.117.163</a><br>
-或
-<a href="http://39.108.117.163:8080">39.108.117.163:8080</a><br>
-或
-<a href="http://scau.ltd:8080">scau.ltd:8080</a><br>
-或
-<a href="http://scau.ltd:2017">scau.ltd:2017</a>
+<a href="https://scau.ltd">https://scau.ltd</a>
 <br>
-(域名没备案没法用80访问😂😂😂)
+(域名没备案没法用80访问，被阿里拦了，那我就用https😂😂😂)
 <br><br>
 Spring的配置文件有两个example文件，因为其中配置内容涉及私人账号，于是只提供example<br>
 <br>
