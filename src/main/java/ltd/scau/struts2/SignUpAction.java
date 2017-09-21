@@ -76,6 +76,7 @@ public class SignUpAction extends ActionSupport {
             return INPUT;
         }
         if (userDao.findUserByAccount(user.getAccount()) != null) {
+            setErrorMessage(getText("user.exist"));
             return INPUT;
         }
         user.setDate(getDate());
@@ -84,5 +85,15 @@ public class SignUpAction extends ActionSupport {
         user.setUuid(UUID.randomUUID().toString());
         userDao.save(user);
         return LOGIN;
+    }
+
+    private String errorMessage;
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
     }
 }

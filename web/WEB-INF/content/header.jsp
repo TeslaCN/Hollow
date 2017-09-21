@@ -10,19 +10,40 @@
 <html>
 <head>
     <title>header</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <script src="https://cdn.bootcss.com/vue/2.4.2/vue.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+    <script>
+        <%@include file="/utils.js"%>
+    </script>
+    <style>
+        <%@include file="/default.css"%>
+    </style>
 </head>
 <body>
 <nav class="navbar navbar-default">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
+        <s:a value="/" cssClass="navbar-brand">
+            <span class="glyphicon glyphicon-home" aria-hidden="true"></span>&nbsp;主页
+        </s:a>
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
                     data-target="#bs-example-navbar-collapse-1" aria-expanded="false" style="border: none;">
                 <s:if test="#session.user == null">
                     <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
+                    <%--<span class="icon-bar"></span>--%>
+                    <%--<span class="icon-bar"></span>--%>
+                    <%--<span class="icon-bar"></span>--%>
+                    <span>更多</span>
                 </s:if>
                 <s:else>
                     ${sessionScope.get("user").nickname}
@@ -33,37 +54,42 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <%--<ul class="nav navbar-nav">--%>
-                <%--<li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>--%>
-                <%--<li><a href="#">Link</a></li>--%>
-                <%--<li class="dropdown">--%>
-                    <%--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"--%>
-                       <%--aria-expanded="false">Dropdown <span class="caret"></span></a>--%>
-                    <%--<ul class="dropdown-menu">--%>
-                        <%--<li><a href="#">Action</a></li>--%>
-                        <%--<li><a href="#">Another action</a></li>--%>
-                        <%--<li><a href="#">Something else here</a></li>--%>
-                        <%--<li role="separator" class="divider"></li>--%>
-                        <%--<li><a href="#">Separated link</a></li>--%>
-                        <%--<li role="separator" class="divider"></li>--%>
-                        <%--<li><a href="#">One more separated link</a></li>--%>
-                    <%--</ul>--%>
-                <%--</li>--%>
+            <%--<li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>--%>
+            <%--<li><a href="#">Link</a></li>--%>
+            <%--<li class="dropdown">--%>
+            <%--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"--%>
+            <%--aria-expanded="false">Dropdown <span class="caret"></span></a>--%>
+            <%--<ul class="dropdown-menu">--%>
+            <%--<li><a href="#">Action</a></li>--%>
+            <%--<li><a href="#">Another action</a></li>--%>
+            <%--<li><a href="#">Something else here</a></li>--%>
+            <%--<li role="separator" class="divider"></li>--%>
+            <%--<li><a href="#">Separated link</a></li>--%>
+            <%--<li role="separator" class="divider"></li>--%>
+            <%--<li><a href="#">One more separated link</a></li>--%>
+            <%--</ul>--%>
+            <%--</li>--%>
             <%--</ul>--%>
 
             <ul class="nav navbar-nav navbar-right">
                 <s:if test="#session.user == null">
-                    <s:form cssClass="navbar-form navbar-right" action="/sign-in" onsubmit="return validate();" method="post">
-                        <div class="form-group">
-                            <input id="inputAccount" name="account" type="text" class="form-control"
-                                   placeholder="<s:text name="user.account"/>">
+                    <form id="header_signInForm" class="navbar-form navbar-right"
+                        <%--action="${pageContext.request.contextPath}/sign-in" --%>
+                          onsubmit="header_signIn();return false;"
+                          method="post">
+                            <%--<div class="form-group">--%>
+                        <input id="header_inputAccount" name="account" type="text" class="form-control"
+                               placeholder="<s:text name="user.account"/>">
 
-                            <input id="inputPassword" name="password" type="password" class="form-control"
-                                   placeholder="<s:text name="user.password"/>">
-                        </div>
-                        <button type="submit" class="btn btn-default" style="border: none;"><s:text name="signIn"/></button>
+                        <input id="header_inputPassword" name="password" type="password" class="form-control"
+                               placeholder="<s:text name="user.password"/>">
+                            <%--</div>--%>
+                        <button type="submit" class="btn btn-default" style="border: none;">
+                            <s:text
+                                    name="signIn"/></button>
                         <script>
-                            function validate() {
-                                var account = document.getElementById('inputAccount').value;
+                            function header_signIn() {
+                                var account = document.getElementById('header_inputAccount').value;
                                 if (account == null) {
                                     alert('<s:text name="user.account.required"/>');
                                     return false;
@@ -72,7 +98,7 @@
                                     alert('<s:text name="user.account.invalid"/>');
                                     return false;
                                 }
-                                var password = document.getElementById('inputPassword').value;
+                                var password = document.getElementById('header_inputPassword').value;
                                 if (password == null) {
                                     alert('<s:text name="user.password.required"/>');
                                     return false;
@@ -81,11 +107,27 @@
                                     alert('<s:text name="user.password.length"/>');
                                     return false;
                                 }
-                                return true;
+                                console.log('Data validated done! Start posting...')
+                                setTimeout(function () {
+                                    $.post(
+                                        '${pageContext.request.contextPath}/sign-in',
+                                        $('#header_signInForm').serialize(),
+                                        function (data) {
+                                            switch (data['message']) {
+                                                case 'success':
+                                                    location.reload(true);
+                                                    return false;
+                                                default:
+                                                    alert(data['message']);
+                                            }
+                                        },
+                                        'json');
+                                });
+                                return false;
                             }
                         </script>
-                    </s:form>
-                    <li><a href="sign-up"><s:text name="signUp"/></a></li>
+                    </form>
+                    <li><s:a value="/sign-up"><s:text name="signUp"/></s:a></li>
                 </s:if>
                 <s:if test="#session.user != null">
                     <li class="dropdown">
@@ -102,7 +144,7 @@
                 </s:if>
             </ul>
         </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
+    </div><!-- /.container-feuid -->
 </nav>
 </body>
 </html>

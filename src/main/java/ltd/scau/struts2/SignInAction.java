@@ -6,8 +6,19 @@ import ltd.scau.entity.User;
 import ltd.scau.entity.dao.UserDao;
 import ltd.scau.entity.type.UserLevel;
 import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.convention.annotation.Results;
+import org.apache.struts2.interceptor.ServletRequestAware;
+import org.apache.struts2.interceptor.ServletResponseAware;
 
-@ParentPackage("hollow-default")
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@ParentPackage("hollow-json")
+@Results({
+        @Result(type = "json", params = {"includeProperties", "message, account"}),
+        @Result(name = "login", type = "json", params = {"includeProperties", "message, account"})
+})
 public class SignInAction extends ActionSupport {
 
     private UserDao userDao;
@@ -40,6 +51,16 @@ public class SignInAction extends ActionSupport {
         this.password = password;
     }
 
+    private String message;
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
     @Override
     public String execute() throws Exception {
         ActionContext ctx = ActionContext.getContext();
@@ -51,16 +72,15 @@ public class SignInAction extends ActionSupport {
         }
         User user = userDao.findUserByAccount(getAccount());
         if (user == null) {
-            addActionError(getText("user.notExist"));
+            setMessage(getText("user.notExist"));
             return LOGIN;
         } else if (!user.getPassword().equals(getPassword())) {
-            addActionError(getText("user.password.error"));
+            setMessage(getText("user.password.error"));
             return LOGIN;
         }
         ctx.getSession().put("user", user);
-        if (user.getLevel().equals(UserLevel.NOTVALIDATE)) {
-            return "validate";
-        }
+        setMessage("success");
         return SUCCESS;
     }
+
 }

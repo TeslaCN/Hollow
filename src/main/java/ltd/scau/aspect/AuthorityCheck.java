@@ -4,6 +4,8 @@ import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionContext;
 import ltd.scau.entity.User;
 import ltd.scau.entity.type.UserLevel;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 
@@ -20,7 +22,8 @@ public class AuthorityCheck {
     public Object ordinaryRequired(ProceedingJoinPoint jp) throws Throwable {
         ActionContext ctx = ActionContext.getContext();
         User u = (User) ctx.getSession().get("user");
-        System.out.println("ordinary: " + u);
+        Log log = LogFactory.getLog(AuthorityCheck.class);
+        log.info("ordinary: " + u);
         if (u == null) {
             return Action.LOGIN;
         } else if (u.getLevel() == null || u.getLevel().equals(UserLevel.NOTVALIDATE)) {
@@ -39,7 +42,8 @@ public class AuthorityCheck {
     public Object studentRequired(ProceedingJoinPoint jp) throws Throwable {
         ActionContext ctx = ActionContext.getContext();
         User u = (User) ctx.getSession().get("user");
-        System.out.println("student: " + u);
+        Log log = LogFactory.getLog(AuthorityCheck.class);
+        log.info("student: " + u);
         if (u == null) return Action.LOGIN;
         else if (u.getLevel() == null || !u.getLevel().equals(UserLevel.STUDENT)) {
             return "student_auth";
@@ -57,7 +61,8 @@ public class AuthorityCheck {
     public Object administratorRequired(ProceedingJoinPoint jp) throws Throwable {
         ActionContext ctx = ActionContext.getContext();
         User user = (User) ctx.getSession().get("user");
-        System.out.println("admin: " + user);
+        Log log = LogFactory.getLog(AuthorityCheck.class);
+        log.info("administrator: " + user);
         if (user == null) return Action.LOGIN;
         else if (user.getLevel() == null || !user.getLevel().equals(UserLevel.ADMINISTRATOR)) {
             return Action.NONE;

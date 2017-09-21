@@ -14,12 +14,15 @@
             <result name="validate" type="redirect">/</result>
             <result name="login" type="redirect">/</result>
             <result name="homepage" type="redirect">/</result>
+            <result name="student_auth" type="redirect">/jwc/bind-student</result>
         </global-results>
     </package>
 
     <package name="hollow-json" extends="json-default">
         <global-results>
+            <result name="homepage" type="redirect">/</result>
             <result name="login" type="redirect">/</result>
+            <result name="student_auth" type="redirect">/jwc/bind-student</result>
         </global-results>
     </package>
 </struts>

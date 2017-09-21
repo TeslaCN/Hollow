@@ -24,7 +24,7 @@ public class SendValidateAction extends ActionSupport implements ApplicationCont
         if (user == null) return LOGIN;
         getHtmlEmail().addTo(user.getAccount(), user.getNickname());
         String text = getText("validate.description", new String[]{user.getNickname(), user.getAccount()});
-        String html = String.format("<p>%s</p><br><br><a href=\"http://scau.ltd:8080/validate-user?uuid=%s\">%s</a>", text, user.getUuid().toString(), getText("validate.clickme"));
+        String html = String.format("<p>%s</p><br><br><a href=\"https://scau.ltd/validate-user?uuid=%s\">%s</a>", text, user.getUuid().toString(), getText("validate.clickme"));
         String subject = String.format("scau.ltd %s", getText("user.validate"));
         getHtmlEmail().setSubject(subject);
         getHtmlEmail().setHtmlMsg(html);

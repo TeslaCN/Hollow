@@ -46,11 +46,22 @@
     <!--若使用本地存储请将以下两条 context-param 去掉-->
     <context-param>
         <param-name>pathPrefix</param-name>
-        <param-value>http://tesla-cn.oss-cn-shenzhen.aliyuncs.com</param-value>
+        <param-value>https://tesla-cn.oss-cn-shenzhen.aliyuncs.com</param-value>
     </context-param>
     <context-param>
         <param-name>ossThumbnail</param-name>
         <param-value>?x-oss-process=style/thumbnail</param-value>
     </context-param>
-    <!--若使用本地存储请将以上两条 context-param 去掉-->
+    <context-param>
+        <param-name>ossHead</param-name>
+        <param-value>?x-oss-process=style/head</param-value>
+    </context-param>
+    <!--若使用本地存储请将以上3条 context-param 去掉-->
+
+    <login-config>
+        <!-- Authorization setting for SSL -->
+        <auth-method>CLIENT-CERT</auth-method>
+        <realm-name>Client Cert Users-only Area</realm-name>
+    </login-config>
+
 </web-app>

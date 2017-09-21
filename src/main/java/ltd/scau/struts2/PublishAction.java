@@ -10,6 +10,8 @@ import ltd.scau.entity.dao.MessageDao;
 import ltd.scau.entity.dao.UserDao;
 import ltd.scau.event.MessageEvent;
 import ltd.scau.utils.storage.StorageClient;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.ParentPackage;
@@ -71,7 +73,8 @@ public class PublishAction extends ActionSupport implements ApplicationContextAw
         }
 
         messageDao.save(message);
-        System.out.println(message);
+        Log log = LogFactory.getLog(PublishAction.class);
+        log.info(message);
         applicationContext.publishEvent(new MessageEvent(message));
         return SUCCESS;
     }

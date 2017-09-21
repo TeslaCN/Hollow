@@ -10,60 +10,37 @@
 <html>
 <head>
     <title><s:text name="homepage"/></title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
-    <script src="https://cdn.bootcss.com/vue/2.4.2/vue.js"></script>
-    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
-          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"
-            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-            crossorigin="anonymous"></script>
-    <script src="https://cdn.bootcss.com/jquery.form/4.2.2/jquery.form.js"></script>
-    <script>
-        <%@include file="/utils.js"%>
-    </script>
-    <style>
-        <%@include file="/default.css"%>
-    </style>
 </head>
 <body style="background-color: rgba(168,168,168,0.30); margin-bottom: 100px">
 <%@include file="header.jsp" %>
 <div class="container">
     <div class="row" style="margin: 15px;">
-        <div class="alert alert-info alert-dismissible" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <strong>提示：</strong><span>登录后右上角有更多功能😂🌚</span>
-        </div>
+
         <s:if test="#session.user == null">
-            <div>
-                <form action="sign-in" method="post">
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Email address</label>
-                        <input type="email" name="account" class="form-control" id="exampleInputEmail1"
-                               placeholder="Email">
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Password</label>
-                        <input type="password" name="password" class="form-control" id="exampleInputPassword1"
-                               placeholder="Password">
-                    </div>
-                    <button type="submit" class="btn btn-default"><s:text name="signIn"/></button>
-                    <a href="sign-up"><s:text name="signUp"/></a>
-                </form>
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <span><strong>本站使用且必须使用https加密链接保证访问过程信息安全</strong></span>
             </div>
+            <div class="alert alert-info alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <strong>提示：</strong><span>请在右上角注册登录，解锁更多功能😂🌚</span>
+            </div>
+            <div></div>
         </s:if>
         <s:elseif test="#session.user.level.toString() == 'NOTVALIDATE'">
             <div align="center">
-                <s:text name="validate.description">
-                    <s:param value="#session.user.nickname"/>
-                    <s:param value="#session.user.account"/>
-                </s:text>
-                <a id="sendEmail" href="javascript:void(0);" onclick="send();"><s:text
-                        name="clickme.send.validate"/></a>
-                <p id="result"></p>
+                <div class="alert alert-info" role="alert">
+                    <s:text name="validate.description">
+                        <s:param value="#session.user.nickname"/>
+                        <s:param value="#session.user.account"/>
+                    </s:text>
+                    <a id="sendEmail" href="javascript:void(0);" onclick="send();" , style="color: red;"><s:text
+                            name="clickme.send.validate"/></a>
+                    <p id="result"></p>
+                </div>
                 <script>
                     function send() {
                         $('#sendEmail').css('display', 'none');
@@ -77,24 +54,86 @@
             </div>
         </s:elseif>
         <s:else>
-            <form action="publish" class="form-group" method="post" enctype="multipart/form-data"
-                <%--<s:if test="#session.user == null"> onsubmit="return notSignIn();"</s:if>--%>
-                  onsubmit="submitting();">
-            <textarea placeholder="<s:text name="homepage.textarea"/>" name="message.content" class="form-control"
+            <form action="publish" id="messageform" class="form-group" method="post" enctype="multipart/form-data"
+                  onsubmit="return submitting();">
+            <textarea id="inputtext" placeholder="<s:text name="homepage.textarea"/>" name="message.content"
+                      class="form-control"
                       style="max-height: 300px;"></textarea>
-                <input name="image" accept="imagePath/jpeg,imagePath/png,imagePath/gif" type="file"
-                    <%--class="btn btn-default"--%>
-                       style="border: none;"/>
-                <p>暂时不支持超过2MB的图片</p>
+                <input id="inputimage" name="image" accept="imagePath/jpeg,imagePath/png,imagePath/gif" type="file"
+                       style="border: none;" onchange="getSize(this.id);"/>
+                <p>暂时不支持超过2MB的图片<span id="filesize"></span></p>
                 <input id="btn_submit" type="submit" class="btn btn-default" style="border: none;"/>
-                <div id="result"></div>
+                <script>
+                    function getSize(id) {
+                        var size = getFileSize(id);
+                        document.getElementById('filesize').innerHTML = '，当前文件大小为 ' + Math.round(size / 1024) + ' KB';
+                    }
+                </script>
+                <div id="publishresult"></div>
             </form>
+            <img id="image">
+            <div class="row" id="progressbar" style="display: none;">
+                <div class="progress" style="margin: 10%;">
+                    <div id="bar" class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0"
+                         aria-valuemax="100" style="width: 0%;">
+                        0%
+                    </div>
+                </div>
+            </div>
             <script>
                 function submitting() {
+                    if (getFileSize('inputimage') > 2 * 1024 * 1024) {
+                        alert('文件大小超过限制');
+                        return false;
+                    }
                     $('#btn_submit').css('display', 'none');
-                    $('#result').append('<span><s:text name="uploading"/></span>');
-                    return true;
+                    $('#publishresult').append('<span><s:text name="uploading"/></span>');
+                    startProgress();
+                    var formData = new FormData(document.getElementById('messageform'));
+                    $.ajax({
+                        url: '${pageContext.request.contextPath}/publish',
+                        type: 'POST',
+                        data: formData,
+                        enctype: 'multipart/form-data',
+                        processData: false,
+                        contentType: false
+                    }).done(function (data) {
+                        location.reload(true);
+                    });
+                    return false;
                 }
+
+                function getFileSize(elementID) {
+                    var file = document.getElementById(elementID);
+                    var size = 0;
+                    if (file.value) {
+                        if (file.files) {
+                            size = file.files[0].size;
+                        }
+                        else {
+                            var imgid = 'image';
+                            var obj_img = document.getElementById(imgid);
+                            obj_img.dynsrc = file.value;
+                            size = obj_img.fileSize;
+                        }
+                    }
+                    return size;
+                }
+
+                function startProgress() {
+                    $('#progressbar').css('display', '');
+                    $('#bar').css('width', '0%');
+                    $('#bar').attr('aria-valuenow', 0);
+                    var i = 0;
+                    var progressbar = setInterval(function () {
+                        if (++i < 100) {
+                            $('#bar').attr('aria-valuenow', i);
+                            $('#bar').css('width', i + '%');
+                            $('#bar').text(i + '%');
+                        }
+                    }, 120);
+                }
+
             </script>
         </s:else>
     </div>
@@ -102,22 +141,22 @@
     <div id="message-list">
         <div id="msg">
             <div class="row" v-for="message in messages"
-                 style="margin: 15px;padding: 15px; background-color: rgba(255,255,255,0.80)">
-                <div>
+                 style="margin-bottom: 25px;padding: 15px 30px 5px; background-color: rgba(255,255,255,0.80)">
+                <div style=";">
                     <span>{{message.user.nickname}}</span>
                     <span>{{gender(message.user.gender)}}</span>
                     <br>
                     <span>{{humanTime(message.time)}}</span>
                 </div>
                 <a :href="'detail?id=' + message.id" style="text-decoration: none; color: #000;">
-                    <div class="detail" style="margin: 10px;" :id="message.id">
+                    <div class="detail" style="padding-left: 8%;padding-right: 8%" :id="message.id">
                         <span>{{message.content}}</span>
                         <br>
                         <img class="img-responsive center-block" v-if="message.imagePath != null"
                              :src="'<s:property value="#application.pathPrefix"/>' + '${pageContext.request.contextPath.equals("/") ? "/" : pageContext.request.contextPath.concat("/")}' + message.imagePath + '<s:property value="#application.ossThumbnail"/>'"/>
                     </div>
                 </a>
-                <div style="float: right">
+                <div style="float: right; padding-right: 5%;">
                     <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
                     <span>{{message.comments != null ? message.comments.length : 0}} &nbsp;</span>
                     <span class="glyphicon glyphicon-heart-empty favor" aria-hidden="true"></span>
@@ -125,7 +164,7 @@
                 </div>
             </div>
         </div>
-        <p align="center">下拉加载更多</p>
+        <p align="center">😂已经到底了😂</p>
     </div>
 
     <%--悬浮--%>
