@@ -9,7 +9,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title><s:text name="student.validate"/><s:text name="error"/></title>
+    <title><s:text name="studentValidate"/><s:text name="error"/></title>
 </head>
 <body>
 学生数据读取失败

@@ -33,7 +33,7 @@
         <s:elseif test="#session.user.level.toString() == 'NOTVALIDATE'">
             <div align="center">
                 <div class="alert alert-info" role="alert">
-                    <s:text name="validate.description">
+                    <s:text name="validateDescription">
                         <s:param value="#session.user.nickname"/>
                         <s:param value="#session.user.account"/>
                     </s:text>
@@ -44,9 +44,9 @@
                 <script>
                     function send() {
                         $('#sendEmail').css('display', 'none');
-                        $('#result').text('<s:text name="validate.email.sending"/>');
+                        $('#result').text('<s:text name="validateEmailSending"/>');
                         $.get('send-validate', function (data) {
-                            $('#result').text('<s:text name="validate.email.sent"/>');
+                            $('#result').text('<s:text name="validateEmailSent"/>');
                             $('#result').css('color', '#0F0');
                         })
                     }
@@ -56,22 +56,39 @@
         <s:else>
             <form action="publish" id="messageform" class="form-group" method="post" enctype="multipart/form-data"
                   onsubmit="return submitting();">
-            <textarea id="inputtext" placeholder="<s:text name="homepage.textarea"/>" name="message.content"
+            <textarea id="inputtext" placeholder="<s:text name="homepageTextarea"/>" name="message.content"
                       class="form-control"
                       style="max-height: 300px;"></textarea>
-                <input id="inputimage" name="image" accept="imagePath/jpeg,imagePath/png,imagePath/gif" type="file"
+                <input id="inputimage" name="image" accept="image/jpeg,image/png,image/gif" type="file"
                        style="border: none;" onchange="getSize(this.id);"/>
                 <p>暂时不支持超过2MB的图片<span id="filesize"></span></p>
+                <img id="image">
                 <input id="btn_submit" type="submit" class="btn btn-default" style="border: none;"/>
                 <script>
                     function getSize(id) {
                         var size = getFileSize(id);
-                        document.getElementById('filesize').innerHTML = '，当前文件大小为 ' + Math.round(size / 1024) + ' KB';
+                        document.getElementById('filesize').innerHTML = '，当前图片大小为 ' + Math.round(size / 1024) + ' KB';
+                    }
+
+                    function getFileSize(elementID) {
+                        var file = document.getElementById(elementID);
+                        var size = 0;
+                        if (file.value) {
+                            if (file.files) {
+                                size = file.files[0].size;
+                            }
+                            else {
+                                var imgid = 'image';
+                                var obj_img = document.getElementById(imgid);
+                                obj_img.dynsrc = file.value;
+                                size = obj_img.fileSize;
+                            }
+                        }
+                        return size;
                     }
                 </script>
                 <div id="publishresult"></div>
             </form>
-            <img id="image">
             <div class="row" id="progressbar" style="display: none;">
                 <div class="progress" style="margin: 10%;">
                     <div id="bar" class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0"
@@ -83,7 +100,7 @@
             <script>
                 function submitting() {
                     if (getFileSize('inputimage') > 2 * 1024 * 1024) {
-                        alert('文件大小超过限制');
+                        alert('图片大小超过限制');
                         return false;
                     }
                     $('#btn_submit').css('display', 'none');
@@ -103,22 +120,6 @@
                     return false;
                 }
 
-                function getFileSize(elementID) {
-                    var file = document.getElementById(elementID);
-                    var size = 0;
-                    if (file.value) {
-                        if (file.files) {
-                            size = file.files[0].size;
-                        }
-                        else {
-                            var imgid = 'image';
-                            var obj_img = document.getElementById(imgid);
-                            obj_img.dynsrc = file.value;
-                            size = obj_img.fileSize;
-                        }
-                    }
-                    return size;
-                }
 
                 function startProgress() {
                     $('#progressbar').css('display', '');
@@ -137,14 +138,20 @@
             </script>
         </s:else>
     </div>
+    <div class="row">
+        <img class="img-responsive center-block" src="<s:property value="#application.qrCode"/>">
+    </div>
 
     <div id="message-list">
         <div id="msg">
             <div class="row" v-for="message in messages"
                  style="margin-bottom: 25px;padding: 15px 30px 5px; background-color: rgba(255,255,255,0.80)">
                 <div style=";">
-                    <span>{{message.user.nickname}}</span>
-                    <span>{{gender(message.user.gender)}}</span>
+                    <img class="" v-if="message.user.icon != null" style="width: 20%;"
+                         :src="'<s:property value="#application.pathPrefix"/>' + '${pageContext.request.contextPath.equals("/") ? "/" : pageContext.request.contextPath.concat("/")}' + message.user.icon+ '<s:property value="#application.ossHead"/>'"/>
+                    <span>
+                        {{message.user.nickname}}&nbsp;&nbsp;{{gender(message.user.gender)}}
+                    </span>
                     <br>
                     <span>{{humanTime(message.time)}}</span>
                 </div>

@@ -131,6 +131,7 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.42</version>
+            <scope>provided</scope>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.apache.struts/struts2-junit-plugin -->
         <dependency>

@@ -45,6 +45,10 @@
 
     <!--若使用本地存储请将以下两条 context-param 去掉-->
     <context-param>
+        <param-name>qrCode</param-name>
+        <param-value>https://tesla-cn.oss-cn-shenzhen.aliyuncs.com/scau.ltd.png</param-value>
+    </context-param>
+    <context-param>
         <param-name>pathPrefix</param-name>
         <param-value>https://tesla-cn.oss-cn-shenzhen.aliyuncs.com</param-value>
     </context-param>

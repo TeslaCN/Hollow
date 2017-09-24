@@ -9,7 +9,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title><s:text name="student.grade"/></title>
+    <title><s:text name="studentGrade"/></title>
 
 </head>
 <%@include file="/WEB-INF/content/header.jsp" %>
@@ -23,21 +23,21 @@
                     <div>
                         <span><b>{{grade.title}}</b></span>
                         <div style="float: right;">
-                            <span><s:text name="grade.credit"/></span>
+                            <span><s:text name="gradeCredit"/></span>
                             <span>{{grade.credit}}</span>
                         </div>
                     </div>
                 </div>
                 <div style="margin: 10px;">
-                    <div><span><s:text name="grade.gpa"/></span><span>{{grade.gpa}}</span></div>
-                    <div><span><s:text name="grade.total"/></span><span>{{grade.total}}</span></div>
-                    <div><span><s:text name="grade.final"/></span><span>{{grade.finalExam}}</span></div>
-                    <div><span><s:text name="grade.usual"/></span><span>{{grade.usual}}</span></div>
+                    <div><span><s:text name="gradeGpa"/></span><span>{{grade.gpa}}</span></div>
+                    <div><span><s:text name="gradeTotal"/></span><span>{{grade.total}}</span></div>
+                    <div><span><s:text name="gradeFinal"/></span><span>{{grade.finalExam}}</span></div>
+                    <div><span><s:text name="gradeUsual"/></span><span>{{grade.usual}}</span></div>
                     <div v-if="grade.experiment != 0.0">
-                        <span><s:text name="grade.experiment"/></span><span>{{grade.experiment}}</span>
+                        <span><s:text name="gradeExperiment"/></span><span>{{grade.experiment}}</span>
                     </div>
                     <div v-if="grade.retake != 0.0">
-                        <span><s:text name="grade.retake"/></span><span>{{grade.retake}}</span>
+                        <span><s:text name="gradeRetake"/></span><span>{{grade.retake}}</span>
                     </div>
                 </div>
             </div>

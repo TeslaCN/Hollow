@@ -119,9 +119,9 @@
             <form class="navbar-form navbar-left" action="comment" method="post">
                 <div class="form-group">
                     <input type="text" name="comment.content" class="form-control"
-                           placeholder="<s:text name="comment.input"/>">
+                           placeholder="<s:text name="commentInput"/>">
                     <input name="id" value="${requestScope.message.id}" hidden/>
-                    <button type="submit" class="btn btn-default"><s:text name="comment.submit"/></button>
+                    <button type="submit" class="btn btn-default"><s:text name="commentSubmit"/></button>
                 </div>
             </form>
         </s:if>

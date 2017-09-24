@@ -4,15 +4,9 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import ltd.scau.entity.User;
 import ltd.scau.entity.dao.UserDao;
-import ltd.scau.entity.type.UserLevel;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
-import org.apache.struts2.interceptor.ServletRequestAware;
-import org.apache.struts2.interceptor.ServletResponseAware;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 @ParentPackage("hollow-json")
 @Results({
@@ -72,10 +66,10 @@ public class SignInAction extends ActionSupport {
         }
         User user = userDao.findUserByAccount(getAccount());
         if (user == null) {
-            setMessage(getText("user.notExist"));
+            setMessage(getText("userNotExist"));
             return LOGIN;
         } else if (!user.getPassword().equals(getPassword())) {
-            setMessage(getText("user.password.error"));
+            setMessage(getText("userPasswordError"));
             return LOGIN;
         }
         ctx.getSession().put("user", user);

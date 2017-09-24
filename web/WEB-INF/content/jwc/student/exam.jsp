@@ -9,7 +9,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title><s:text name="student.exam"/></title>
+    <title><s:text name="studentExam"/></title>
 
 </head>
 <%@include file="/WEB-INF/content/header.jsp" %>
@@ -23,18 +23,18 @@
                     <div>
                         <span><b>{{exam.title}}</b></span>
                         <div style="float: right;">
-                            <span><s:text name="exam.time"/></span>
+                            <span><s:text name="examTime"/></span>
                             <span>{{exam.time}}</span>
                         </div>
                     </div>
                 </div>
                 <div style="margin: 10px;">
-                    <div><span><s:text name="exam.stuName"/></span><span>{{exam.stuName}}</span></div>
-                    <div><span><s:text name="exam.zone"/></span><span>{{exam.zone}}</span></div>
-                    <div><span><s:text name="exam.locale"/></span><span>{{exam.locale}}</span></div>
-                    <div><span><s:text name="exam.seat"/></span><span>{{exam.seat}}</span></div>
+                    <div><span><s:text name="examStuName"/></span><span>{{exam.stuName}}</span></div>
+                    <div><span><s:text name="examZone"/></span><span>{{exam.zone}}</span></div>
+                    <div><span><s:text name="examLocale"/></span><span>{{exam.locale}}</span></div>
+                    <div><span><s:text name="examSeat"/></span><span>{{exam.seat}}</span></div>
                     <div v-if="exam.form != ''">
-                        <span><s:text name="exam.form"/></span><span>{{exam.form}}</span>
+                        <span><s:text name="examForm"/></span><span>{{exam.form}}</span>
                     </div>
                 </div>
             </div>

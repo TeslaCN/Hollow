@@ -20,7 +20,7 @@ import java.util.List;
 //        "excludeNullProperties", "true",
         "includeProperties",
         "messages\\[\\d+\\]\\.(id|content|date|time|comments|favors|imagePath)," +
-                "messages\\[\\d+\\]\\.user\\.(id|nickname|gender)," +
+                "messages\\[\\d+\\]\\.user\\.(id|nickname|gender|icon)," +
                 "messages\\[\\d+\\]\\.comments\\[\\d+\\]\\.(id|content|time)," +
                 "messages\\[\\d+\\]\\.comments\\[\\d+\\]\\.user\\.(id|gender|nickname)",
 })

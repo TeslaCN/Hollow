@@ -9,7 +9,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title><s:text name="user.validate"/></title>
+    <title><s:text name="userValidate"/></title>
     <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 </head>
 <body>

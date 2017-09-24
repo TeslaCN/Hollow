@@ -9,7 +9,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title><s:text name="student.validate"/></title>
+    <title><s:text name="studentValidate"/></title>
 
 </head>
 <%@include file="/WEB-INF/content/header.jsp" %>
@@ -20,13 +20,13 @@
     </s:if>
     <s:form action="/jwc/bind-student" method="post">
         <div class="form-group">
-                <%--<label for="exampleInputEmail1"><s:text name="student.id"/></label>--%>
-            <input type="text" name="id" class="form-control" id="inputId" placeholder="<s:text name="student.id"/>">
+                <%--<label for="exampleInputEmail1"><s:text name="studentId"/></label>--%>
+            <input type="text" name="id" class="form-control" id="inputId" placeholder="<s:text name="studentId"/>">
         </div>
         <div class="form-group">
-                <%--<label for="inputPassword1"><s:text name="student.password"/></label>--%>
+                <%--<label for="inputPassword1"><s:text name="studentPassword"/></label>--%>
             <input type="password" name="password" class="form-control" id="inputPassword1"
-                   placeholder="<s:text name="student.password"/>">
+                   placeholder="<s:text name="studentPassword"/>">
         </div>
         <button type="submit" class="btn btn-default"><s:text name="signIn"/></button>
     </s:form>

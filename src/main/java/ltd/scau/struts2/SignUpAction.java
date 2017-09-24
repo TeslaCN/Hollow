@@ -11,14 +11,12 @@ import ltd.scau.entity.type.UserLevel;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
-import org.apache.struts2.interceptor.ServletResponseAware;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.UUID;
 
 @ParentPackage("hollow-default")
-@Conversion(conversions = {@TypeConversion(key = "user.gender", converter = "ltd.scau.struts2.converter.GenderTypeConverter")})
+@Conversion(conversions = {@TypeConversion(key = "userGender", converter = "ltd.scau.struts2.converter.GenderTypeConverter")})
 public class SignUpAction extends ActionSupport {
 
     private UserDao userDao;
@@ -53,16 +51,16 @@ public class SignUpAction extends ActionSupport {
 
     @Validations(
             emails = {
-                    @EmailValidator(type = ValidatorType.SIMPLE, fieldName = "user.account", key = "user.account.invalid")
+                    @EmailValidator(type = ValidatorType.SIMPLE, fieldName = "userAccount", key = "userAccountInvalid")
             },
             stringLengthFields = {
-                    @StringLengthFieldValidator(type = ValidatorType.SIMPLE, fieldName = "user.password", trim = false, minLength = "8", maxLength = "255", key = "user.password.length"),
-                    @StringLengthFieldValidator(type = ValidatorType.SIMPLE, fieldName = "user.nickname", minLength = "1", maxLength = "32", key = "user.nickname.length")
+                    @StringLengthFieldValidator(type = ValidatorType.SIMPLE, fieldName = "userPassword", trim = false, minLength = "8", maxLength = "255", key = "userPasswordLength"),
+                    @StringLengthFieldValidator(type = ValidatorType.SIMPLE, fieldName = "userNickname", minLength = "1", maxLength = "32", key = "userNicknameLength")
             },
             requiredStrings = {
-                    @RequiredStringValidator(type = ValidatorType.SIMPLE, fieldName = "user.account", key = "user.account.required"),
-                    @RequiredStringValidator(type = ValidatorType.SIMPLE, fieldName = "user.password", key = "user.password.required"),
-                    @RequiredStringValidator(type = ValidatorType.SIMPLE, fieldName = "user.nickname", key = "user.nickname.required")
+                    @RequiredStringValidator(type = ValidatorType.SIMPLE, fieldName = "userAccount", key = "userAccountRequired"),
+                    @RequiredStringValidator(type = ValidatorType.SIMPLE, fieldName = "userPassword", key = "userPasswordRequired"),
+                    @RequiredStringValidator(type = ValidatorType.SIMPLE, fieldName = "userNickname", key = "userNicknameRequired")
             }
     )
     @Override
@@ -76,7 +74,7 @@ public class SignUpAction extends ActionSupport {
             return INPUT;
         }
         if (userDao.findUserByAccount(user.getAccount()) != null) {
-            setErrorMessage(getText("user.exist"));
+            setErrorMessage(getText("userExist"));
             return INPUT;
         }
         user.setDate(getDate());

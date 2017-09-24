@@ -7,20 +7,20 @@ function timestampToHuman(time) {
     var result = (current - time) / 1000;
     if (result < 60) return '<s:text name="justNow"/>';
     result /= 60;
-    if (result < 60) return Math.floor(result) + '<s:text name="minute.before"/>';
+    if (result < 60) return Math.floor(result) + '<s:text name="minuteBefore"/>';
     result /= 60;
-    if (result < 24) return Math.floor(result) + '<s:text name="hour.before"/>';
+    if (result < 24) return Math.floor(result) + '<s:text name="hourBefore"/>';
     result /= 24;
-    return Math.floor(result) + '<s:text name="day.before"/>';
+    return Math.floor(result) + '<s:text name="dayBefore"/>';
 }
 
 function genderi18n(gender) {
     switch (gender) {
         case 'MALE':
-            return '<s:text name="gender.male"/>';
+            return '<s:text name="genderMale"/>';
         case 'FEMALE':
-            return '<s:text name="gender.female"/>';
+            return '<s:text name="genderFemale"/>';
         default:
-            return '<s:text name="gender.unknown"/>';
+            return '<s:text name="genderUnknown"/>';
     }
 }

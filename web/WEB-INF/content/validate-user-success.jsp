@@ -9,10 +9,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title><s:text name="user.validate"/></title>
+    <title><s:text name="userValidate"/></title>
 </head>
 <body>
-<h1><s:text name="user.validate"/><s:text name="success"/></h1>
+<h1><s:text name="userValidate"/><s:text name="success"/></h1>
 <script>
     setTimeout(function () {
         window.location = 'homepage';

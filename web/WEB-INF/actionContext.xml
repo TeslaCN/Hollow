@@ -74,7 +74,7 @@
         <property name="storageClient" ref="storageClient"/>
     </bean>
 
-    <bean id="forgotPasswordAction" class="ltd.scau.struts2.ForgotPasswordAction" scope="request">
+    <bean id="resetPasswordAction" class="ltd.scau.struts2.ResetPasswordAction" scope="request">
         <property name="htmlEmail" ref="htmlEmail"/>
         <property name="userDao" ref="userDao"/>
     </bean>

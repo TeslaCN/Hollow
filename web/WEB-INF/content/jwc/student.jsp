@@ -9,7 +9,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title><s:text name="student.profile"/></title>
+    <title><s:text name="studentProfile"/></title>
 
 </head>
 <%@include file="/WEB-INF/content/header.jsp" %>
@@ -17,20 +17,20 @@
 <div class="container">
     <div style="padding-left: 10%;padding-right: 10%;">
         <div>
-            <label for="stu_id"><s:text name="student.id"/></label>
+            <label for="stu_id"><s:text name="studentId"/></label>
             <span id="stu_id">${sessionScope.user.stuId}</span>
         </div>
         <div>
-            <label for="stu_name"><s:text name="student.name"/></label>
+            <label for="stu_name"><s:text name="studentName"/></label>
             <span id="stu_name">${sessionScope.user.name}</span>
         </div>
         <div>
-            <div><a href="bind-student"><s:text name="student.password.modified"/>?</a></div>
+            <div><a href="bind-student"><s:text name="studentPasswordModified"/>?</a></div>
         </div>
         <hr>
         <s:if test="#session.user.stuId == null || #session.user.name == null">
             <a href="bind-student">
-                <button><s:text name="clickme"/><s:text name="student.validate"/></button>
+                <button><s:text name="clickme"/><s:text name="studentValidate"/></button>
             </a>
         </s:if>
         <s:else>
@@ -41,12 +41,12 @@
                 <div class="row">
                     <div id="queryGrade" class="col-xs-6 col-sm-4">
                         <a href="student/grade">
-                            <button><s:text name="clickme"/><s:text name="student.grade.query"/></button>
+                            <button><s:text name="clickme"/><s:text name="studentGradeQuery"/></button>
                         </a>
                     </div>
                     <div>
                         <a href="student/exam">
-                            <button><s:text name="clickme"/><s:text name="student.exam.query"/></button>
+                            <button><s:text name="clickme"/><s:text name="studentExamQuery"/></button>
                         </a>
                     </div>
                 </div>

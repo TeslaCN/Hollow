@@ -79,10 +79,10 @@
                           method="post">
                             <%--<div class="form-group">--%>
                         <input id="header_inputAccount" name="account" type="text" class="form-control"
-                               placeholder="<s:text name="user.account"/>">
+                               placeholder="<s:text name="userAccount"/>">
 
                         <input id="header_inputPassword" name="password" type="password" class="form-control"
-                               placeholder="<s:text name="user.password"/>">
+                               placeholder="<s:text name="userPassword"/>">
                             <%--</div>--%>
                         <button type="submit" class="btn btn-default" style="border: none;">
                             <s:text
@@ -91,20 +91,20 @@
                             function header_signIn() {
                                 var account = document.getElementById('header_inputAccount').value;
                                 if (account == null) {
-                                    alert('<s:text name="user.account.required"/>');
+                                    alert('<s:text name="userAccountRequired"/>');
                                     return false;
                                 }
                                 if (!validEmail(account)) {
-                                    alert('<s:text name="user.account.invalid"/>');
+                                    alert('<s:text name="userAccountInvalid"/>');
                                     return false;
                                 }
                                 var password = document.getElementById('header_inputPassword').value;
                                 if (password == null) {
-                                    alert('<s:text name="user.password.required"/>');
+                                    alert('<s:text name="userPasswordRequired"/>');
                                     return false;
                                 }
                                 if (password.length < 8 || password.length > 255) {
-                                    alert('<s:text name="user.password.length"/>');
+                                    alert('<s:text name="userPasswordLength"/>');
                                     return false;
                                 }
                                 console.log('Data validated done! Start posting...')
@@ -127,6 +127,7 @@
                             }
                         </script>
                     </form>
+                    <li><s:a value="/forgot"><s:text name="forgotPassword"/></s:a></li>
                     <li><s:a value="/sign-up"><s:text name="signUp"/></s:a></li>
                 </s:if>
                 <s:if test="#session.user != null">
@@ -134,8 +135,8 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                            aria-expanded="false">${sessionScope.get("user").nickname}<span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><s:a value="/user-profile"><s:text name="user.profile"/></s:a></li>
-                            <li><s:a value="/jwc/student"><s:text name="student.validate"/></s:a></li>
+                            <li><s:a value="/user-profile"><s:text name="userProfile"/></s:a></li>
+                            <li><s:a value="/jwc/student"><s:text name="studentValidate"/></s:a></li>
                             <li><s:a value="/jwc/student/sport">体测排名</s:a></li>
                             <li role="separator" class="divider"></li>
                             <li><s:a value="/sign-out"><s:text name="signOut"/></s:a></li>
