@@ -2,12 +2,17 @@ package ltd.scau.struts2;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
+import com.opensymphony.xwork2.conversion.annotations.Conversion;
+import com.opensymphony.xwork2.conversion.annotations.TypeConversion;
 import ltd.scau.aspect.annotations.Ordinary;
 import ltd.scau.entity.User;
 import ltd.scau.entity.dao.UserDao;
+import ltd.scau.entity.type.GenderType;
 import ltd.scau.event.MessageEvent;
 import ltd.scau.utils.storage.StorageClient;
 import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
 import org.springframework.beans.BeansException;
@@ -19,6 +24,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
 
+@ParentPackage("hollow")
+@Conversion(conversions = {@TypeConversion(key = "gender", converter = "ltd.scau.struts2.converter.GenderTypeConverter")})
 public class UserUpdateAction extends ActionSupport implements ServletRequestAware, ServletResponseAware, ApplicationContextAware {
 
     private User user;
@@ -27,11 +34,57 @@ public class UserUpdateAction extends ActionSupport implements ServletRequestAwa
 
     private String message;
 
+    private String nickname;
+
+    private GenderType gender;
+
     @Override
     @Ordinary
+    @Action(results = {@Result(type = "redirect", location = "/user-profile")})
     public String execute() throws Exception {
-        return super.execute();
+        ActionContext ctx = ActionContext.getContext();
+
+        User user = (User) ctx.getSession().get("user");
+        user = getUserDao().findUserByAccount(user.getAccount());
+        if (getGender() != null) {
+            user.setGender(getGender());
+        }
+        if (getNickname()!= null && getNickname().length() > 0 &&getNickname().length() < 32) {
+            user.setNickname(getNickname());
+        }
+        getUserDao().update(user);
+        ctx.getSession().replace("user", user);
+        return SUCCESS;
     }
+
+    private String oldPassword;
+
+    private String newPassword;
+
+    @Action(value = "modify-password", results = {
+            @Result(type = "json", params = {"includeProperties", "message"}),
+            @Result(type = "json", name = "error", params = {"includeProperties", "message"})
+    })
+    public String modifyPassword() throws Exception {
+        ActionContext ctx = ActionContext.getContext();
+        User user = (User) ctx.getSession().get("user");
+
+        user = getUserDao().findUserByAccount(user.getAccount());
+        if (!user.getPassword().equals(getOldPassword())) {
+            setMessage(getText("userPasswordError"));
+            return ERROR;
+        } else if (getNewPassword().length() < 8) {
+            setMessage(getText("userPasswordLength"));
+            return ERROR;
+        } else {
+            user.setPassword(getNewPassword());
+            getUserDao().update(user);
+            setMessage(SUCCESS);
+            ctx.getSession().remove("user");
+            return SUCCESS;
+        }
+    }
+
 
     @Action(value = "refresh-user")
     @Ordinary
@@ -43,7 +96,7 @@ public class UserUpdateAction extends ActionSupport implements ServletRequestAwa
         user = getUserDao().findUserByAccount(user.getAccount());
         ctx.getSession().replace("user", user);
 
-        response.sendRedirect("referer");
+        response.sendRedirect(referer);
         return NONE;
     }
 
@@ -59,7 +112,7 @@ public class UserUpdateAction extends ActionSupport implements ServletRequestAwa
 
     private String bucketName;
 
-    @Action(value = "upload-icon", params = {"savePath", "icons/", "bucketName", "tesla-cn"})
+    @Action(value = "upload-icon", params = {"savePath", "icons/", "bucketName", "tesla-cn"}, results = {@Result(type = "redirect", location = "/")})
     @Ordinary
     public String uploadIcon() throws Exception {
         if (getIcon() != null) {
@@ -176,5 +229,37 @@ public class UserUpdateAction extends ActionSupport implements ServletRequestAwa
 
     public void setBucketName(String bucketName) {
         this.bucketName = bucketName;
+    }
+
+    public String getOldPassword() {
+        return oldPassword;
+    }
+
+    public void setOldPassword(String oldPassword) {
+        this.oldPassword = oldPassword;
+    }
+
+    public String getNewPassword() {
+        return newPassword;
+    }
+
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public GenderType getGender() {
+        return gender;
+    }
+
+    public void setGender(GenderType gender) {
+        this.gender = gender;
     }
 }

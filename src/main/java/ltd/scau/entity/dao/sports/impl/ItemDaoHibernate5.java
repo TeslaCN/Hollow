@@ -21,26 +21,31 @@ public class ItemDaoHibernate5 extends BaseDaoHibernate5<Item> implements ItemDa
     private DataSource dataSource;
 
     @Override
-    public int rank(int examId, int itemId, String grade, double value, OrderType order) {
-        int result = -1;
+    public int[] rank(int examId, int itemId, String grade, double value) {
+        int[] result = new int[3];
         try (Connection connection = getDataSource().getConnection();) {
-            String sql = "select count(*) from items where exam_id=? and item_id=? and stu_id regexp ? and value%s?";
-            switch (order) {
-                case ASCEND:
-                    sql = String.format(sql, "<");
-                    break;
-                case DESCEND:
-                    sql = String.format(sql, ">");
-                    break;
-            }
+            String sql = "select count(*) from items where value>=0 and exam_id=? and item_id=? and stu_id like ? union " +
+                    "select count(*) from items where value>=0 and exam_id=? and item_id=? and stu_id like ? and value > ? union " +
+                    "select count(*) from items where exam_id=? and item_id=? and stu_id like ? and value = ?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
                 preparedStatement.setInt(1, examId);
                 preparedStatement.setInt(2, itemId);
-                preparedStatement.setString(3, "^" + grade);
-                preparedStatement.setDouble(4, value);
+                preparedStatement.setString(3,  grade + "%");
+
+                preparedStatement.setInt(4, examId);
+                preparedStatement.setInt(5, itemId);
+                preparedStatement.setString(6,  grade + "%");
+                preparedStatement.setDouble(7, value);
+
+                preparedStatement.setInt(8, examId);
+                preparedStatement.setInt(9, itemId);
+                preparedStatement.setString(10,  grade + "%");
+                preparedStatement.setDouble(11, value);
+
                 try (ResultSet resultSet = preparedStatement.executeQuery();) {
-                    result = -1;
-                    if (resultSet.next()) result = resultSet.getInt(1);
+                    if (resultSet.next()) result[0] = resultSet.getInt(1);
+                    if (resultSet.next()) result[1] = resultSet.getInt(1);
+                    if (resultSet.next()) result[2] = resultSet.getInt(1);
                     return result;
                 }
             }

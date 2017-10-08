@@ -1,6 +1,5 @@
 package ltd.scau.struts2;
 
-import com.aliyun.oss.OSSClient;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import ltd.scau.aspect.annotations.Ordinary;
@@ -8,6 +7,8 @@ import ltd.scau.entity.Message;
 import ltd.scau.entity.User;
 import ltd.scau.entity.dao.MessageDao;
 import ltd.scau.entity.dao.UserDao;
+import ltd.scau.entity.type.MessageAvailable;
+import ltd.scau.entity.type.MessageStatus;
 import ltd.scau.event.MessageEvent;
 import ltd.scau.utils.storage.StorageClient;
 import org.apache.commons.logging.Log;
@@ -15,16 +16,14 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.ParentPackage;
-import org.apache.struts2.convention.annotation.Result;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 
-@ParentPackage("hollow-default")
+@ParentPackage("hollow")
 public class PublishAction extends ActionSupport implements ApplicationContextAware {
 
     private ApplicationContext applicationContext;
@@ -47,6 +46,8 @@ public class PublishAction extends ActionSupport implements ApplicationContextAw
 
     private String bucketName;
 
+    private String[] status;
+
     @Override
     @Action(params = {"savePath", "images/", "bucketName", "tesla-cn"})
     @Ordinary
@@ -59,6 +60,18 @@ public class PublishAction extends ActionSupport implements ApplicationContextAw
         long millis = System.currentTimeMillis();
         message.setUser(user);
         message.setTime(millis);
+        message.setAvailable(MessageAvailable.VISIBLE);
+        if (status != null && status.length > 0) {
+            switch (status[0]) {
+                case "anonymous":
+                    message.setStatus(MessageStatus.ANONYMOUS);
+                    break;
+                default:
+                    message.setStatus(MessageStatus.ONYMOUS);
+            }
+        } else {
+            message.setStatus(MessageStatus.ONYMOUS);
+        }
 
         if (getImage() != null) {
             String[] filename = getImageFileName().split("\\.");
@@ -154,5 +167,13 @@ public class PublishAction extends ActionSupport implements ApplicationContextAw
 
     public void setStorageClient(StorageClient storageClient) {
         this.storageClient = storageClient;
+    }
+
+    public String[] getStatus() {
+        return status;
+    }
+
+    public void setStatus(String[] status) {
+        this.status = status;
     }
 }

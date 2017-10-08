@@ -13,7 +13,7 @@ import org.springframework.context.ApplicationContextAware;
 /**
  * 此 Action 发送验证邮件 到 用户的注册邮箱
  */
-@ParentPackage("hollow-default")
+@ParentPackage("hollow")
 public class SendValidateAction extends ActionSupport implements ApplicationContextAware {
 
     private HtmlEmail htmlEmail;

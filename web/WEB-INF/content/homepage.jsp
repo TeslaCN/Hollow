@@ -38,7 +38,7 @@
                         <s:param value="#session.user.account"/>
                     </s:text>
                     <a id="sendEmail" href="javascript:void(0);" onclick="send();" , style="color: red;"><s:text
-                            name="clickme.send.validate"/></a>
+                            name="clickmeSendValidate"/></a>
                     <p id="result"></p>
                 </div>
                 <script>
@@ -63,6 +63,11 @@
                        style="border: none;" onchange="getSize(this.id);"/>
                 <p>暂时不支持超过2MB的图片<span id="filesize"></span></p>
                 <img id="image">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="status" value="anonymous"><s:text name="anonymous"/>
+                    </label>
+                </div>
                 <input id="btn_submit" type="submit" class="btn btn-default" style="border: none;"/>
                 <script>
                     function getSize(id) {
@@ -145,10 +150,12 @@
     <div id="message-list">
         <div id="msg">
             <div class="row" v-for="message in messages"
-                 style="margin-bottom: 25px;padding: 15px 30px 5px; background-color: rgba(255,255,255,0.80)">
+                 style="margin-bottom: 25px;padding: 15px 15px 5px; background-color: rgba(255,255,255,0.80)">
                 <div style=";">
-                    <img class="" v-if="message.user.icon != null" style="width: 20%;"
-                         :src="'<s:property value="#application.pathPrefix"/>' + '${pageContext.request.contextPath.equals("/") ? "/" : pageContext.request.contextPath.concat("/")}' + message.user.icon+ '<s:property value="#application.ossHead"/>'"/>
+                    <a :href="'<s:property value="#application.pathPrefix"/>' + '${pageContext.request.contextPath.equals("/") ? "/" : pageContext.request.contextPath.concat("/")}' + message.user.icon">
+                        <img class="" v-if="message.user.icon != null" style="width: 15%; max-width: 100px;"
+                             :src="'<s:property value="#application.pathPrefix"/>' + '${pageContext.request.contextPath.equals("/") ? "/" : pageContext.request.contextPath.concat("/")}' + message.user.icon+ '<s:property value="#application.ossHead"/>'"/>
+                    </a>
                     <span>
                         {{message.user.nickname}}&nbsp;&nbsp;{{gender(message.user.gender)}}
                     </span>
@@ -156,7 +163,7 @@
                     <span>{{humanTime(message.time)}}</span>
                 </div>
                 <a :href="'detail?id=' + message.id" style="text-decoration: none; color: #000;">
-                    <div class="detail" style="padding-left: 8%;padding-right: 8%" :id="message.id">
+                    <div class="detail" style="padding-left: 8%;padding-right: 8%">
                         <span>{{message.content}}</span>
                         <br>
                         <img class="img-responsive center-block" v-if="message.imagePath != null"
@@ -164,10 +171,13 @@
                     </div>
                 </a>
                 <div style="float: right; padding-right: 5%;">
-                    <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
-                    <span>{{message.comments != null ? message.comments.length : 0}} &nbsp;</span>
-                    <span class="glyphicon glyphicon-heart-empty favor" aria-hidden="true"></span>
-                    <span>{{message.favors != null ? message.favors.length : 0}}</span>
+                    <a :href="'detail?id=' + message.id" style="text-decoration: none; color: #000;">
+                        <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
+                        <span>{{message.comments != null ? message.comments.length : 0}} &nbsp;</span>
+                    </a>
+                    <%--<span class="glyphicon glyphicon-heart-empty favor" aria-hidden="true" :id="message.id"></span>--%>
+                    <%--<span>{{message.favors != null ? message.favors.length : 0}}</span>--%>
+                    <a v-if="message.user.id == '<s:property value="#session.user.id"/>'" :href="'${pageContext.request.contextPath}/delete-message?id=' + message.id"><s:text name="delete"/></a>
                 </div>
             </div>
         </div>

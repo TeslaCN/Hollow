@@ -11,7 +11,10 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 
-@ParentPackage("hollow-default")
+/**
+ * Action 负责用户绑定教务账号的相关操作
+ */
+@ParentPackage("hollow")
 public class BindStudentAction extends ActionSupport {
 
     private String id;
@@ -24,6 +27,12 @@ public class BindStudentAction extends ActionSupport {
 
     private String error;
 
+
+    /**
+     * 通过参数传入学生账号密码，并尝试登陆，如果成功则 学生账号 绑定到对应的 User
+     * @return
+     * @throws Exception
+     */
     @Override
     @Ordinary
     @Action(results = {@Result(type = "redirect", location = "/jwc/student")})

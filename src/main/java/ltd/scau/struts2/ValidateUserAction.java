@@ -16,7 +16,7 @@ import java.util.UUID;
  * 验证邮件中会包含一个 带有 uuid 参数的 url ，get 上述 url 之后，Action 把参数中的 uuid 与数据库中用户的 uuid 查询，匹配后相关用户 UserLevel 设为 1 (UserLevel.ORDINARY)
  */
 //@Conversion(conversions = {@TypeConversion(key = "uuid", converter = "ltd.scau.struts2.converter.UUIDConverter")})
-@ParentPackage("hollow-default")
+@ParentPackage("hollow")
 public class ValidateUserAction extends ActionSupport {
 
     private UserDao userDao;

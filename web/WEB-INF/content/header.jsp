@@ -79,10 +79,10 @@
                           method="post">
                             <%--<div class="form-group">--%>
                         <input id="header_inputAccount" name="account" type="text" class="form-control"
-                               placeholder="<s:text name="userAccount"/>">
+                               placeholder="<s:text name="userAccount"/>" required>
 
                         <input id="header_inputPassword" name="password" type="password" class="form-control"
-                               placeholder="<s:text name="userPassword"/>">
+                               placeholder="<s:text name="userPassword"/>" required>
                             <%--</div>--%>
                         <button type="submit" class="btn btn-default" style="border: none;">
                             <s:text
@@ -92,10 +92,6 @@
                                 var account = document.getElementById('header_inputAccount').value;
                                 if (account == null) {
                                     alert('<s:text name="userAccountRequired"/>');
-                                    return false;
-                                }
-                                if (!validEmail(account)) {
-                                    alert('<s:text name="userAccountInvalid"/>');
                                     return false;
                                 }
                                 var password = document.getElementById('header_inputPassword').value;
@@ -128,7 +124,7 @@
                         </script>
                     </form>
                     <li><s:a value="/forgot"><s:text name="forgotPassword"/></s:a></li>
-                    <li><s:a value="/sign-up"><s:text name="signUp"/></s:a></li>
+                    <li><s:a value="/sign-up-page"><s:text name="signUp"/></s:a></li>
                 </s:if>
                 <s:if test="#session.user != null">
                     <li class="dropdown">

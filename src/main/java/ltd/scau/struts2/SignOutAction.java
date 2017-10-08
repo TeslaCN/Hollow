@@ -6,7 +6,7 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 
-@ParentPackage("hollow-default")
+@ParentPackage("hollow")
 public class SignOutAction extends ActionSupport {
 
     @Override

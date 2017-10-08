@@ -8,7 +8,7 @@ import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
 
-@ParentPackage("hollow-json")
+@ParentPackage("hollow")
 @Results({
         @Result(type = "json", params = {"includeProperties", "message, account"}),
         @Result(name = "login", type = "json", params = {"includeProperties", "message, account"})

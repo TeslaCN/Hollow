@@ -9,19 +9,17 @@
     <constant name="struts.custom.i18n.resources" value="resource"/>
     <constant name="struts.ui.theme" value="simple"/>
 
-    <package name="hollow-default" extends="struts-default">
+    <package name="hollow" extends="json-default">
         <global-results>
+            <!--邮箱尚未验证时重定向到首页，提示用户需要验证邮箱-->
             <result name="validate" type="redirect">/</result>
-            <result name="login" type="redirect">/</result>
-            <result name="homepage" type="redirect">/</result>
-            <result name="student_auth" type="redirect">/jwc/bind-student</result>
-        </global-results>
-    </package>
 
-    <package name="hollow-json" extends="json-default">
-        <global-results>
+            <!--重定向到应用首页-->
             <result name="homepage" type="redirect">/</result>
+
             <result name="login" type="redirect">/</result>
+
+            <!--账号未绑定教务信息时，重定向到教务账户绑定页面-->
             <result name="student_auth" type="redirect">/jwc/bind-student</result>
         </global-results>
     </package>

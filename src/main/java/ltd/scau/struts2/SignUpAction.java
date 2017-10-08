@@ -15,8 +15,8 @@ import org.apache.struts2.convention.annotation.Result;
 import java.util.Date;
 import java.util.UUID;
 
-@ParentPackage("hollow-default")
-@Conversion(conversions = {@TypeConversion(key = "userGender", converter = "ltd.scau.struts2.converter.GenderTypeConverter")})
+@ParentPackage("hollow")
+@Conversion(conversions = {@TypeConversion(key = "user.gender", converter = "ltd.scau.struts2.converter.GenderTypeConverter")})
 public class SignUpAction extends ActionSupport {
 
     private UserDao userDao;
@@ -51,20 +51,22 @@ public class SignUpAction extends ActionSupport {
 
     @Validations(
             emails = {
-                    @EmailValidator(type = ValidatorType.SIMPLE, fieldName = "userAccount", key = "userAccountInvalid")
+                    @EmailValidator(type = ValidatorType.SIMPLE, fieldName = "user.account", key = "userAccountInvalid")
             },
             stringLengthFields = {
-                    @StringLengthFieldValidator(type = ValidatorType.SIMPLE, fieldName = "userPassword", trim = false, minLength = "8", maxLength = "255", key = "userPasswordLength"),
-                    @StringLengthFieldValidator(type = ValidatorType.SIMPLE, fieldName = "userNickname", minLength = "1", maxLength = "32", key = "userNicknameLength")
+                    @StringLengthFieldValidator(type = ValidatorType.SIMPLE, fieldName = "user.password", trim = false, minLength = "8", maxLength = "255", key = "userPasswordLength"),
+                    @StringLengthFieldValidator(type = ValidatorType.SIMPLE, fieldName = "user.nickname", minLength = "1", maxLength = "32", key = "userNicknameLength")
             },
             requiredStrings = {
-                    @RequiredStringValidator(type = ValidatorType.SIMPLE, fieldName = "userAccount", key = "userAccountRequired"),
-                    @RequiredStringValidator(type = ValidatorType.SIMPLE, fieldName = "userPassword", key = "userPasswordRequired"),
-                    @RequiredStringValidator(type = ValidatorType.SIMPLE, fieldName = "userNickname", key = "userNicknameRequired")
+                    @RequiredStringValidator(type = ValidatorType.SIMPLE, fieldName = "user.account", key = "userAccountRequired"),
+                    @RequiredStringValidator(type = ValidatorType.SIMPLE, fieldName = "user.password", key = "userPasswordRequired"),
+                    @RequiredStringValidator(type = ValidatorType.SIMPLE, fieldName = "user.nickname", key = "userNicknameRequired")
             }
     )
     @Override
-    @Action(results = {@Result(name = "input", location = "sign-up.jsp")})
+    @Action(results = {
+            @Result(type = "json", params = {"includeProperties", "message"}),
+            @Result(type = "json", name = "input", params = {"includeProperties", "message"})})
     public String execute() throws Exception {
         ActionContext ctx = ActionContext.getContext();
         if (ctx.getSession().get("user") != null) {
@@ -74,7 +76,7 @@ public class SignUpAction extends ActionSupport {
             return INPUT;
         }
         if (userDao.findUserByAccount(user.getAccount()) != null) {
-            setErrorMessage(getText("userExist"));
+            setMessage(getText("userExist"));
             return INPUT;
         }
         user.setDate(getDate());
@@ -82,16 +84,17 @@ public class SignUpAction extends ActionSupport {
         user.setLevel(UserLevel.NOTVALIDATE);
         user.setUuid(UUID.randomUUID().toString());
         userDao.save(user);
-        return LOGIN;
+        setMessage(SUCCESS);
+        return SUCCESS;
     }
 
-    private String errorMessage;
+    private String message;
 
-    public String getErrorMessage() {
-        return errorMessage;
+    public String getMessage() {
+        return message;
     }
 
-    public void setErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

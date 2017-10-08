@@ -10,16 +10,26 @@ import ltd.scau.entity.type.OrderType;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 
-@ParentPackage("hollow-json")
+/**
+ * 根据参数计算出对应数据的排名
+ */
+@ParentPackage("hollow")
 @Result(type = "json", params = {
-        "includeProperties", "rank"
+        "includeProperties", "total, rank, same"
 })
 @Conversion(conversions = {@TypeConversion(key = "orderType", converter = "ltd.scau.struts2.converter.OrderTypeConverter")})
 public class RankAction extends ActionSupport {
 
     private ItemDao itemDao;
 
+    /**
+     * Ascending
+     */
     private int rank;
+
+    private int total;
+
+    private int same;
 
     private int examId;
 
@@ -27,14 +37,17 @@ public class RankAction extends ActionSupport {
 
     private double value;
 
-    private OrderType orderType;
-
     @Override
     public String execute() throws Exception {
         ActionContext ctx = ActionContext.getContext();
         User user = (User) ctx.getSession().get("user");
+        //取学号前四位即年级
         String grade = user.getStuId().substring(0, 4);
-        setRank(getItemDao().rank(getExamId(), getItemId(), grade, getValue(), getOrderType()));
+        int[] result = getItemDao().rank(getExamId(), getItemId(), grade, getValue());
+
+        setTotal(result[0]);
+        setRank(result[1]);
+        setSame(result[2]);
         return SUCCESS;
     }
 
@@ -74,15 +87,23 @@ public class RankAction extends ActionSupport {
         this.value = value;
     }
 
-    public OrderType getOrderType() {
-        return orderType;
-    }
-
-    public void setOrderType(OrderType orderType) {
-        this.orderType = orderType;
-    }
-
     public void setRank(int rank) {
         this.rank = rank;
+    }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
+
+    public int getSame() {
+        return same;
+    }
+
+    public void setSame(int same) {
+        this.same = same;
     }
 }

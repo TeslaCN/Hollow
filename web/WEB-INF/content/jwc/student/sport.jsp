@@ -39,43 +39,44 @@
                 <h1>{{toSemester(record.examId)}}</h1>
                 <p>{{record.message}}</p>
             </div>
-            <table class="table table-hover" v-if="record.text != '免测'">
-                <thead>
-                <th>名称</th>
-                <th>成绩</th>
-                <th>分数</th>
-                <th>等级</th>
-                <th>录入时间</th>
-                <th>年级排名</th>
-                </thead>
-                <tr v-for="item in record.items" :id="record.examId + '_' + item.itemId">
-                    <td>{{item.name}}</td>
-                    <td>{{item.value}}&nbsp;{{item.unit}}</td>
-                    <td>{{item.bestScore}}</td>
-                    <td>{{item.scoreGrade}}</td>
-                    <td>{{humanTime(item.updateTime)}}</td>
-                    <td :id="record.examId + '_' + item.itemId">
-                        <div>
-                            <button :id="record.examId + '_' + item.itemId + '_' + 'ASCEND'"
-                                    v-on:click="getRank(record.examId, item.itemId, item.value, 'ASCEND')">升序
-                            </button>
-                            <span :id="record.examId + '_' + item.itemId + '_' + 'ASCEND' + '_RESULT'"></span>
-                        </div>
-                        <div>
-                            <button :id="record.examId + '_' + item.itemId + '_' + 'DESCEND'"
-                                    v-on:click="getRank(record.examId, item.itemId, item.value, 'DESCEND')">降序
-                            </button>
-                            <span :id="record.examId + '_' + item.itemId + '_' + 'DESCEND' + '_RESULT'"></span>
-                        </div>
-                    </td>
-                </tr>
-            </table>
+            <div>
+                手机页面可向右滚动表格
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover" v-if="record.text != '免测'">
+                    <thead>
+                    <th>名称</th>
+                    <th>成绩</th>
+                    <th>分数</th>
+                    <th>等级</th>
+                    <th>🌚没有对比就没有伤害🌚</th>
+                    <th>录入时间</th>
+                    </thead>
+                    <tr v-for="item in record.items" :id="record.examId + '_' + item.itemId"
+                        v-if="(student.gender == 'MALE' && item.itemId <= 8) || (student.gender == 'FEMALE' && item.itemId != 5 && item.itemId != 8)">
+                        <td>{{item.name}}</td>
+                        <td>{{item.value}}&nbsp;{{item.unit}}</td>
+                        <td>{{item.bestScore}}</td>
+                        <td>{{item.scoreGrade}}</td>
+                        <td :id="record.examId + '_' + item.itemId">
+                            <div>
+                                <button :id="record.examId + '_' + item.itemId + '_rank'"
+                                        v-on:click="getRank(record.examId, item.itemId, item.value)">🌚排名🌚
+                                </button>
+                                <span :id="record.examId + '_' + item.itemId + '_RESULT'"></span>
+                            </div>
+                        </td>
+                        <td>{{humanTime(item.updateTime)}}</td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </div>
     <script>
         var vm = new Vue({
             el: '#tables',
             data: {
+                student: {},
                 records: []
             },
             methods: {
@@ -98,21 +99,66 @@
                     }
                     return '';
                 },
-                getRank: function (examId, itemId, value, orderType) {
-                    $('#' + examId + '_' + itemId + '_' + orderType).css('display', 'none');
+                getRank: function (examId, itemId, value) {
+                    $('#' + examId + '_' + itemId + '_rank').css('display', 'none');
                     $.get("${pageContext.request.contextPath}/json/jwc/sport/rank", {
                         examId: examId,
                         itemId: itemId,
-                        value: value,
-                        orderType: orderType
+                        value: value
                     }, function (data) {
-                        $('#' + examId + "_" + itemId + '_' + orderType + '_RESULT').prepend(data['rank']);
+                        var total = data['total'];
+                        var ascendRank = data['rank'];
+                        var same = data['same'];
+                        var descendRank = total - ascendRank - same;
+
+                        var ascendPercent = Math.floor((ascendRank / total) * 100);
+                        var descendPercent = Math.floor((descendRank / total) * 100);
+
+                        var content = '';
+
+                        var contentAscend = '超过了 ' + ascendPercent + '% 的同学，排名 ' + descendRank + ' / ' + total + ' ，有 ' + same + ' 位同学并列';
+                        var contentDescend = '超过了 ' + descendPercent + '% 的同学，排名 ' + ascendRank + ' / ' + total + ' ，有 ' + same + ' 位同学并列';
+                        switch (itemId) {
+                            case 1://height
+                                content = '身高' + contentDescend;
+                                break;
+                            case 2://weight
+                                content = '体重' + contentDescend;
+                                break;
+                            case 3://breath
+                                content = '肺活量' + contentDescend;
+                                break;
+                            case 4://50m
+                                content = '50m 速度' + contentAscend;
+                                break;
+                            case 5://1000m
+                                content = '1000m 速度' + contentAscend;
+                                break;
+                            case 6://jump
+                                content = '跳远距离' + contentDescend;
+                                break;
+                            case 7://sit and forward
+                                content = '体前屈' + contentDescend;
+                                break;
+                            case 8://male up
+                                content = '引体向上个数' + contentDescend;
+                                break;
+                            case 9://female sit
+                                content = '仰卧起坐个数' + contentDescend;
+                                break;
+                            case 10://800m
+                                content = '800m 速度' + contentAscend;
+                                break;
+                        }
+
+                        $('#' + examId + "_" + itemId + '_RESULT').prepend(content);
                     }, 'json')
                 }
             }
         });
 
         $.get('${pageContext.request.contextPath}/json/jwc/list-sports', function (data) {
+            vm.student = data;
             vm.records = data['records'];
         }, 'json');
 

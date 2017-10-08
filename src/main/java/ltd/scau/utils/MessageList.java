@@ -1,7 +1,9 @@
 package ltd.scau.utils;
 
 import ltd.scau.entity.Message;
+import ltd.scau.entity.User;
 import ltd.scau.entity.dao.MessageDao;
+import ltd.scau.entity.type.MessageStatus;
 
 import java.util.Collections;
 import java.util.List;
@@ -40,9 +42,24 @@ public class MessageList {
     }
 
     public void updateMessageList() {
-        List<Message> m = getMessageDao().findAll(Message.class);
-        Collections.sort(m);
-        Collections.reverse(m);
-        setMessages(m);
+        List<Message> messages = getMessageDao().findAllVisibleMessages();
+        Collections.sort(messages);
+        Collections.reverse(messages);
+        for (Message m : messages) {
+            if (m.getStatus().equals(MessageStatus.ANONYMOUS)) {
+                m.setUser(anonymous[m.getUser().getGender().ordinal()]);
+            }
+        }
+        setMessages(messages);
+    }
+
+    private User[] anonymous;
+
+    public User[] getAnonymous() {
+        return anonymous;
+    }
+
+    public void setAnonymous(User[] anonymous) {
+        this.anonymous = anonymous;
     }
 }

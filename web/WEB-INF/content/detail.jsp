@@ -41,6 +41,15 @@
                 </a>
             </div>
         </s:if>
+        <div style="float: right; padding-right: 5%;">
+            <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
+            <span><s:property value="#request.message.comments.size()"/> &nbsp;</span>
+            <%--<span class="glyphicon glyphicon-heart-empty favor" aria-hidden="true"></span>--%>
+            <%--<span><s:property value="#request.message.favors.size()"/> &nbsp;</span>--%>
+            <s:if test="#request.message.user.equals(#session.user)">
+                <a href="${pageContext.request.contextPath}/delete-message?id=${requestScope.message.id}"><s:text name="delete"/></a>
+            </s:if>
+        </div>
     </div>
     <div id="comments">
         <div id="comment">

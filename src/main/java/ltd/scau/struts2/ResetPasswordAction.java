@@ -13,7 +13,7 @@ import org.apache.struts2.convention.annotation.Results;
 
 import java.util.UUID;
 
-@ParentPackage("hollow-json")
+@ParentPackage("hollow")
 @Results({
         @Result(type = "json", params = {"includeProperties", "message, account"}),
         @Result(name = "error", type = "json", params = {"includeProperties", "message, account"}),

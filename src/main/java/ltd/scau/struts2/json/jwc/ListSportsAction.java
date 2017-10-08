@@ -9,7 +9,7 @@ import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.json.annotations.JSON;
 
-@ParentPackage("hollow-json")
+@ParentPackage("hollow")
 @Result(type = "json", params = {
         "excludeProperties",
         "student\\.records\\[\\d+\\]\\.(student|items\\[\\d+\\]\\.record)",

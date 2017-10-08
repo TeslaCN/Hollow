@@ -9,6 +9,9 @@ import org.apache.commons.logging.LogFactory;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 
+/**
+ * 此类用于检查权限，ltd.scau.aspect.annotations 中的 Annotation 标记了操作所需要的权限
+ */
 @Aspect
 public class AuthorityCheck {
 
@@ -53,6 +56,7 @@ public class AuthorityCheck {
 
     /**
      *
+     * 切入点为所有拥有 @Administrator annotation 的方法，用于检查用户是否有权限执行指定的 Action
      * @param jp
      * @return
      * @throws Throwable

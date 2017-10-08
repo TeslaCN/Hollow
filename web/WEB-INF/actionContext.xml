@@ -18,6 +18,34 @@
 
     <bean id="messageList" class="ltd.scau.utils.MessageList" init-method="updateMessageList">
         <property name="messageDao" ref="messageDao"/>
+        <property name="anonymous">
+            <array>
+                <bean class="ltd.scau.entity.User">
+                    <property name="id" value="0"/>
+                    <property name="gender">
+                        <bean class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+                            <property name="staticField" value="ltd.scau.entity.type.GenderType.UNKNOWN"/>
+                        </bean>
+                    </property>
+                </bean>
+                <bean class="ltd.scau.entity.User">
+                    <property name="id" value="0"/>
+                    <property name="gender">
+                        <bean class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+                            <property name="staticField" value="ltd.scau.entity.type.GenderType.MALE"/>
+                        </bean>
+                    </property>
+                </bean>
+                <bean class="ltd.scau.entity.User">
+                    <property name="id" value="0"/>
+                    <property name="gender">
+                        <bean class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+                            <property name="staticField" value="ltd.scau.entity.type.GenderType.FEMALE"/>
+                        </bean>
+                    </property>
+                </bean>
+            </array>
+        </property>
     </bean>
 
     <bean id="messageListener" class="ltd.scau.utils.listener.MessageListener">

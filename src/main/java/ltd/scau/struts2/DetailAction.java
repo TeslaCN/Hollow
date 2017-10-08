@@ -8,9 +8,12 @@ import ltd.scau.entity.Message;
 import ltd.scau.entity.User;
 import ltd.scau.entity.dao.CommentDao;
 import ltd.scau.entity.dao.MessageDao;
+import ltd.scau.entity.type.MessageAvailable;
+import ltd.scau.entity.type.MessageStatus;
 import ltd.scau.event.MessageEvent;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.interceptor.ServletResponseAware;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -19,7 +22,10 @@ import org.springframework.context.ApplicationContextAware;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 
-@ParentPackage("hollow-default")
+/**
+ * Action 主要负责处理 Message 的相关操作，例如评论、点赞等。
+ */
+@ParentPackage("hollow")
 public class DetailAction extends ActionSupport implements ServletResponseAware, ApplicationContextAware {
 
     private MessageDao messageDao;
@@ -30,19 +36,34 @@ public class DetailAction extends ActionSupport implements ServletResponseAware,
 
     private Date date;
 
+    /**
+     * 根据传入的参数，在一个request中返回 id 所对应的 Message 的详细内容
+     * @return
+     * @throws Exception
+     */
     @Override
     public String execute() throws Exception {
-        setMessage(messageDao.get(Message.class, id));
-        if (getMessage() != null) {
-            return SUCCESS;
+        Message message = getMessageDao().get(Message.class, id);
+        if (message == null) return ERROR;
+        if (message.getStatus().equals(MessageStatus.ANONYMOUS)) {
+            User user = new User();
+            user.setId(0l);
+            user.setGender(message.getUser().getGender());
+            message.setUser(user);
         }
-        return ERROR;
+        setMessage(message);
+        return SUCCESS;
     }
 
     private CommentDao commentDao;
 
     private Comment comment;
 
+    /**
+     * 根据传入的 comment 参数，设置对应 Message 的评论
+     * @return
+     * @throws Exception
+     */
     @Action(value = "comment")
     @Ordinary
     public String comment() throws Exception {
@@ -60,7 +81,14 @@ public class DetailAction extends ActionSupport implements ServletResponseAware,
         return NONE;
     }
 
-    @Action(value = "like")
+    private String result;
+
+    /**
+     * 点赞操作
+     * @return
+     * @throws Exception
+     */
+    @Action(value = "like", results = {@Result(type = "json", params = {"includeProperties", "result"})})
     @Ordinary
     public String like() throws Exception {
         ActionContext ctx = ActionContext.getContext();
@@ -68,7 +96,28 @@ public class DetailAction extends ActionSupport implements ServletResponseAware,
         Message msg = getMessageDao().get(Message.class, getId());
         msg.getFavors().add(user);
         getMessageDao().update(msg);
+        applicationContext.publishEvent(new MessageEvent(msg));
+        setResult(SUCCESS);
         return NONE;
+    }
+
+    /**
+     * 信息删除操作
+     * @return
+     * @throws Exception
+     */
+    @Action(value = "delete-message", results = {@Result(type = "redirect", location = "/")})
+    @Ordinary
+    public String deleteMessage() throws Exception {
+        ActionContext ctx = ActionContext.getContext();
+        User user = (User) ctx.getSession().get("user");
+        Message message = getMessageDao().get(Message.class, id);
+        if (message.getUser().equals(user)) {
+            message.setAvailable(MessageAvailable.INVISIBLE);
+            getMessageDao().update(message);
+        }
+        applicationContext.publishEvent(new MessageEvent(message));
+        return SUCCESS;
     }
 
     public MessageDao getMessageDao() {
@@ -130,5 +179,13 @@ public class DetailAction extends ActionSupport implements ServletResponseAware,
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
     }
 }

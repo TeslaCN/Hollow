@@ -17,12 +17,13 @@
 <div class="container">
     <div id="icon" class="row">
         <s:if test="#session.user.icon != null">
-            <img src="<s:property value="#application.pathPrefix"/>${pageContext.request.contextPath.equals("/") ? "/" : pageContext.request.contextPath.concat("/")}${requestScope.user.icon}<s:property value="#application.ossThumbnail"/>"
+            <img class="img-responsive center-block" src="<s:property value="#application.pathPrefix"/>${pageContext.request.contextPath.equals("/") ? "/" : pageContext.request.contextPath.concat("/")}${requestScope.user.icon}<s:property value="#application.ossThumbnail"/>"
         </s:if>
     </div>
-    <div>
+    <div style="padding: 5px 20px 5px;">
         <form id="uploadIcon" onsubmit="return submitIcon();">
             <div class="form-group">
+                <span>上传头像</span>
                 <input id="inputimage" name="icon" accept="image/jpeg,image/png,image/gif" type="file"
                        onchange="getSize(this.id);"/>
                 <p id="filesize">暂时不支持超过2MB的图片</p>
@@ -50,12 +51,16 @@
                     }
                 </script>
             </div>
-            <button id="btnSubmit" type="submit" class="btn btn-default">Submit</button>
+            <button id="btnSubmit" type="submit" class="btn btn-default form-control">上传</button>
             <p id="uploadResult"></p>
             <script>
                 function submitIcon() {
                     if (getFileSize('inputimage') > 2 * 1024 * 1024) {
                         alert('图片大小超过限制');
+                        return false;
+                    }
+                    if (getFileSize('inputimage') == 0) {
+                        alert('请选择图片');
                         return false;
                     }
                     $('#btnSubmit').css('display', 'none');
@@ -79,7 +84,7 @@
     <div id="info" class="row">
         <div>
         </div>
-        <div>
+        <div style="padding: 5px 20px 5px;">
             <table class="table table-hover">
                 <tr>
                     <td><s:text name="userNickname"/></td>
@@ -102,6 +107,9 @@
                 document.getElementById('signUpTime').innerHTML = new Date(${requestScope.user.time}).toLocaleString();
             </script>
         </div>
+        <a href="user/modify">
+            <button class="btn btn-default form-control">修改信息(密码)</button>
+        </a>
     </div>
 </div>
 </body>

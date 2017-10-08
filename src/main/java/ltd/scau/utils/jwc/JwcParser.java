@@ -12,9 +12,17 @@ import org.jsoup.select.Elements;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 负责解析特定的教务系统中特定的 HTML，转化为 Java 对象以便于处理
+ */
 public class JwcParser {
 
 
+    /**
+     * 解析出 HTML 中的学生名字
+     * @param html
+     * @return 返回学生中文姓名
+     */
     public static String parseName(String html) {
         Document doc = Jsoup.parse(html);
         Element name = doc.getElementById("xhxm");
@@ -23,12 +31,22 @@ public class JwcParser {
         return name.text().substring(0, name.text().length() - 2);
     }
 
+    /**
+     * 用于解析 HTML 中是否包含错误信息
+     * @param html
+     * @return 如果包含错误信息则返回具体内容，否则返回空字符串
+     */
     public static String parseError(String html) {
         Document doc = Jsoup.parse(html);
         Element error = doc.getElementById("content_no");
         return error == null ? "" : error.text();
     }
 
+    /**
+     * 解析学生成绩页面中的 HTML，将成绩信息解析为 Java 对象
+     * @param html 学生成绩页面 HTML
+     * @return 返回一个 List，类型为 ltd.scau.entity.Grade
+     */
     public static List<Grade> parseGrade(String html) {
         Document doc = Jsoup.parse(html);
         Elements grade = null;
@@ -97,6 +115,11 @@ public class JwcParser {
         return courses.toString();
     }
 
+    /**
+     * 解析学生考试查询页面，把 HTML 解析为 Java 对象
+     * @param html 考试查询页面的 HTML
+     * @return List，类型为 ltd.scau.entity.Exam
+     */
     public static List<Exam> parseExam(String html) {
         Document document = Jsoup.parse(html);
         Element table = document.getElementById("DataGrid1");
@@ -121,10 +144,20 @@ public class JwcParser {
         return exams;
     }
 
+    /**
+     * 将 HTML 中某些奇怪的空格转化为 空字符串，否则数据库可能会报错：无法识别某些编码之类的
+     * @param str
+     * @return
+     */
     public static String pure(String str) {
         return str.equals(new String(new byte[]{-62, -96})) ? "" : str;
     }
 
+    /**
+     *
+     * @param str
+     * @return
+     */
     public static Double parseDouble(String str) {
         return str.equals("") ? 0.0 : Double.parseDouble(str);
     }

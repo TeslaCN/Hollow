@@ -1,5 +1,8 @@
 package ltd.scau.utils.pe.parser.structure;
 
+/**
+ * 体测成绩读取为 JSON 格式，通过 gson 把 JSON 格式的数据解析为 Java 对象
+ */
 public class Page {
 
     private String message;

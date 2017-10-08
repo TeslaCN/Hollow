@@ -7,7 +7,7 @@ import ltd.scau.entity.User;
 import ltd.scau.utils.jwc.StudentLoader;
 import org.apache.struts2.convention.annotation.ParentPackage;
 
-@ParentPackage("hollow-default")
+@ParentPackage("hollow")
 public class LoadStudentAction extends ActionSupport {
 
     private StudentLoader studentLoader;

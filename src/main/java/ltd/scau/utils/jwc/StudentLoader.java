@@ -11,10 +11,19 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.*;
 
+/**
+ * 教务系统登录工具
+ */
 public class StudentLoader {
 
+    /*
+    为保证登录教务系统过程顺利进行，此处准备了多个教务处入口
+     */
     private String[] hosts;
 
+    /*
+        以下为对应各种教务功能的 URL
+     */
     public static final String LOGIN_PAGE = "http://%s/default_vsso.htm";
     public static final String LOGIN_POST = "http://%s/default_vsso.aspx";
     public static final String MAIN_PAGE = "http://%s/xs_main.aspx?xh=%s";
@@ -42,7 +51,12 @@ public class StudentLoader {
 
     }
 
+    /**
+     * 执行此方法则登录教务系统并解析学生成绩、考试安排
+     * @return 解析成功则返回 true，否则反之
+     */
     public boolean execute() {
+        //尝试多个入口直到成功或所有入口登录失败
         for (String host : hosts) {
             if (!login(host)) continue;
             if (!loadGrade(host)) continue;
@@ -53,7 +67,12 @@ public class StudentLoader {
         return false;
     }
 
+    /**
+     * 只进行登录操作
+     * @return 登陆成功则返回 true
+     */
     public boolean login() {
+        //尝试多个入口直到成功或所有入口登录失败
         for (String host : hosts) {
             if (!login(host)) continue;
             return true;
@@ -61,6 +80,11 @@ public class StudentLoader {
         return false;
     }
 
+    /**
+     * 登录教务系统
+     * @param host
+     * @return 登陆成功则返回 true，否则反之
+     */
     public boolean login(String host) {
         getBrowser().setReferer(String.format(LOGIN_PAGE, host));
         getBrowser().setHost(host);
@@ -90,6 +114,11 @@ public class StudentLoader {
         return false;
     }
 
+    /**
+     * 读取成绩并存储到数据库中
+     * @param host 教务系统主机
+     * @return 成功则返回 true
+     */
     public boolean loadGrade(String host) {
         String html = getBrowser().get(String.format(GRADE, host, getId(), getNameEncoded()), "GBK");
         Map<String, String> form = HtmlParser.parseForm(html);
@@ -139,6 +168,11 @@ public class StudentLoader {
         return true;
     }
 
+    /**
+     * 读取考试安排并存储到数据库中
+     * @param host 教务系统主机
+     * @return 成功则返回 true
+     */
     public boolean loadExam(String host) {
         String html = getBrowser().get(String.format(EXAM, host, getId(), getNameEncoded()), "GBK");
         List<Exam> dbData = examDao.findByStudentId(getId());

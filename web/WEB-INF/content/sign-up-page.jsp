@@ -16,17 +16,17 @@
 <%@include file="/WEB-INF/content/header.jsp" %>
 <body>
 <div class="container">
-    <s:if test="#request.errorMessage != null && #request.errorMessage != ''">
-        <div class="row">
-            <div class="alert alert-danger alert-dismissible" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span>
-                </button>
-                <strong>ERROR!</strong>&nbsp;&nbsp;${requestScope.errorMessage}
-            </div>
-        </div>
-    </s:if>
+    <%--<s:if test="#request.message != null && #request.message != ''">--%>
+        <%--<div class="row">--%>
+            <%--<div class="alert alert-danger alert-dismissible" role="alert">--%>
+                <%--<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span>--%>
+                <%--</button>--%>
+                <%--<strong>ERROR!</strong>&nbsp;&nbsp;${requestScope.message}--%>
+            <%--</div>--%>
+        <%--</div>--%>
+    <%--</s:if>--%>
     <div class="row" style="padding: 30px">
-        <form id="signUpForm" action="sign-up" onsubmit="return validate();" method="post">
+        <form id="signUpForm" action="sign-up" onsubmit="return submitSignUp();" method="post">
             <div class="form-group">
                 <label for="inputEmail"><s:text name="userAccount"/></label>
                 <input name="user.account" type="email" class="form-control" id="inputEmail" placeholder="Email"
@@ -86,14 +86,10 @@
             </div>
             <button type="submit" class="btn btn-default"><s:text name="signUp"/></button>
             <script>
-                function validate() {
+                function submitSignUp() {
                     var email = document.getElementById('inputEmail').value;
                     if (email == null) {
                         alert('<s:text name="userAccountRequired"/>');
-                        return false;
-                    }
-                    if (!validEmail(email)) {
-                        alert('<s:text name="userAccountInvalid"/>');
                         return false;
                     }
                     var password = document.getElementById('inputPassword').value;
@@ -118,7 +114,17 @@
                         alert("<s:text name="userNicknameLength"/>");
                         return false;
                     }
-                    return true;
+                    $.post('${pageContext.request.contextPath}/sign-up', $('#signUpForm').serialize(), function (data) {
+                        console.log('responsed')
+                        switch (data['message']) {
+                            case 'success':
+                                window.location = '${pageContext.request.contextPath}/';
+                                break;
+                            default:
+                                alert(data['message']);
+                        }
+                    }, 'json');
+                    return false;
                 }
             </script>
         </form>

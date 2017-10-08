@@ -12,7 +12,7 @@ import org.apache.struts2.json.annotations.JSON;
 
 import java.util.List;
 
-@ParentPackage("hollow-json")
+@ParentPackage("hollow")
 @Result(type = "json", params = {"includeProperties", "exams\\[\\d+\\]\\..*"})
 public class ListExamsAction extends ActionSupport {
 
