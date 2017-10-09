@@ -17,6 +17,7 @@
 <div class="container">
     <div id="exams">
         <div id="exam">
+
             <div class="row" v-for="exam in exams"
                  style="margin: 15px;padding: 15px; background-color: rgba(255,255,255,0.80)">
                 <div>
@@ -43,7 +44,8 @@
             var vm = new Vue({
                 el: '#exam',
                 data: {
-                    exams: []
+                    exams: [],
+
                 },
                 methods: {}
             });
@@ -51,6 +53,7 @@
             function load() {
                 $.get('${pageContext.request.contextPath}/json/jwc/list-exams', {}, function (data) {
                     vm.exams = data['exams'];
+
                 }, 'json')
             }
 

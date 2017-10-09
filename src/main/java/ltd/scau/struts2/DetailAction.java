@@ -63,6 +63,8 @@ public class DetailAction extends ActionSupport implements ServletResponseAware,
 
     private Comment comment;
 
+    private String[] status;
+
     /**
      * 根据传入的 comment 参数，设置对应 Message 的评论
      * @return
@@ -76,8 +78,20 @@ public class DetailAction extends ActionSupport implements ServletResponseAware,
         getComment().setUser(user);
         getComment().setTime(System.currentTimeMillis());
         getComment().setDate(getDate());
-        getComment().setStatus(MessageStatus.ONYMOUS);
         getComment().setAvailable(MessageAvailable.VISIBLE);
+
+        if (status != null && status.length > 0) {
+            switch (status[0]) {
+                case "anonymous":
+                    getComment().setStatus(MessageStatus.ANONYMOUS);
+                    break;
+                default:
+                    getComment().setStatus(MessageStatus.ONYMOUS);
+            }
+        } else {
+            getComment().setStatus(MessageStatus.ONYMOUS);
+        }
+
         Message msg = messageDao.get(Message.class, id);
         getComment().setMessage(msg);
         msg.getComments().add(comment);
@@ -217,5 +231,13 @@ public class DetailAction extends ActionSupport implements ServletResponseAware,
 
     public void setResult(String result) {
         this.result = result;
+    }
+
+    public String[] getStatus() {
+        return status;
+    }
+
+    public void setStatus(String[] status) {
+        this.status = status;
     }
 }

@@ -24,8 +24,8 @@
         <property name="hosts">
             <array value-type="java.lang.String">
                 <value>202.116.160.166</value>
-                <value>202.116.163.116</value>
                 <value>202.116.160.170</value>
+                <value>202.116.163.116</value>
                 <!--<value>202.116.163.61</value>-->
                 <!--<value>202.116.163.69</value>-->
                 <!--<value>202.116.163.93</value>-->

@@ -56,6 +56,38 @@
         <property name="messageList" ref="messageList"/>
     </bean>
 
+    <bean id="listCommentsAction" class="ltd.scau.struts2.json.ListCommentsAction" scope="request">
+        <property name="messageDao" ref="messageDao"/>
+        <!--<property name="anonymous">-->
+            <!--<array>-->
+                <!--<bean class="ltd.scau.entity.User">-->
+                    <!--<property name="id" value="0"/>-->
+                    <!--<property name="gender">-->
+                        <!--<bean class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">-->
+                            <!--<property name="staticField" value="ltd.scau.entity.type.GenderType.UNKNOWN"/>-->
+                        <!--</bean>-->
+                    <!--</property>-->
+                <!--</bean>-->
+                <!--<bean class="ltd.scau.entity.User">-->
+                    <!--<property name="id" value="0"/>-->
+                    <!--<property name="gender">-->
+                        <!--<bean class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">-->
+                            <!--<property name="staticField" value="ltd.scau.entity.type.GenderType.MALE"/>-->
+                        <!--</bean>-->
+                    <!--</property>-->
+                <!--</bean>-->
+                <!--<bean class="ltd.scau.entity.User">-->
+                    <!--<property name="id" value="0"/>-->
+                    <!--<property name="gender">-->
+                        <!--<bean class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">-->
+                            <!--<property name="staticField" value="ltd.scau.entity.type.GenderType.FEMALE"/>-->
+                        <!--</bean>-->
+                    <!--</property>-->
+                <!--</bean>-->
+            <!--</array>-->
+        <!--</property>-->
+    </bean>
+
     <bean id="registerAction" class="ltd.scau.struts2.SignUpAction" scope="request">
         <property name="date" ref="currentDate"/>
         <property name="userDao" ref="userDao"/>
