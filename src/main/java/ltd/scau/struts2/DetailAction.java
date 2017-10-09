@@ -10,15 +10,18 @@ import ltd.scau.entity.dao.CommentDao;
 import ltd.scau.entity.dao.MessageDao;
 import ltd.scau.entity.type.MessageAvailable;
 import ltd.scau.entity.type.MessageStatus;
+import ltd.scau.entity.type.UserLevel;
 import ltd.scau.event.MessageEvent;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 
@@ -26,7 +29,7 @@ import java.util.Date;
  * Action 主要负责处理 Message 的相关操作，例如评论、点赞等。
  */
 @ParentPackage("hollow")
-public class DetailAction extends ActionSupport implements ServletResponseAware, ApplicationContextAware {
+public class DetailAction extends ActionSupport implements ServletResponseAware, ApplicationContextAware, ServletRequestAware {
 
     private MessageDao messageDao;
 
@@ -42,9 +45,10 @@ public class DetailAction extends ActionSupport implements ServletResponseAware,
      * @throws Exception
      */
     @Override
+    @Action(results = {@Result(name = "error", type = "redirect", location = "/")})
     public String execute() throws Exception {
         Message message = getMessageDao().get(Message.class, id);
-        if (message == null) return ERROR;
+        if (message == null || message.getAvailable().equals(MessageAvailable.INVISIBLE)) return ERROR;
         if (message.getStatus().equals(MessageStatus.ANONYMOUS)) {
             User user = new User();
             user.setId(0l);
@@ -72,6 +76,8 @@ public class DetailAction extends ActionSupport implements ServletResponseAware,
         getComment().setUser(user);
         getComment().setTime(System.currentTimeMillis());
         getComment().setDate(getDate());
+        getComment().setStatus(MessageStatus.ONYMOUS);
+        getComment().setAvailable(MessageAvailable.VISIBLE);
         Message msg = messageDao.get(Message.class, id);
         getComment().setMessage(msg);
         msg.getComments().add(comment);
@@ -112,12 +118,29 @@ public class DetailAction extends ActionSupport implements ServletResponseAware,
         ActionContext ctx = ActionContext.getContext();
         User user = (User) ctx.getSession().get("user");
         Message message = getMessageDao().get(Message.class, id);
-        if (message.getUser().equals(user)) {
+        if (message.getUser().equals(user) || user.getLevel().equals(UserLevel.ADMINISTRATOR)) {
             message.setAvailable(MessageAvailable.INVISIBLE);
             getMessageDao().update(message);
         }
         applicationContext.publishEvent(new MessageEvent(message));
-        return SUCCESS;
+        String referer = request.getHeader("referer");
+        response.sendRedirect(referer);
+        return NONE;
+    }
+
+    @Action(value = "delete-comment")
+    @Ordinary
+    public String deleteComment() throws Exception {
+        ActionContext ctx = ActionContext.getContext();
+        User user = (User) ctx.getSession().get("user");
+        Comment comment = getCommentDao().get(Comment.class, id);
+        if (comment.getUser().equals(user) || user.getLevel().equals(UserLevel.ADMINISTRATOR)) {
+            comment.setAvailable(MessageAvailable.INVISIBLE);
+            getCommentDao().update(comment);
+        }
+        String referer = request.getHeader("referer");
+        response.sendRedirect(referer);
+        return NONE;
     }
 
     public MessageDao getMessageDao() {
@@ -150,6 +173,13 @@ public class DetailAction extends ActionSupport implements ServletResponseAware,
 
     public void setComment(Comment comment) {
         this.comment = comment;
+    }
+
+    private HttpServletRequest request;
+
+    @Override
+    public void setServletRequest(HttpServletRequest request) {
+        this.request = request;
     }
 
     private HttpServletResponse response;

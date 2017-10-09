@@ -15,7 +15,7 @@
 <%@include file="header.jsp" %>
 <body style="background-color: rgba(168,168,168,0.30);">
 
-<div class="container" style="margin-top: 0px; margin-bottom: 100px;">
+<div class="container" style="">
     <div class="row">
     </div>
     <div id="content" class="row" style="margin: 15px; padding: 15px; background-color: #fff;">
@@ -47,7 +47,9 @@
             <%--<span class="glyphicon glyphicon-heart-empty favor" aria-hidden="true"></span>--%>
             <%--<span><s:property value="#request.message.favors.size()"/> &nbsp;</span>--%>
             <s:if test="#request.message.user.equals(#session.user)">
-                <a href="${pageContext.request.contextPath}/delete-message?id=${requestScope.message.id}"><s:text name="delete"/></a>
+                <a href="${pageContext.request.contextPath}/delete-message?id=${requestScope.message.id}"
+                   onclick="return confirm('确认删除吗');"><s:text
+                        name="delete"/></a>
             </s:if>
         </div>
     </div>
@@ -65,6 +67,9 @@
                     <span>{{comment.content}}</span>
                 </div>
             </div>
+            <a v-if="comment.status != 'ANONYMOUS' && comment.user.id == '<s:property value="#session.user.id"/>' || '${sessionScope.user.level}' == 'ADMINISTRATOR'"
+               :href="'${pageContext.request.contextPath}/delete-comment?id=' + comment.id"
+               onclick="return confirm('确认删除吗');"><s:text name="delete"/></a>
         </div>
         <p align="center">😂到底了😂</p>
         <script>
@@ -105,38 +110,58 @@
         </script>
     </div>
 </div>
-<div style="overflow: hidden;position: fixed;right: 10px;bottom: 100px;z-index: 10;">
+<div style="overflow: hidden;position: fixed;right: 1px;bottom: 50px;z-index: 10;">
     <div style="overflow: hidden;">
-        <div style="padding-top:20px;padding-right:50px;">
+        <div style="padding: 5px 20px;">
             <a href="javascript:history.back(-1);">
-                <button class="pure"><span class="glyphicon glyphicon-home"></span>返回上级</button>
+                <button class="pure"></span>返回上级</button>
             </a>
         </div>
-        <div style="padding-top:20px;padding-right:50px;padding-bottom:50px">
+        <div style="padding: 5px 20px;">
             <a href="#" style="float: right;">
                 <button class="pure">回到顶部</button>
             </a>
         </div>
+
     </div>
 </div>
 
-
-</body>
-<nav class="navbar navbar-default navbar-fixed-bottom">
-    <div class="container-fluid">
-        <s:if test="#session.user != null">
-            <form class="navbar-form navbar-left" action="comment" method="post">
-                <div class="form-group">
-                    <input type="text" name="comment.content" class="form-control"
-                           placeholder="<s:text name="commentInput"/>">
-                    <input name="id" value="${requestScope.message.id}" hidden/>
-                    <button type="submit" class="btn btn-default"><s:text name="commentSubmit"/></button>
+<div>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" style="position: fixed; bottom: 0; width: 100%;">
+        <span>评论</span>
+    </button>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form action="comment" method="post">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">评论</h4>
+                </div>
+                <div class="modal-body">
+                    <s:if test="#session.user != null">
+                        <div class="form-group">
+                            <textarea class="form-control" name="comment.content"
+                                      placeholder="<s:text name="commentInput"/>"></textarea>
+                            <input name="id" value="${requestScope.message.id}" hidden/>
+                        </div>
+                    </s:if>
+                    <s:else>
+                        <div><span>登录后才可以评论</span></div>
+                    </s:else>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="submit" class="btn btn-primary" <s:if test="#session.user == null"> disabled</s:if>>发表
+                    </button>
                 </div>
             </form>
-        </s:if>
-        <s:else>
-            <div><span>登录后才可以评论</span></div>
-        </s:else>
+        </div>
     </div>
-</nav>
+</div>
+</body>
 </html>

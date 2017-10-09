@@ -9,7 +9,7 @@
 <%@taglib prefix="s" uri="/struts-tags" %>
 <html>
 <head>
-    <title><s:text name="homepage"/></title>
+    <title>树洞——华农匿名社区</title>
 
 </head>
 <body style="background-color: rgba(168,168,168,0.30); margin-bottom: 100px">
@@ -108,6 +108,10 @@
                         alert('图片大小超过限制');
                         return false;
                     }
+                    if (getFileSize('inputimage') == 0 && document.getElementById('inputtext').value.trim().length < 1) {
+                        alert('不能发布空信息');
+                        return false;
+                    }
                     $('#btn_submit').css('display', 'none');
                     $('#publishresult').append('<span><s:text name="uploading"/></span>');
                     startProgress();
@@ -156,6 +160,7 @@
                         <img class="" v-if="message.user.icon != null" style="width: 15%; max-width: 100px;"
                              :src="'<s:property value="#application.pathPrefix"/>' + '${pageContext.request.contextPath.equals("/") ? "/" : pageContext.request.contextPath.concat("/")}' + message.user.icon+ '<s:property value="#application.ossHead"/>'"/>
                     </a>
+                    <span v-if="message.status == 'ANONYMOUS'"><span style="color: #f00;">匿名</span></span>
                     <span>
                         {{message.user.nickname}}&nbsp;&nbsp;{{gender(message.user.gender)}}
                     </span>
@@ -177,7 +182,9 @@
                     </a>
                     <%--<span class="glyphicon glyphicon-heart-empty favor" aria-hidden="true" :id="message.id"></span>--%>
                     <%--<span>{{message.favors != null ? message.favors.length : 0}}</span>--%>
-                    <a v-if="message.user.id == '<s:property value="#session.user.id"/>'" :href="'${pageContext.request.contextPath}/delete-message?id=' + message.id"><s:text name="delete"/></a>
+                    <a v-if="message.status != 'ANONYMOUS' && message.user.id == '<s:property value="#session.user.id"/>' || '${sessionScope.user.level}' == 'ADMINISTRATOR'"
+                       :href="'${pageContext.request.contextPath}/delete-message?id=' + message.id"
+                       onclick="return confirm('确认删除吗');"><s:text name="delete"/></a>
                 </div>
             </div>
         </div>
@@ -187,7 +194,7 @@
     <%--悬浮--%>
     <div style="overflow: hidden;position: fixed;right: 10px;bottom: 70px;z-index: 10;">
         <div style="overflow: hidden;">
-            <div style="padding-top:20px;padding-right:50px;padding-bottom:30px">
+            <div style="">
                 <a href="#" style="float: right;">
                     <button class="pure">回到顶部</button>
                 </a>

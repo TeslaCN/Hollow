@@ -1,6 +1,7 @@
 package ltd.scau.entity;
 
 import ltd.scau.entity.type.MessageAvailable;
+import ltd.scau.entity.type.MessageStatus;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -28,7 +29,11 @@ public class Comment implements Serializable {
     private Message message;
 
     @Column(name = "status")
-    private MessageAvailable status;
+    private MessageStatus status;
+
+    @Column(name = "comment_available", columnDefinition = "INT default 1")
+    @Enumerated(value = EnumType.ORDINAL)
+    private MessageAvailable available;
 
     @Column(name = "time", nullable = false)
     private Long time;
@@ -87,11 +92,11 @@ public class Comment implements Serializable {
         this.user = user;
     }
 
-    public MessageAvailable getStatus() {
+    public MessageStatus getStatus() {
         return status;
     }
 
-    public void setStatus(MessageAvailable status) {
+    public void setStatus(MessageStatus status) {
         this.status = status;
     }
 
@@ -117,5 +122,13 @@ public class Comment implements Serializable {
 
     public void setMessage(Message message) {
         this.message = message;
+    }
+
+    public MessageAvailable getAvailable() {
+        return available;
+    }
+
+    public void setAvailable(MessageAvailable available) {
+        this.available = available;
     }
 }

@@ -107,4 +107,9 @@
         <property name="userDao" ref="userDao"/>
     </bean>
 
+    <bean id="myPublishedAction" class="ltd.scau.struts2.json.MyPublishedAction" scope="request">
+        <property name="messageDao" ref="messageDao"/>
+        <property name="userDao" ref="userDao"/>
+    </bean>
+
 </beans>

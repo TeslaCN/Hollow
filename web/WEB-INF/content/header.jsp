@@ -7,7 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="s" uri="/struts-tags" %>
-<html>
+<html xmlns:wb="https://open.weibo.com/wb">
 <head>
     <title>header</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -27,6 +27,9 @@
     <style>
         <%@include file="/default.css"%>
     </style>
+
+    <script src="https://tjs.sjs.sinajs.cn/open/api/js/wb.js?appkey=3480942371" type="text/javascript"
+            charset="utf-8"></script>
 </head>
 <body>
 <nav class="navbar navbar-default">
@@ -123,6 +126,11 @@
                             }
                         </script>
                     </form>
+                    <li>
+                        <a>
+                            <wb:login-button type="3,2" onlogin="login" onlogout="logout" onclick="alert('新浪还在审核我，暂时没法使用');">登录按钮</wb:login-button>
+                        </a>
+                    </li>
                     <li><s:a value="/forgot"><s:text name="forgotPassword"/></s:a></li>
                     <li><s:a value="/sign-up-page"><s:text name="signUp"/></s:a></li>
                 </s:if>
@@ -131,7 +139,13 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                            aria-expanded="false">${sessionScope.get("user").nickname}<span class="caret"></span></a>
                         <ul class="dropdown-menu">
+                                <%--<s:if test="#session.user != null && #session.user.level.toString() == 'ADMINISTRATOR'">--%>
+                                <%--<li><s:a value="/administrator/all-messages">内容管理</s:a></li>--%>
+                                <%--<li role="separator" class="divider"></li>--%>
+                                <%--</s:if>--%>
                             <li><s:a value="/user-profile"><s:text name="userProfile"/></s:a></li>
+                            <li><s:a value="/user/my-messages">我的发布</s:a></li>
+                            <li role="separator" class="divider"></li>
                             <li><s:a value="/jwc/student"><s:text name="studentValidate"/></s:a></li>
                             <li><s:a value="/jwc/student/sport">体测排名</s:a></li>
                             <li role="separator" class="divider"></li>

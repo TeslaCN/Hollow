@@ -15,7 +15,7 @@ import java.util.List;
  */
 @ParentPackage("json-default")
 @Result(type = "json", params = {"includeProperties",
-        "comments\\[\\d+\\]\\.(id|content|time)," +
+        "comments\\[\\d+\\]\\.(id|content|time|status)," +
                 "comments\\[\\d+\\]\\.user\\.(id|gender|nickname)"})
 public class ListCommentsAction extends ActionSupport {
 

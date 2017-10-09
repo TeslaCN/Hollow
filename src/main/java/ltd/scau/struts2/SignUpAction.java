@@ -85,6 +85,7 @@ public class SignUpAction extends ActionSupport {
         user.setUuid(UUID.randomUUID().toString());
         userDao.save(user);
         setMessage(SUCCESS);
+        ctx.getSession().put("user", user);
         return SUCCESS;
     }
 

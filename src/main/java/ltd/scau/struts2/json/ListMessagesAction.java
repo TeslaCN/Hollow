@@ -19,7 +19,7 @@ import java.util.List;
 @Result(type = "json", params = {
 //        "excludeNullProperties", "true",
         "includeProperties",
-        "messages\\[\\d+\\]\\.(id|content|date|time|comments|favors|imagePath)," +
+        "messages\\[\\d+\\]\\.(id|content|date|time|comments|favors|imagePath|status)," +
                 "messages\\[\\d+\\]\\.user\\.(id|nickname|gender|icon)," +
                 "messages\\[\\d+\\]\\.comments\\[\\d+\\]\\.(id|content|time)," +
                 "messages\\[\\d+\\]\\.comments\\[\\d+\\]\\.user\\.(id|gender|nickname)",

@@ -3,6 +3,7 @@ package ltd.scau.entity.dao.impl;
 import ltd.scau.base.dao.impl.BaseDaoHibernate5;
 import ltd.scau.entity.Message;
 import ltd.scau.entity.Message_;
+import ltd.scau.entity.User;
 import ltd.scau.entity.dao.MessageDao;
 import ltd.scau.entity.type.MessageAvailable;
 
@@ -39,5 +40,21 @@ public class MessageDaoHibernate5 extends BaseDaoHibernate5<Message> implements 
             }
         }
         return messages;
+    }
+
+    @Override
+    public List<Message> getMessagesByUser(User user) {
+        EntityManager entityManager = null;
+        try {
+            entityManager = getEntityManagerFactory().createEntityManager();
+            CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+            CriteriaQuery<Message> criteria = builder.createQuery(Message.class);
+            Root<Message> root = criteria.from(Message.class);
+            criteria.select(root);
+            criteria.where(builder.equal(root.get(Message_.user), user));
+            return entityManager.createQuery(criteria).getResultList();
+        } finally {
+            entityManager.close();
+        }
     }
 }

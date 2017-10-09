@@ -65,6 +65,7 @@ public class UserUpdateAction extends ActionSupport implements ServletRequestAwa
             @Result(type = "json", params = {"includeProperties", "message"}),
             @Result(type = "json", name = "error", params = {"includeProperties", "message"})
     })
+    @Ordinary
     public String modifyPassword() throws Exception {
         ActionContext ctx = ActionContext.getContext();
         User user = (User) ctx.getSession().get("user");

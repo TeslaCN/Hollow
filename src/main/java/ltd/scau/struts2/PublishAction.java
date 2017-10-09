@@ -57,6 +57,9 @@ public class PublishAction extends ActionSupport implements ApplicationContextAw
         if (user == null) {
             return LOGIN;
         }
+        if (message.getContent().trim().length() < 1 && getImage() == null) {
+            return ERROR;
+        }
         long millis = System.currentTimeMillis();
         message.setUser(user);
         message.setTime(millis);
