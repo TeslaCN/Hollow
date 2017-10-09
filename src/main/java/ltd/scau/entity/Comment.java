@@ -9,7 +9,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "comments")
-public class Comment implements Serializable {
+public class Comment implements Serializable, Comparable<Comment> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -130,5 +130,12 @@ public class Comment implements Serializable {
 
     public void setAvailable(MessageAvailable available) {
         this.available = available;
+    }
+
+    @Override
+    public int compareTo(Comment o) {
+        if (getTime() > o.getTime()) return 1;
+        else if (getTime() < o.getTime()) return -1;
+        else return 0;
     }
 }

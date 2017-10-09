@@ -44,6 +44,7 @@ public class ListCommentsAction extends ActionSupport {
                 l.add(c);
             }
         }
+        Collections.sort(l);
         Collections.reverse(l);
         int size = l.size();
         int from = (pageNo - 1) * pageSize;

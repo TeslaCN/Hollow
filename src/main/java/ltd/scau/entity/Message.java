@@ -161,6 +161,8 @@ public class Message implements Serializable, Comparable<Message> {
 
     @Override
     public int compareTo(Message o) {
-        return (int) (getTime() - o.getTime());
+        if (getTime() > o.getTime()) return 1;
+        else if (getTime() == o.getTime()) return 0;
+        else return -1;
     }
 }
