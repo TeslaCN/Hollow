@@ -67,10 +67,17 @@
                     $('#bar').attr('aria-valuenow', 0);
                     var i = 0;
                     var progressbar = setInterval(function () {
+                        var notified = false;
                         if (++i < 100) {
                             $('#bar').attr('aria-valuenow', i);
                             $('#bar').css('width', i + '%');
                             $('#bar').text(i + '%');
+                            if (i == 99 & !notified) {
+                                notified = true;
+                                setTimeout(function () {
+                                    $('#result').append('<p>最近校园网问题比较严重，本服务器处于外网，可能无法访问教务系统，但不影响体测排名查询</p>')
+                                }, 5000);
+                            }
                         }
                     }, 120);
                     $('#reload').css('display', 'none');

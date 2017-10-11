@@ -18,18 +18,19 @@
     <s:if test="#request.error != null && #request.error != ''">
         <div class="alert alert-danger" role="alert"><s:property value="#request.error"/></div>
     </s:if>
-    <s:form action="/jwc/bind-student" method="post">
+    <form action="${pageContext.request.contextPath}/jwc/bind-student" method="post">
         <div class="form-group">
-                <%--<label for="exampleInputEmail1"><s:text name="studentId"/></label>--%>
+            <label for="inputId"><s:text name="studentId"/></label>
             <input type="text" name="id" class="form-control" id="inputId" placeholder="<s:text name="studentId"/>">
         </div>
         <div class="form-group">
-                <%--<label for="inputPassword1"><s:text name="studentPassword"/></label>--%>
+                <label for="inputPassword1"><s:text name="studentPassword"/></label>
             <input type="password" name="password" class="form-control" id="inputPassword1"
                    placeholder="<s:text name="studentPassword"/>">
         </div>
-        <button type="submit" class="btn btn-default"><s:text name="signIn"/></button>
-    </s:form>
+        <button type="submit" class="btn btn-primary"><s:text name="signIn"/></button>
+    </form>
+
 </div>
 
 </body>

@@ -2,6 +2,7 @@ package ltd.scau.struts2.json.jwc;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
+import ltd.scau.aspect.annotations.Ordinary;
 import ltd.scau.entity.User;
 import ltd.scau.entity.dao.sports.StudentDao;
 import ltd.scau.entity.sports.Student;
@@ -22,11 +23,19 @@ public class ListSportsAction extends ActionSupport {
     private Student student;
 
     @Override
-    @ltd.scau.aspect.annotations.Student
     public String execute() throws Exception {
         ActionContext ctx = ActionContext.getContext();
-        User user = (User) ctx.getSession().get("user");
-        setStudent(getStudentDao().findByStudentId(user.getStuId()));
+        String stuId = (String) ctx.getSession().get("stuId");
+        if (stuId == null || stuId.trim().equals("")) {
+            User user = (User) ctx.getSession().get("user");
+            if (user == null || user.getStuId() == null) {
+                return SUCCESS;
+            }
+            stuId = user.getStuId();
+        }
+        if (stuId != null && !stuId.trim().equals("")) {
+            setStudent(getStudentDao().findByStudentId(stuId));
+        }
         return SUCCESS;
     }
 

@@ -37,7 +37,7 @@
             <sapn id="time"></sapn>
             <script>
                 document.getElementById('gender').innerHTML = genderi18n('${requestScope.message.user.gender}');
-                document.getElementById('time').innerHTML = timestampToHuman('${requestScope.message.user.time}');
+                document.getElementById('time').innerHTML = timestampToHuman('${requestScope.message.time}');
             </script>
         </div>
         <div id="message" style="margin: 10px;">

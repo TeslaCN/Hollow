@@ -28,7 +28,13 @@
                         aria-hidden="true">&times;</span></button>
                 <strong>提示：</strong><span>请在右上角注册登录，解锁更多功能😂🌚</span>
             </div>
-            <div></div>
+            <a href="${pageContext.request.contextPath}/jwc/student/sport">
+                <div class="alert alert-info alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <span>点我免注册查询体测成绩😂🌚</span>
+                </div>
+            </a>
         </s:if>
 
 

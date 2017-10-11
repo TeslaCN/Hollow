@@ -40,9 +40,13 @@ public class RankAction extends ActionSupport {
     @Override
     public String execute() throws Exception {
         ActionContext ctx = ActionContext.getContext();
-        User user = (User) ctx.getSession().get("user");
+        String stuId = (String) ctx.getSession().get("stuId");
+        if (stuId == null || stuId.trim().equals("")) {
+            User user = (User) ctx.getSession().get("user");
+            stuId = user.getStuId();
+        }
         //取学号前四位即年级
-        String grade = user.getStuId().substring(0, 4);
+        String grade = stuId.substring(0, 4);
         int[] result = getItemDao().rank(getExamId(), getItemId(), grade, getValue());
 
         setTotal(result[0]);
