@@ -11,6 +11,7 @@ import ltd.scau.entity.type.UserLevel;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Date;
 import java.util.UUID;
@@ -24,6 +25,8 @@ public class SignUpAction extends ActionSupport {
     private User user;
 
     private Date date;
+
+    private BCryptPasswordEncoder passwordEncoder;
 
     public UserDao getUserDao() {
         return userDao;
@@ -83,6 +86,7 @@ public class SignUpAction extends ActionSupport {
         user.setTime(System.currentTimeMillis());
         user.setLevel(UserLevel.NOTVALIDATE);
         user.setUuid(UUID.randomUUID().toString());
+        user.setPassword(getPasswordEncoder().encode(user.getPassword()));
         userDao.save(user);
         setMessage(SUCCESS);
         ctx.getSession().put("user", user);
@@ -97,5 +101,13 @@ public class SignUpAction extends ActionSupport {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public BCryptPasswordEncoder getPasswordEncoder() {
+        return passwordEncoder;
+    }
+
+    public void setPasswordEncoder(BCryptPasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
     }
 }

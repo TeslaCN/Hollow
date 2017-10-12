@@ -10,6 +10,7 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.UUID;
 
@@ -32,6 +33,8 @@ public class ResetPasswordAction extends ActionSupport {
 
     private String newPassword;
 
+    private BCryptPasswordEncoder passwordEncoder;
+
     @Override
     @Validations(stringLengthFields = {@StringLengthFieldValidator(key = "newPassword", minLength = "8", maxLength = "255", trim = false)})
     public String execute() throws Exception {
@@ -48,7 +51,7 @@ public class ResetPasswordAction extends ActionSupport {
             return ERROR;
         }
         setAccount(user.getAccount());
-        user.setPassword(getNewPassword());
+        user.setPassword(getPasswordEncoder().encode(getNewPassword()));
         user.setUuid(UUID.randomUUID().toString());
         getUserDao().update(user);
         setMessage(SUCCESS);
@@ -124,5 +127,13 @@ public class ResetPasswordAction extends ActionSupport {
 
     public void setNewPassword(String newPassword) {
         this.newPassword = newPassword;
+    }
+
+    public BCryptPasswordEncoder getPasswordEncoder() {
+        return passwordEncoder;
+    }
+
+    public void setPasswordEncoder(BCryptPasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
     }
 }

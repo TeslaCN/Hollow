@@ -18,6 +18,7 @@ import org.apache.struts2.interceptor.ServletResponseAware;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -61,6 +62,8 @@ public class UserUpdateAction extends ActionSupport implements ServletRequestAwa
 
     private String newPassword;
 
+    private BCryptPasswordEncoder passwordEncoder;
+
     @Action(value = "modify-password", results = {
             @Result(type = "json", params = {"includeProperties", "message"}),
             @Result(type = "json", name = "error", params = {"includeProperties", "message"})
@@ -71,14 +74,14 @@ public class UserUpdateAction extends ActionSupport implements ServletRequestAwa
         User user = (User) ctx.getSession().get("user");
 
         user = getUserDao().findUserByAccount(user.getAccount());
-        if (!user.getPassword().equals(getOldPassword())) {
+        if (!getPasswordEncoder().matches(getOldPassword(), user.getPassword())) {
             setMessage(getText("userPasswordError"));
             return ERROR;
         } else if (getNewPassword().length() < 8) {
             setMessage(getText("userPasswordLength"));
             return ERROR;
         } else {
-            user.setPassword(getNewPassword());
+            user.setPassword(getPasswordEncoder().encode(getNewPassword()));
             getUserDao().update(user);
             setMessage(SUCCESS);
             ctx.getSession().remove("user");
@@ -262,5 +265,13 @@ public class UserUpdateAction extends ActionSupport implements ServletRequestAwa
 
     public void setGender(GenderType gender) {
         this.gender = gender;
+    }
+
+    public BCryptPasswordEncoder getPasswordEncoder() {
+        return passwordEncoder;
+    }
+
+    public void setPasswordEncoder(BCryptPasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
     }
 }

@@ -7,6 +7,7 @@ import ltd.scau.entity.dao.UserDao;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @ParentPackage("hollow")
 @Results({
@@ -20,6 +21,8 @@ public class SignInAction extends ActionSupport {
     private String account;
 
     private String password;
+
+    private BCryptPasswordEncoder passwordEncoder;
 
     public UserDao getUserDao() {
         return userDao;
@@ -68,7 +71,7 @@ public class SignInAction extends ActionSupport {
         if (user == null) {
             setMessage(getText("userNotExist"));
             return LOGIN;
-        } else if (!user.getPassword().equals(getPassword())) {
+        } else if (!getPasswordEncoder().matches(getPassword(), user.getPassword())) {
             setMessage(getText("userPasswordError"));
             return LOGIN;
         }
@@ -77,4 +80,11 @@ public class SignInAction extends ActionSupport {
         return SUCCESS;
     }
 
+    public BCryptPasswordEncoder getPasswordEncoder() {
+        return passwordEncoder;
+    }
+
+    public void setPasswordEncoder(BCryptPasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
 }

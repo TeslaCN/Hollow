@@ -91,10 +91,12 @@
     <bean id="registerAction" class="ltd.scau.struts2.SignUpAction" scope="request">
         <property name="date" ref="currentDate"/>
         <property name="userDao" ref="userDao"/>
+        <property name="passwordEncoder" ref="passwordEncoder"/>
     </bean>
 
     <bean id="loginAction" class="ltd.scau.struts2.SignInAction" scope="request">
         <property name="userDao" ref="userDao"/>
+        <property name="passwordEncoder" ref="passwordEncoder"/>
     </bean>
 
     <bean id="detailAction" class="ltd.scau.struts2.DetailAction" scope="request">
@@ -135,6 +137,7 @@
     </bean>
 
     <bean id="resetPasswordAction" class="ltd.scau.struts2.ResetPasswordAction" scope="request">
+        <property name="passwordEncoder" ref="passwordEncoder"/>
         <property name="htmlEmail" ref="htmlEmail"/>
         <property name="userDao" ref="userDao"/>
     </bean>

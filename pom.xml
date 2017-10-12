@@ -181,12 +181,7 @@
             <artifactId>jsoup</artifactId>
             <version>1.10.3</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/com.googlecode.javaewah/JavaEWAH -->
-        <dependency>
-            <groupId>com.googlecode.javaewah</groupId>
-            <artifactId>JavaEWAH</artifactId>
-            <version>1.1.6</version>
-        </dependency>
+
         <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
         <dependency>
             <groupId>com.google.code.gson</groupId>
@@ -199,6 +194,13 @@
             <artifactId>hibernate-jpamodelgen</artifactId>
             <version>5.2.10.Final</version>
             <scope>provided</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-crypto -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-crypto</artifactId>
+            <version>4.2.3.RELEASE</version>
         </dependency>
 
 
