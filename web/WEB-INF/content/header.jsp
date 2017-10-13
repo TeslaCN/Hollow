@@ -129,7 +129,7 @@
                     </form>
                     <li>
                         <a>
-                            <wb:login-button type="3,2" onlogin="login" onlogout="logout" onclick="alert('新浪还在审核我，暂时没法使用');">登录按钮</wb:login-button>
+                            <wb:login-button type="3,2" onlogin="login" onlogout="logout">登录按钮</wb:login-button>
                         </a>
                     </li>
                     <li><s:a value="/forgot"><s:text name="forgotPassword"/></s:a></li>

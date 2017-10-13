@@ -10,6 +10,10 @@
 <head>
     <title>体测成绩</title>
 
+    <style>
+        .calculate {
+        }
+    </style>
 </head>
 <%@include file="/WEB-INF/content/header.jsp" %>
 <body>
@@ -54,11 +58,14 @@
             </div>
             <div class="form-group">
                 <label for="inputYear">年</label>
-                <input name="year" id="inputYear" placeholder="例如: 1997" align="right">
+                <input name="year" id="inputYear" placeholder="例如: 1997" maxlength="4"
+                       style="text-align: right; max-width: 10ch;">
                 <label for="inputMonth">月</label>
-                <input name="month" id="inputMonth" placeholder="例如: 1" align="right">
+                <input name="month" id="inputMonth" placeholder="例如: 1" maxlength="2"
+                       style="text-align: right; max-width: 8ch;">
                 <label for="inputDay">日</label>
-                <input name="day" id="inputDay" placeholder="例如: 1" align="right">
+                <input name="day" id="inputDay" placeholder="例如: 1" maxlength="2"
+                       style="text-align: right; max-width: 8ch;">
             </div>
             <button type="submit" class="btn btn-primary">提交</button>
         </form>
@@ -93,7 +100,7 @@
                             <td>{{item.scoreGrade}}</td>
                             <td :id="record.examId + '_' + item.itemId">
                                 <div>
-                                    <button :id="record.examId + '_' + item.itemId + '_rank'"
+                                    <button class="calculate" :id="record.examId + '_' + item.itemId + '_rank'"
                                             v-on:click="getRank(record.examId, item.itemId, item.value)">🌚排名🌚
                                     </button>
                                     <span :id="record.examId + '_' + item.itemId + '_RESULT'"></span>
@@ -133,7 +140,11 @@
                         return '';
                     },
                     getRank: function (examId, itemId, value) {
-                        document.getElementById(examId + '_' + itemId + '_rank').disabled = true;
+                        var buttons = document.getElementsByClassName('calculate');
+                        for (i in buttons) {
+                            buttons[i].disabled = true;
+                        }
+//                        document.getElementById(examId + '_' + itemId + '_rank').disabled = true;
                         $('#' + examId + '_' + itemId + '_rank').text('正在计算');
                         $.get("${pageContext.request.contextPath}/json/jwc/sport/rank", {
                             examId: examId,
@@ -142,16 +153,20 @@
                         }, function (data) {
                             var total = data['total'];
                             var ascendRank = data['rank'];
-                            var same = data['same'];
-                            var descendRank = total - ascendRank - same;
+                            var same = data['same'] - 1;
+                            var descendRank = total - ascendRank + 1;
+
+                            var classAscendRank = data['classRank'];
+                            var classTotal = data['classTotal'];
+                            var classDescendRank = classTotal - classAscendRank + 1;
 
                             var ascendPercent = Math.floor((ascendRank / total) * 100);
                             var descendPercent = Math.floor((descendRank / total) * 100);
 
                             var content = '';
 
-                            var contentAscend = '超过了 ' + ascendPercent + '% 的同学，排名 ' + descendRank + ' / ' + total + ' ，有 ' + same + ' 位同学并列';
-                            var contentDescend = '超过了 ' + descendPercent + '% 的同学，排名 ' + ascendRank + ' / ' + total + ' ，有 ' + same + ' 位同学并列';
+                            var contentAscend = '超过了 ' + ascendPercent + '% 的同学，排名 ' + descendRank + ' / ' + total + ' ，有 ' + same + ' 位同学并列；' + '班级排名 ' + classDescendRank + ' / ' + classTotal;
+                            var contentDescend = '超过了 ' + descendPercent + '% 的同学，排名 ' + ascendRank + ' / ' + total + ' ，有 ' + same + ' 位同学并列；' + '班级排名 ' + classAscendRank + ' / ' + classTotal;
                             switch (itemId) {
                                 case 1://height
                                     content = '身高' + contentDescend;
@@ -187,6 +202,9 @@
 
                             $('#' + examId + '_' + itemId + '_rank').css('display', 'none');
                             $('#' + examId + "_" + itemId + '_RESULT').prepend(content);
+                            for (i in buttons) {
+                                buttons[i].disabled = false;
+                            }
                         }, 'json')
                     }
                 }

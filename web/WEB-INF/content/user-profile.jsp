@@ -92,7 +92,7 @@
                 </tr>
                 <tr>
                     <td><s:text name="userGender"/></td>
-                    <td>${requestScope.user.gender}</td>
+                    <td><span id="gender">${requestScope.user.gender}</span></td>
                 </tr>
                 <tr>
                     <td><s:text name="userAccount"/></td>
@@ -105,6 +105,7 @@
             </table>
             <script>
                 document.getElementById('signUpTime').innerHTML = new Date(${requestScope.user.time}).toLocaleString();
+                document.getElementById('gender').innerHTML = genderi18n('${requestScope.user.gender}');
             </script>
         </div>
         <a href="user/modify">

@@ -12,17 +12,19 @@
     <title>树洞——华农匿名社区</title>
 
 </head>
-<body style="background-color: rgba(168,168,168,0.30); margin-bottom: 100px">
+<body style="
+/*background-color: rgba(168,168,168,0.30);*/
+ margin-bottom: 100px">
 <%@include file="header.jsp" %>
 <div class="container">
     <div class="row" style="margin: 15px;">
 
         <s:if test="#session.user == null">
-            <div class="alert alert-danger alert-dismissible" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
-                <span><strong>本站使用且必须使用https加密链接保证访问过程信息安全</strong></span>
-            </div>
+            <%--<div class="alert alert-danger alert-dismissible" role="alert">--%>
+                <%--<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span--%>
+                        <%--aria-hidden="true">&times;</span></button>--%>
+                <%--<span><strong>本站使用且必须使用https加密链接保证访问过程信息安全</strong></span>--%>
+            <%--</div>--%>
             <div class="alert alert-info alert-dismissible" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
@@ -195,7 +197,8 @@
     <div id="message-list">
         <div id="msg">
             <div class="row" v-for="message in messages"
-                 style="margin-bottom: 25px;padding: 15px 15px 5px; background-color: rgba(255,255,255,0.80)">
+                 style="padding: 15px 15px 5px; background-color: rgba(255,255,255,0.80);">
+                <hr>
                 <div style=";">
                     <a :href="'<s:property value="#application.pathPrefix"/>' + '${pageContext.request.contextPath.equals("/") ? "/" : pageContext.request.contextPath.concat("/")}' + message.user.icon">
                         <img class="" v-if="message.user.icon != null" style="width: 15%; max-width: 100px;"
@@ -217,7 +220,7 @@
                         <span>{{message.content}}</span>
                         <br>
                         <br>
-                        <img class="img-responsive center-block" v-if="message.imagePath != null"
+                        <img class="img-responsive center-block" v-if="message.imagePath != null" style="max-width: 250px; max-height: 250px;"
                              :src="'<s:property value="#application.pathPrefix"/>' + '${pageContext.request.contextPath.equals("/") ? "/" : pageContext.request.contextPath.concat("/")}' + message.imagePath + '<s:property value="#application.ossThumbnail"/>'"/>
                     </div>
                 </a>

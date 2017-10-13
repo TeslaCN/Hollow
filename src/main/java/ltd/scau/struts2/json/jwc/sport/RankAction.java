@@ -15,7 +15,7 @@ import org.apache.struts2.convention.annotation.Result;
  */
 @ParentPackage("hollow")
 @Result(type = "json", params = {
-        "includeProperties", "total, rank, same"
+        "includeProperties", "total, rank, same, classTotal, classRank"
 })
 @Conversion(conversions = {@TypeConversion(key = "orderType", converter = "ltd.scau.struts2.converter.OrderTypeConverter")})
 public class RankAction extends ActionSupport {
@@ -31,6 +31,10 @@ public class RankAction extends ActionSupport {
 
     private int same;
 
+    private int classTotal;
+
+    private int classRank;
+
     private int examId;
 
     private int itemId;
@@ -45,13 +49,13 @@ public class RankAction extends ActionSupport {
             User user = (User) ctx.getSession().get("user");
             stuId = user.getStuId();
         }
-        //取学号前四位即年级
-        String grade = stuId.substring(0, 4);
-        int[] result = getItemDao().rank(getExamId(), getItemId(), grade, getValue());
+        int[] result = getItemDao().rank(getExamId(), getItemId(), stuId, getValue());
 
         setTotal(result[0]);
         setRank(result[1]);
         setSame(result[2]);
+        setClassTotal(result[3]);
+        setClassRank(result[4]);
         return SUCCESS;
     }
 
@@ -109,5 +113,21 @@ public class RankAction extends ActionSupport {
 
     public void setSame(int same) {
         this.same = same;
+    }
+
+    public int getClassTotal() {
+        return classTotal;
+    }
+
+    public void setClassTotal(int classTotal) {
+        this.classTotal = classTotal;
+    }
+
+    public int getClassRank() {
+        return classRank;
+    }
+
+    public void setClassRank(int classRank) {
+        this.classRank = classRank;
     }
 }

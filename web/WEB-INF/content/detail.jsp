@@ -13,7 +13,9 @@
 
 </head>
 <%@include file="header.jsp" %>
-<body style="background-color: rgba(168,168,168,0.30);">
+<body
+        <%--style="background-color: rgba(168,168,168,0.30);"--%>
+>
 
 <div class="container" style="">
     <div class="row">
